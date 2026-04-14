@@ -18,8 +18,8 @@ interface AuthState {
   user:            User | null
   accessToken:     string | null
   isAuthenticated: boolean
-  login:           (email: string, password: string) => Promise<void>
-  register:        (username: string, email: string, password: string, role?: Role, adminSecret?: string) => Promise<void>
+  login:           (identifier: string, password: string) => Promise<void>
+  register:        (username: string, email: string, password: string, role?: Role, adminSecret?: string) => Promise<{ message: string; devVerifyUrl?: string }>
   logout:          () => void
   refreshSession:  () => Promise<void>
   restoreSession:  () => Promise<void>
@@ -33,8 +33,8 @@ export const useAuthStore = create<AuthState>()(
       accessToken:     null,
       isAuthenticated: false,
 
-      login: async (email, password) => {
-        const { data } = await api.post('/auth/login', { email, password })
+      login: async (identifier, password) => {
+        const { data } = await api.post('/auth/login', { identifier, password })
         set({ user: data.data.user, accessToken: data.data.accessToken, isAuthenticated: true })
       },
 
@@ -43,7 +43,8 @@ export const useAuthStore = create<AuthState>()(
           username, email, password, role,
           ...(adminSecret ? { adminSecret } : {}),
         })
-        set({ user: data.data.user, accessToken: data.data.accessToken, isAuthenticated: true })
+        // Registration does not log in — user must verify email first
+        return data.data as { message: string; devVerifyUrl?: string }
       },
 
       logout: () => {
@@ -70,7 +71,11 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'bangme-auth',
-      partialize: (state) => ({ accessToken: state.accessToken }),
+      partialize: (state) => ({
+        accessToken:     state.accessToken,
+        user:            state.user,
+        isAuthenticated: state.isAuthenticated,
+      }),
     }
   )
 )

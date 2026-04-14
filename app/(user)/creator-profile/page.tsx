@@ -9,6 +9,7 @@ import {
   TrendingUp, BookMarked, LogOut, ExternalLink,
 } from 'lucide-react'
 import api              from '@/lib/api'
+import { mediaUrl }     from '@/lib/utils'
 import { useAuthStore } from '@/store/authStore'
 import Link             from 'next/link'
 
@@ -84,7 +85,7 @@ export default function CreatorProfilePage() {
       {/* Banner */}
       <div className="h-44 relative bg-gradient-to-r from-[#ff4757]/20 to-[#ff6b6b]/10">
         {profile?.bannerKey && (
-          <img src={`https://${cdnBase}/${profile.bannerKey}`} alt="banner"
+          <img src={mediaUrl(profile.bannerKey)!} alt="banner"
             className="w-full h-full object-cover" />
         )}
         <button className="absolute bottom-3 right-4 flex items-center gap-1.5 text-xs bg-black/60 hover:bg-black/80 text-white px-3 py-1.5 rounded-lg backdrop-blur-sm transition">
@@ -98,7 +99,7 @@ export default function CreatorProfilePage() {
           <div className="flex items-end gap-4">
             <div className="relative">
               {profile?.avatarKey ? (
-                <img src={`https://${cdnBase}/${profile.avatarKey}`} alt="avatar"
+                <img src={mediaUrl(profile.avatarKey)!} alt="avatar"
                   className="w-28 h-28 rounded-full object-cover border-4 border-[#121212]" />
               ) : (
                 <div className="w-28 h-28 rounded-full bg-[#ff4757]/20 border-4 border-[#121212] flex items-center justify-center">

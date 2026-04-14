@@ -6,46 +6,24 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useAuthStore, type Role } from '@/store/authStore'
 import { useRouter } from 'next/navigation'
-import { Users, Star, ShieldCheck, Eye, EyeOff } from 'lucide-react'
+import { Eye, EyeOff, CreditCard, Lock } from 'lucide-react'
 
 const registerSchema = z.object({
   username:    z.string().min(3, 'Min 3 characters').max(30).regex(/^[a-zA-Z0-9_]+$/, 'Letters, numbers, and underscores only'),
   email:       z.string().email('Enter a valid email'),
   password:    z.string().min(8, 'At least 8 characters'),
   confirm:     z.string(),
-  adminSecret: z.string().optional(),
   terms:       z.literal(true, { errorMap: () => ({ message: 'You must accept the terms' }) }),
 }).refine(d => d.password === d.confirm, { message: 'Passwords do not match', path: ['confirm'] })
 
 type RegisterInput = z.infer<typeof registerSchema>
 
-const ACCOUNT_TYPES: { id: Role; label: string; desc: string; icon: React.ReactNode }[] = [
-  {
-    id:    'user',
-    label: 'Subscriber',
-    desc:  'Follow creators, subscribe to content, send tips & messages.',
-    icon:  <Users size={22} />,
-  },
-  {
-    id:    'creator',
-    label: 'Content Creator',
-    desc:  'Monetize your content, go live, and build a subscriber base.',
-    icon:  <Star size={22} />,
-  },
-  {
-    id:    'admin' as Role,
-    label: 'Admin Account',
-    desc:  'Monitor all accounts, manage users, and oversee the platform.',
-    icon:  <ShieldCheck size={22} />,
-  },
-]
-
 export default function RegisterPage() {
   const { register: registerUser } = useAuthStore()
   const router = useRouter()
-  const [selectedRole, setSelectedRole] = useState<Role>('user')
-  const [showPassword, setShowPassword] = useState(false)
-  const [serverError, setServerError] = useState('')
+  const selectedRole: Role = 'user'
+  const [showPassword, setShowPassword]   = useState(false)
+  const [serverError, setServerError]     = useState('')
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
@@ -54,16 +32,10 @@ export default function RegisterPage() {
   async function onSubmit(data: RegisterInput) {
     try {
       setServerError('')
-      await registerUser(
-        data.username,
-        data.email,
-        data.password,
-        selectedRole,
-        selectedRole === ('admin' as Role) ? data.adminSecret : undefined,
-      )
-      if (selectedRole === ('admin' as Role)) router.push('/admin/dashboard')
-      else if (selectedRole === 'creator')    router.push('/creator-center')
-      else                                    router.push('/home')
+      const result = await registerUser(data.username, data.email, data.password, selectedRole)
+      const params = new URLSearchParams({ email: data.email })
+      if (result?.devVerifyUrl) params.set('devVerifyUrl', result.devVerifyUrl)
+      router.push(`/verify-email-sent?${params.toString()}`)
     } catch (err: any) {
       const msg = err?.response?.data?.message ?? err?.message ?? 'Registration failed.'
       setServerError(msg)
@@ -81,30 +53,7 @@ export default function RegisterPage() {
           <p className="text-brand-muted text-sm">Create your account</p>
         </div>
 
-        {/* Account type selector */}
-        <div className="mb-6">
-          <p className="text-sm text-brand-muted mb-3">Select account type</p>
-          <div className="grid grid-cols-3 gap-2">
-            {ACCOUNT_TYPES.map(({ id, label, desc, icon }) => (
-              <button
-                key={id}
-                type="button"
-                onClick={() => setSelectedRole(id)}
-                className={`flex flex-col items-center gap-2 p-3 rounded-xl border text-center transition ${
-                  selectedRole === id
-                    ? 'border-brand-red bg-brand-red/10 text-white'
-                    : 'border-brand-border bg-brand-card text-brand-muted hover:border-brand-muted'
-                }`}
-              >
-                <span className={selectedRole === id ? 'text-brand-red' : ''}>{icon}</span>
-                <span className="text-xs font-semibold leading-tight">{label}</span>
-              </button>
-            ))}
-          </div>
-          <p className="text-xs text-brand-muted mt-2">
-            {ACCOUNT_TYPES.find(t => t.id === selectedRole)?.desc}
-          </p>
-        </div>
+
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
@@ -145,16 +94,53 @@ export default function RegisterPage() {
             {errors.confirm && <p className="text-red-400 text-xs mt-1">{errors.confirm.message}</p>}
           </div>
 
-          {/* Admin secret — only shown when Admin is selected */}
-          {selectedRole === ('admin' as Role) && (
-            <div>
-              <label className="block text-sm text-brand-muted mb-1">Admin Secret Key</label>
-              <input {...register('adminSecret')} type="password"
-                className="w-full bg-brand-card border border-brand-border rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-brand-red"
-                placeholder="Enter admin secret key" />
-              <p className="text-xs text-brand-muted mt-1">Provided by your platform administrator</p>
+          {/* ── Payment details (Stripe — coming soon) ───────────────── */}
+          <div className="border border-brand-border rounded-xl p-4 bg-brand-card space-y-3">
+            <div className="flex items-center justify-between mb-1">
+              <div className="flex items-center gap-2 text-sm font-semibold text-white">
+                <CreditCard size={16} className="text-brand-red" />
+                Payment Details
+              </div>
+              <div className="flex items-center gap-1 text-xs text-brand-muted">
+                <Lock size={12} /> Secured by Stripe
+              </div>
             </div>
-          )}
+
+            {/* Card number */}
+            <div>
+              <label className="block text-xs text-brand-muted mb-1">Card Number</label>
+              <input
+                type="text" disabled
+                placeholder="4242 4242 4242 4242"
+                className="w-full bg-brand-surface border border-brand-border rounded-lg px-3 py-2.5 text-brand-muted text-sm cursor-not-allowed opacity-60 tracking-widest"
+              />
+            </div>
+
+            {/* Expiry + CVC */}
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs text-brand-muted mb-1">Expiry</label>
+                <input
+                  type="text" disabled
+                  placeholder="MM / YY"
+                  className="w-full bg-brand-surface border border-brand-border rounded-lg px-3 py-2.5 text-brand-muted text-sm cursor-not-allowed opacity-60"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-brand-muted mb-1">CVC</label>
+                <input
+                  type="text" disabled
+                  placeholder="•••"
+                  className="w-full bg-brand-surface border border-brand-border rounded-lg px-3 py-2.5 text-brand-muted text-sm cursor-not-allowed opacity-60"
+                />
+              </div>
+            </div>
+
+            <p className="text-xs text-brand-muted flex items-center gap-1 pt-1">
+              <Lock size={11} />
+              Your card is only charged when you subscribe to a creator. Browse for free.
+            </p>
+          </div>
 
           <label className="flex items-start gap-2 text-sm text-brand-muted cursor-pointer">
             <input {...register('terms')} type="checkbox" className="mt-0.5 rounded" />

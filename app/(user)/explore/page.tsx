@@ -2,18 +2,45 @@
 import { useQuery }  from '@tanstack/react-query'
 import { Compass, Search } from 'lucide-react'
 import { useState }  from 'react'
+import { useSearchParams } from 'next/navigation'
 import api           from '@/lib/api'
+import { mediaUrl }  from '@/lib/utils'
 import type { User } from '@/types'
 
+const CATEGORIES = [
+  { label: 'All',       emoji: '🌐' },
+  { label: 'Asian',     emoji: '🌸' },
+  { label: 'Western',   emoji: '⭐' },
+  { label: 'Latina',    emoji: '🔥' },
+  { label: 'Ebony',     emoji: '💫' },
+  { label: 'Fitness',   emoji: '💪' },
+  { label: 'Cosplay',   emoji: '🎭' },
+  { label: 'Couples',   emoji: '💑' },
+  { label: 'Live Only', emoji: '🔴' },
+  { label: 'New Faces', emoji: '✨' },
+]
+
 export default function ExplorePage() {
-  const [query, setQuery] = useState('')
+  const searchParams  = useSearchParams()
+  const [query, setQuery]     = useState('')
+  const [activeCategory, setActiveCategory] = useState(
+    searchParams.get('category')
+      ? CATEGORIES.find(c => c.label.toLowerCase() === searchParams.get('category'))?.label ?? 'All'
+      : 'All'
+  )
 
   const { data, isLoading } = useQuery<{ success: boolean; data: User[] }>({
-    queryKey: ['creators', query],
-    queryFn:  () => api.get(`/creators?search=${query}`).then((r) => r.data),
+    queryKey: ['creators', query, activeCategory],
+    queryFn:  () => {
+      const params = new URLSearchParams()
+      if (query) params.set('search', query)
+      if (activeCategory !== 'All') params.set('category', activeCategory.toLowerCase())
+      return api.get(`/creators?${params.toString()}`).then((r) => r.data)
+    },
   })
 
   const creators = data?.data ?? []
+
 
   return (
     <div className="min-h-screen bg-[#121212] px-4 py-8 max-w-5xl mx-auto">
@@ -23,7 +50,7 @@ export default function ExplorePage() {
       </div>
 
       {/* Search bar */}
-      <div className="relative mb-8">
+      <div className="relative mb-4">
         <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
         <input
           type="text"
@@ -32,6 +59,23 @@ export default function ExplorePage() {
           onChange={(e) => setQuery(e.target.value)}
           className="w-full bg-[#161616] text-white pl-11 pr-4 py-3 rounded-xl border border-[#222] focus:border-[#ff4757] focus:outline-none transition"
         />
+      </div>
+
+      {/* Category chips */}
+      <div className="flex gap-2 flex-wrap mb-8">
+        {CATEGORIES.map(cat => (
+          <button
+            key={cat.label}
+            onClick={() => setActiveCategory(cat.label)}
+            className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold border transition whitespace-nowrap ${
+              activeCategory === cat.label
+                ? 'bg-[#ff4757] border-[#ff4757] text-white'
+                : 'bg-[#161616] border-[#222] text-gray-400 hover:border-[#ff4757]/50 hover:text-white'
+            }`}
+          >
+            <span>{cat.emoji}</span> {cat.label}
+          </button>
+        ))}
       </div>
 
       {isLoading ? (
@@ -53,7 +97,7 @@ export default function ExplorePage() {
               <div className="px-4 pb-4 -mt-8">
                 {creator.avatarKey ? (
                   <img
-                    src={`https://${process.env.NEXT_PUBLIC_CDN_DOMAIN}/${creator.avatarKey}`}
+                    src={mediaUrl(creator.avatarKey)!}
                     alt={creator.username}
                     className="w-16 h-16 rounded-full object-cover border-4 border-[#161616]"
                   />

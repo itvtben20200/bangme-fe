@@ -6,6 +6,7 @@ import { z }             from 'zod'
 import { toast }         from 'sonner'
 import { Camera, Save, Star, Users, BookMarked, LogOut } from 'lucide-react'
 import api               from '@/lib/api'
+import { mediaUrl }      from '@/lib/utils'
 import { useAuthStore }  from '@/store/authStore'
 import Link              from 'next/link'
 
@@ -73,7 +74,7 @@ export default function SubscriberProfilePage() {
       {/* Banner */}
       <div className="h-40 bg-gradient-to-r from-[#1a1a2e] to-[#16213e] relative">
         {profile?.bannerKey && (
-          <img src={`https://${cdnBase}/${profile.bannerKey}`} alt="banner"
+          <img src={mediaUrl(profile.bannerKey)!} alt="banner"
             className="w-full h-full object-cover" />
         )}
       </div>
@@ -83,7 +84,7 @@ export default function SubscriberProfilePage() {
         <div className="relative -mt-14 mb-6 flex items-end justify-between">
           <div className="flex items-end gap-4">
             {profile?.avatarKey ? (
-              <img src={`https://${cdnBase}/${profile.avatarKey}`} alt="avatar"
+              <img src={mediaUrl(profile.avatarKey)!} alt="avatar"
                 className="w-24 h-24 rounded-full object-cover border-4 border-[#121212]" />
             ) : (
               <div className="w-24 h-24 rounded-full bg-[#ff4757]/20 border-4 border-[#121212] flex items-center justify-center">

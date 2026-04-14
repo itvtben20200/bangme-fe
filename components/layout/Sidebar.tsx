@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useAuthStore } from '@/store/authStore'
 import { Home, Compass, User, Bell, MessageSquare, Coins, Star, Settings, LogOut, Video } from 'lucide-react'
 
@@ -18,7 +18,13 @@ const nav = [
 
 export default function Sidebar() {
   const pathname = usePathname()
+  const router   = useRouter()
   const { user, logout } = useAuthStore()
+
+  function handleLogout() {
+    logout()
+    router.push('/login')
+  }
 
   return (
     <>
@@ -45,7 +51,7 @@ export default function Sidebar() {
           })}
         </nav>
         <div className="p-3 border-t border-brand-border">
-          <button onClick={logout}
+          <button onClick={handleLogout}
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-brand-muted hover:text-white hover:bg-brand-card w-full transition">
             <LogOut size={18} /> Sign Out
           </button>

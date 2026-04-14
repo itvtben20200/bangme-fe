@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation'
 import { Eye, EyeOff } from 'lucide-react'
 
 const loginSchema = z.object({
-  email:    z.string().email('Enter a valid email'),
+  identifier: z.string().min(1, 'Email or username is required'),
   password: z.string().min(1, 'Password is required'),
   remember: z.boolean().optional(),
 })
@@ -28,15 +28,29 @@ export default function LoginPage() {
   async function onSubmit(data: LoginInput) {
     try {
       setServerError('')
-      await login(data.email, data.password)
-      // Read role from store after login
+      await login(data.identifier, data.password)
       const role = useAuthStore.getState().user?.role
-      if (role === 'admin')   router.push('/admin/dashboard')
-      else if (role === 'creator') router.push('/creator-center')
-      else                          router.push('/home')
+      if (role === 'admin') {
+        // Admin accounts must use the admin portal
+        useAuthStore.getState().logout()
+        setServerError('Admin accounts must sign in at /admin/login')
+        return
+      }
+      if (role === 'creator') router.push('/creator-center')
+      else                    router.push('/home')
     } catch (err: any) {
-      const msg = err?.response?.data?.message ?? err?.message ?? 'Login failed. Please try again.'
-      setServerError(msg)
+      const apiMsg: string = err?.response?.data?.message ?? err?.message ?? ''
+      const isUnverified = apiMsg.toLowerCase().includes('verify your email')
+      if (isUnverified) {
+        const identifier: string = (data as any).identifier ?? ''
+        const params = new URLSearchParams()
+        if (identifier.includes('@')) params.set('email', identifier)
+        const devVerifyUrl = err?.response?.data?.devVerifyUrl
+        if (devVerifyUrl) params.set('devVerifyUrl', devVerifyUrl)
+        router.push(`/verify-email-sent?${params.toString()}`)
+        return
+      }
+      setServerError(apiMsg || 'Login failed. Please try again.')
     }
   }
 
@@ -52,15 +66,15 @@ export default function LoginPage() {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <label className="block text-sm text-brand-muted mb-1">Email</label>
+            <label className="block text-sm text-brand-muted mb-1">Email or Username</label>
             <input
-              {...register('email')}
-              type="email"
-              autoComplete="email"
+              {...register('identifier')}
+              type="text"
+              autoComplete="username"
               className="w-full bg-brand-card border border-brand-border rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-brand-red"
-              placeholder="you@example.com"
+              placeholder="you@example.com or @username"
             />
-            {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
+            {errors.identifier && <p className="text-red-400 text-xs mt-1">{errors.identifier.message}</p>}
           </div>
 
           <div>
@@ -109,6 +123,10 @@ export default function LoginPage() {
         <p className="text-brand-muted text-sm text-center mt-6">
           Don't have an account?{' '}
           <Link href="/register" className="text-brand-red hover:underline">Register now</Link>
+        </p>
+        <p className="text-gray-600 text-xs text-center mt-3">
+          Platform admin?{' '}
+          <Link href="/admin/login" className="text-gray-500 hover:text-white transition">Admin portal →</Link>
         </p>
       </div>
     </div>

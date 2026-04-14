@@ -17,13 +17,14 @@ const perks = [
 
 export default function BecomeCreatorPage() {
   const router = useRouter()
-  const { updateRole } = useAuthStore()
+  const { updateRole, refreshSession } = useAuthStore()
 
   const { mutate, isPending } = useMutation({
     mutationFn: () => api.post('/creators/become'),
-    onSuccess:  () => {
-      toast.success('Welcome, Creator! 🎉')
+    onSuccess:  async () => {
       updateRole('creator')
+      await refreshSession()   // re-issue access token so middleware sees role=creator
+      toast.success('Welcome, Creator! 🎉')
       router.push('/creator-center')
     },
     onError: () => toast.error('Something went wrong. Please try again.'),

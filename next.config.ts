@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: 'https', hostname: '*.amazonaws.com' },
       { protocol: 'https', hostname: 'cdn.bangme.com' },
+      { protocol: 'https', hostname: 'images.unsplash.com' },
+      { protocol: 'https', hostname: 'plus.unsplash.com' },
+      { protocol: 'https', hostname: '*.ftcdn.net' },
     ],
   },
 }

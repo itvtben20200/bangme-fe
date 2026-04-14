@@ -1,3 +1,14 @@
+/**
+ * Resolves a media key to a full URL.
+ * If the key is already a full URL (e.g. from seed data), return it as-is.
+ * Otherwise prefix with the CloudFront / CDN domain.
+ */
+export function mediaUrl(key: string | null | undefined): string | null {
+  if (!key) return null
+  if (key.startsWith('http://') || key.startsWith('https://')) return key
+  return `https://${process.env.NEXT_PUBLIC_CDN_DOMAIN}/${key}`
+}
+
 export function formatCoins(amount: number): string {
   return amount.toLocaleString() + ' BangCoins'
 }

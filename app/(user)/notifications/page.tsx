@@ -2,6 +2,7 @@
 import { useQuery }     from '@tanstack/react-query'
 import { Bell, Check }  from 'lucide-react'
 import api              from '@/lib/api'
+import { mediaUrl }     from '@/lib/utils'
 import type { Notification } from '@/types'
 
 export default function NotificationsPage() {
@@ -57,7 +58,7 @@ export default function NotificationsPage() {
             >
               {n.actor?.avatarKey ? (
                 <img
-                  src={`https://${process.env.NEXT_PUBLIC_CDN_DOMAIN}/${n.actor.avatarKey}`}
+                  src={mediaUrl(n.actor.avatarKey)!}
                   alt={n.actor.username}
                   className="w-10 h-10 rounded-full object-cover shrink-0"
                 />

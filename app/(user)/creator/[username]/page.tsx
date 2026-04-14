@@ -4,6 +4,7 @@ import { useQuery, useMutation } from '@tanstack/react-query'
 import { Video, UserPlus, MessageSquare, Star } from 'lucide-react'
 import { toast }          from 'sonner'
 import api                from '@/lib/api'
+import { mediaUrl }       from '@/lib/utils'
 import type { User, Post } from '@/types'
 
 export default function CreatorProfilePage() {
@@ -37,7 +38,7 @@ export default function CreatorProfilePage() {
       <div className="h-48 bg-gradient-to-r from-[#ff4757]/40 to-[#ff6b6b]/10 relative">
         {profile.bannerKey && (
           <img
-            src={`https://${process.env.NEXT_PUBLIC_CDN_DOMAIN}/${profile.bannerKey}`}
+            src={mediaUrl(profile.bannerKey)!}
             alt="banner"
             className="w-full h-full object-cover"
           />
@@ -50,7 +51,7 @@ export default function CreatorProfilePage() {
           <div className="flex items-end gap-4">
             {profile.avatarKey ? (
               <img
-                src={`https://${process.env.NEXT_PUBLIC_CDN_DOMAIN}/${profile.avatarKey}`}
+                src={mediaUrl(profile.avatarKey)!}
                 alt={profile.username}
                 className="w-28 h-28 rounded-full object-cover border-4 border-[#121212]"
               />
@@ -105,7 +106,7 @@ export default function CreatorProfilePage() {
               <div key={post.id} className="aspect-square bg-[#161616] rounded overflow-hidden relative group cursor-pointer">
                 {post.mediaKey ? (
                   <img
-                    src={`https://${process.env.NEXT_PUBLIC_CDN_DOMAIN}/${post.mediaKey}`}
+                    src={mediaUrl(post.mediaKey)!}
                     alt={post.caption ?? ''}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                   />

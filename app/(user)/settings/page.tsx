@@ -5,7 +5,9 @@ import { useForm }                               from 'react-hook-form'
 import { zodResolver }                           from '@hookform/resolvers/zod'
 import { z }                                     from 'zod'
 import { toast }                                 from 'sonner'
+import { useRouter }                             from 'next/navigation'
 import api                                       from '@/lib/api'
+import { mediaUrl }                              from '@/lib/utils'
 import { useAuthStore }                          from '@/store/authStore'
 import type { User }                             from '@/types'
 
@@ -18,7 +20,13 @@ type SettingsForm = z.infer<typeof settingsSchema>
 
 export default function SettingsPage() {
   const { user, logout } = useAuthStore()
+  const router = useRouter()
   const qc = useQueryClient()
+
+  function handleLogout() {
+    logout()
+    router.push('/login')
+  }
 
   const { data } = useQuery<{ success: boolean; data: User }>({
     queryKey: ['me'],
@@ -51,7 +59,7 @@ export default function SettingsPage() {
         <div className="flex items-center gap-4">
           {profile?.avatarKey ? (
             <img
-              src={`https://${process.env.NEXT_PUBLIC_CDN_DOMAIN}/${profile.avatarKey}`}
+              src={mediaUrl(profile.avatarKey)!}
               alt="avatar"
               className="w-20 h-20 rounded-full object-cover"
             />
@@ -117,7 +125,7 @@ export default function SettingsPage() {
       <div className="bg-[#161616] rounded-2xl p-6 border border-red-900/30">
         <h2 className="text-red-400 font-semibold mb-4">Danger Zone</h2>
         <button
-          onClick={logout}
+          onClick={handleLogout}
           className="text-sm text-red-400 hover:text-red-300 border border-red-900/50 hover:border-red-500 px-4 py-2 rounded-lg transition"
         >
           Log out of all devices

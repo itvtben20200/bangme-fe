@@ -47,6 +47,14 @@ bangme-fe/
 │   └── chatStore.ts              # Zustand: active conversation
 ├── types/
 │   └── index.ts                  # Shared TypeScript types
+│   │   ├── creator-profile/page.tsx  # Creator self-profile
+│   │   └── profile/page.tsx          # Subscriber self-profile
+│   └── (admin)/
+│       ├── layout.tsx            # Admin sidebar layout
+│       └── admin/
+│           ├── dashboard/page.tsx    # Live accounts monitor (real API)
+│           ├── login/page.tsx        # Admin-only login portal
+│           └── register/page.tsx     # Admin-only registration (requires secret)
 ├── middleware.ts                 # Next.js route protection by role
 ├── next.config.ts
 ├── tailwind.config.ts
@@ -58,15 +66,12 @@ bangme-fe/
 ## Environment Variables (`.env.local`)
 
 ```env
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-NEXT_PUBLIC_API_URL=http://localhost:4000/api/v1
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
-NEXT_PUBLIC_AGORA_APP_ID=your_agora_app_id
-NEXT_PUBLIC_SOCKET_URL=http://localhost:4000
-NODE_ENV=development
+NEXT_PUBLIC_API_URL=http://localhost:4000/api
+NEXT_PUBLIC_CDN_DOMAIN=localhost
+JWT_ACCESS_SECRET=local_dev_access_secret_pad_to_32_characters_ok
 ```
 
-> **Security:** NEVER put `STRIPE_SECRET_KEY` or any private key in `.env.local`.
+> **Security:** NEVER put Stripe secret keys or any private key in `.env.local`.
 
 ---
 
@@ -98,14 +103,18 @@ npm run test:e2e    # playwright test
 | Page | Route | Role |
 |------|-------|------|
 | Landing | `/` | Public |
-| Login | `/login` | Public |
-| Register | `/register` | Public |
+| User Login | `/login` | Public (Subscriber + Creator) |
+| User Register | `/register` | Public (Subscriber + Creator only) |
+| Admin Login | `/admin/login` | Public (Admin only) |
+| Admin Register | `/admin/register` | Public (Admin only, requires secret) |
 | Home feed | `/home` | User / Creator |
 | Explore | `/explore` | User / Creator |
 | Creator profile | `/creator/[username]` | User / Creator |
 | Messages | `/messages` | User / Creator |
 | Notifications | `/notifications` | User / Creator |
 | BangCoins | `/bangcoins` | User / Creator |
+| Subscriber Profile | `/profile` | User |
+| Creator Self-Profile | `/creator-profile` | Creator |
 | Creator Center | `/creator-center` | Creator only |
 | Become Creator | `/become-creator` | User only |
 | Settings | `/settings` | User / Creator |
@@ -116,15 +125,27 @@ npm run test:e2e    # playwright test
 ## Route Protection (middleware.ts)
 
 ```typescript
-// middleware.ts
-const PUBLIC_PATHS = ['/', '/login', '/register', '/terms', '/privacy', '/faqs', '/help', '/contact']
-const ADMIN_PATHS  = ['/admin']
-const CREATOR_PATHS = ['/creator-center']
+// Public paths (no auth required)
+const PUBLIC_PATHS = [
+  '/', '/login', '/register',
+  '/admin/login', '/admin/register',     // ← admin auth is public but separate
+  '/terms', '/privacy', '/faqs', '/help', '/contact',
+]
 
+// Guards:
 // Unauthenticated → redirect to /login
 // /admin/** and role !== 'admin' → redirect to /home
+// /login or /register and role === 'admin' → redirect to /admin/dashboard
 // /creator-center and role === 'user' → redirect to /become-creator
 ```
+
+### Auth Portal Separation
+| Portal | URL | Who |
+|--------|-----|-----|
+| User login | `/login` | Subscriber + Creator |
+| User register | `/register` | Subscriber + Creator |
+| Admin login | `/admin/login` | Admin only |
+| Admin register | `/admin/register` | Admin only (requires `ADMIN_SECRET`) |
 
 ---
 

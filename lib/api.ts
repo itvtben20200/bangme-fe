@@ -15,12 +15,15 @@ api.interceptors.request.use((config) => {
   return config
 })
 
-// Auto-refresh on 401
+// Auto-refresh on 401 — skip for auth endpoints that intentionally return 401
+const NO_RETRY_URLS = ['/auth/login', '/auth/register', '/auth/refresh']
+
 api.interceptors.response.use(
   (res) => res,
   async (error) => {
     const original = error.config
-    if (error.response?.status === 401 && !original._retry) {
+    const isAuthEndpoint = NO_RETRY_URLS.some((u) => original?.url?.includes(u))
+    if (error.response?.status === 401 && !original._retry && !isAuthEndpoint) {
       original._retry = true
       try {
         await useAuthStore.getState().refreshSession()
