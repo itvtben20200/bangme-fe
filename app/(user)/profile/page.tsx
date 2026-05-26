@@ -1,14 +1,17 @@
 'use client'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { useForm }       from 'react-hook-form'
-import { zodResolver }   from '@hookform/resolvers/zod'
-import { z }             from 'zod'
-import { toast }         from 'sonner'
-import { Camera, Save, Star, Users, BookMarked, LogOut } from 'lucide-react'
-import api               from '@/lib/api'
-import { mediaUrl }      from '@/lib/utils'
-import { useAuthStore }  from '@/store/authStore'
-import Link              from 'next/link'
+import { useRef, useState }                       from 'react'
+import { useQuery, useMutation, useQueryClient }  from '@tanstack/react-query'
+import { useForm }                                from 'react-hook-form'
+import { zodResolver }                            from '@hookform/resolvers/zod'
+import { z }                                      from 'zod'
+import { toast }                                  from 'sonner'
+import { Camera, Save, Star, Users, BookMarked, LogOut, ImagePlus, Loader2, Plus } from 'lucide-react'
+import api                                        from '@/lib/api'
+import { mediaUrl }                               from '@/lib/utils'
+import { useAuthStore }                           from '@/store/authStore'
+import Link                                       from 'next/link'
+import PostCard                                   from '@/components/PostCard'
+import CreatePostModal                            from '@/components/CreatePostModal'
 
 const profileSchema = z.object({
   displayName: z.string().min(1, 'Required').max(50),
@@ -35,12 +38,25 @@ export default function SubscriberProfilePage() {
   const { user, logout } = useAuthStore()
   const qc = useQueryClient()
 
+  const avatarInputRef = useRef<HTMLInputElement>(null)
+  const bannerInputRef = useRef<HTMLInputElement>(null)
+  const [avatarUploading, setAvatarUploading] = useState(false)
+  const [bannerUploading, setBannerUploading] = useState(false)
+  const [showCreatePost, setShowCreatePost] = useState(false)
+
   const { data, isLoading } = useQuery<{ success: boolean; data: MyProfile }>({
     queryKey: ['my-profile'],
     queryFn:  () => api.get('/users/me').then(r => r.data),
   })
 
   const profile = data?.data
+
+  // Fetch user's posts
+  const { data: postsData, isLoading: postsLoading } = useQuery({
+    queryKey: ['posts', 'user', profile?.id],
+    queryFn: () => api.get(`/posts?userId=${profile?.id}`).then(r => r.data),
+    enabled: !!profile?.id,
+  })
 
   const { register, handleSubmit, formState: { errors, isDirty } } = useForm<ProfileForm>({
     resolver:      zodResolver(profileSchema),
@@ -59,6 +75,42 @@ export default function SubscriberProfilePage() {
     onError: () => toast.error('Update failed'),
   })
 
+  async function handleAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const form = new FormData()
+    form.append('avatar', file)
+    setAvatarUploading(true)
+    try {
+      await api.post('/users/me/avatar', form, { headers: { 'Content-Type': 'multipart/form-data' } })
+      toast.success('Avatar updated')
+      qc.invalidateQueries({ queryKey: ['my-profile'] })
+    } catch {
+      toast.error('Avatar upload failed')
+    } finally {
+      setAvatarUploading(false)
+      e.target.value = ''
+    }
+  }
+
+  async function handleBannerChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const form = new FormData()
+    form.append('banner', file)
+    setBannerUploading(true)
+    try {
+      await api.post('/users/me/banner', form, { headers: { 'Content-Type': 'multipart/form-data' } })
+      toast.success('Cover photo updated')
+      qc.invalidateQueries({ queryKey: ['my-profile'] })
+    } catch {
+      toast.error('Cover photo upload failed')
+    } finally {
+      setBannerUploading(false)
+      e.target.value = ''
+    }
+  }
+
   const cdnBase = process.env.NEXT_PUBLIC_CDN_DOMAIN
 
   if (isLoading) {
@@ -71,28 +123,73 @@ export default function SubscriberProfilePage() {
 
   return (
     <div className="min-h-screen bg-[#121212]">
+      {/* Hidden file inputs */}
+      <input
+        ref={avatarInputRef}
+        type="file"
+        accept="image/jpeg,image/png,image/webp"
+        className="hidden"
+        onChange={handleAvatarChange}
+      />
+      <input
+        ref={bannerInputRef}
+        type="file"
+        accept="image/jpeg,image/png,image/webp"
+        className="hidden"
+        onChange={handleBannerChange}
+      />
+
       {/* Banner */}
-      <div className="h-40 bg-gradient-to-r from-[#1a1a2e] to-[#16213e] relative">
+      <div
+        className="h-40 bg-gradient-to-r from-[#1a1a2e] to-[#16213e] relative group cursor-pointer"
+        onClick={() => !bannerUploading && bannerInputRef.current?.click()}
+        title="Click to change cover photo"
+      >
         {profile?.bannerKey && (
           <img src={mediaUrl(profile.bannerKey)!} alt="banner"
             className="w-full h-full object-cover" />
         )}
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+          {bannerUploading
+            ? <Loader2 size={28} className="text-white animate-spin" />
+            : <div className="flex flex-col items-center gap-1 text-white">
+                <ImagePlus size={24} />
+                <span className="text-xs font-medium">Change cover photo</span>
+              </div>
+          }
+        </div>
       </div>
 
       <div className="max-w-3xl mx-auto px-4 pb-12">
         {/* Avatar + Name */}
         <div className="relative -mt-14 mb-6 flex items-end justify-between">
           <div className="flex items-end gap-4">
-            {profile?.avatarKey ? (
-              <img src={mediaUrl(profile.avatarKey)!} alt="avatar"
-                className="w-24 h-24 rounded-full object-cover border-4 border-[#121212]" />
-            ) : (
-              <div className="w-24 h-24 rounded-full bg-[#ff4757]/20 border-4 border-[#121212] flex items-center justify-center">
-                <span className="text-2xl font-bold text-[#ff4757]">
-                  {profile?.username?.[0]?.toUpperCase()}
-                </span>
+            {/* Clickable avatar */}
+            <button
+              type="button"
+              onClick={() => !avatarUploading && avatarInputRef.current?.click()}
+              className="relative group w-24 h-24 rounded-full border-4 border-[#121212] overflow-hidden flex-shrink-0 focus:outline-none"
+              title="Click to change avatar"
+            >
+              {profile?.avatarKey ? (
+                <img src={mediaUrl(profile.avatarKey)!} alt="avatar"
+                  className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full bg-[#ff4757]/20 flex items-center justify-center">
+                  <span className="text-2xl font-bold text-[#ff4757]">
+                    {profile?.username?.[0]?.toUpperCase()}
+                  </span>
+                </div>
+              )}
+              {/* Overlay */}
+              <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                {avatarUploading
+                  ? <Loader2 size={18} className="text-white animate-spin" />
+                  : <Camera size={18} className="text-white" />
+                }
               </div>
-            )}
+            </button>
             <div className="pb-1">
               <h1 className="text-xl font-bold text-white flex items-center gap-2">
                 {profile?.displayName ?? profile?.username}
@@ -114,7 +211,7 @@ export default function SubscriberProfilePage() {
           {[
             { icon: <Users size={16} />,      label: 'Following',    value: profile?._count.follows    ?? 0 },
             { icon: <Users size={16} />,      label: 'Followers',    value: profile?._count.followers  ?? 0 },
-            { icon: <BookMarked size={16} />, label: 'BangCoins',    value: (profile?.wallet?.balance ?? 0).toFixed(0) },
+            { icon: <BookMarked size={16} />, label: 'Posts',        value: profile?._count.posts      ?? 0 },
           ].map(stat => (
             <div key={stat.label} className="bg-[#161616] border border-[#222] rounded-xl p-4 text-center">
               <div className="flex justify-center mb-1 text-[#ff4757]">{stat.icon}</div>
@@ -124,12 +221,66 @@ export default function SubscriberProfilePage() {
           ))}
         </div>
 
+        {/* My Wall / Posts Section */}
+        <div className="mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-white font-bold text-2xl">My Wall</h2>
+            <button
+              onClick={() => setShowCreatePost(true)}
+              className="flex items-center gap-2 bg-[#ff4757] hover:bg-[#ff2f43] text-white font-semibold px-4 py-2 rounded-lg transition-colors"
+            >
+              <Plus size={20} />
+              Create Post
+            </button>
+          </div>
+
+          {postsLoading ? (
+            <div className="flex items-center justify-center py-12">
+              <div className="w-8 h-8 border-2 border-[#ff4757] border-t-transparent rounded-full animate-spin" />
+            </div>
+          ) : postsData?.data && postsData.data.length > 0 ? (
+            <div className="space-y-4">
+              {postsData.data.map((post: any) => (
+                <PostCard
+                  key={post.id}
+                  post={post}
+                  currentUserId={profile?.username}
+                  onDelete={() => qc.invalidateQueries({ queryKey: ['posts'] })}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="bg-[#161616] border border-[#222] rounded-2xl p-12 text-center">
+              <p className="text-gray-400 mb-4">You haven't posted anything yet</p>
+              <button
+                onClick={() => setShowCreatePost(true)}
+                className="inline-flex items-center gap-2 bg-[#ff4757] hover:bg-[#ff2f43] text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+              >
+                <Plus size={20} />
+                Create Your First Post
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Create Post Modal */}
+        <CreatePostModal
+          isOpen={showCreatePost}
+          onClose={() => setShowCreatePost(false)}
+          userAvatar={profile?.avatarKey ? mediaUrl(profile.avatarKey)! : undefined}
+          username={profile?.displayName || profile?.username}
+        />
+
         {/* Edit Profile */}
         <div className="bg-[#161616] border border-[#222] rounded-2xl p-6 mb-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-white font-bold">Edit Profile</h2>
-            <button className="flex items-center gap-2 text-sm text-gray-400 hover:text-white border border-[#333] hover:border-[#555] rounded-lg px-3 py-1.5 transition">
-              <Camera size={14} /> Change Photo
+            <button
+              type="button"
+              onClick={() => !bannerUploading && bannerInputRef.current?.click()}
+              className="flex items-center gap-2 text-sm text-gray-400 hover:text-white border border-[#333] hover:border-[#555] rounded-lg px-3 py-1.5 transition"
+            >
+              <ImagePlus size={14} /> Change Cover
             </button>
           </div>
 

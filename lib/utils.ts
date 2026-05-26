@@ -1,12 +1,26 @@
 /**
  * Resolves a media key to a full URL.
  * If the key is already a full URL (e.g. from seed data), return it as-is.
- * Otherwise prefix with the CloudFront / CDN domain.
+ * In development (or when USE_LOCAL_UPLOAD is true), use the API URL to serve local uploads.
+ * In production, prefix with the CloudFront / CDN domain.
  */
 export function mediaUrl(key: string | null | undefined): string | null {
   if (!key) return null
   if (key.startsWith('http://') || key.startsWith('https://')) return key
-  return `https://${process.env.NEXT_PUBLIC_CDN_DOMAIN}/${key}`
+  
+  // In development, serve from local uploads directory via the backend
+  const isDevelopment = process.env.NODE_ENV === 'development' || 
+                        process.env.NEXT_PUBLIC_USE_LOCAL_UPLOAD === 'true'
+  
+  if (isDevelopment) {
+    // Remove /api from API_URL to get the base backend URL
+    const backendUrl = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || 'http://localhost:4002'
+    return `${backendUrl}/uploads/${key}`
+  }
+  
+  // Production: use CDN
+  const cdnDomain = process.env.NEXT_PUBLIC_CDN_DOMAIN || 'cdn.bangme.com'
+  return `https://${cdnDomain}/${key}`
 }
 
 export function formatCoins(amount: number): string {

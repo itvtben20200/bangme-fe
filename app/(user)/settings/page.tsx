@@ -1,11 +1,12 @@
 'use client'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { Settings, Camera, Save }                from 'lucide-react'
+import { Settings, Camera, Save, Image as ImageIcon } from 'lucide-react'
 import { useForm }                               from 'react-hook-form'
 import { zodResolver }                           from '@hookform/resolvers/zod'
 import { z }                                     from 'zod'
 import { toast }                                 from 'sonner'
 import { useRouter }                             from 'next/navigation'
+import { useRef }                                from 'react'
 import api                                       from '@/lib/api'
 import { mediaUrl }                              from '@/lib/utils'
 import { useAuthStore }                          from '@/store/authStore'
@@ -22,6 +23,8 @@ export default function SettingsPage() {
   const { user, logout } = useAuthStore()
   const router = useRouter()
   const qc = useQueryClient()
+  const avatarInputRef = useRef<HTMLInputElement>(null)
+  const bannerInputRef = useRef<HTMLInputElement>(null)
 
   function handleLogout() {
     logout()
@@ -45,6 +48,72 @@ export default function SettingsPage() {
     onSuccess:  () => { toast.success('Profile updated'); qc.invalidateQueries({ queryKey: ['me'] }) },
     onError:    () => toast.error('Update failed'),
   })
+
+  // Avatar upload mutation
+  const { mutate: uploadAvatar, isPending: isUploadingAvatar } = useMutation({
+    mutationFn: async (file: File) => {
+      const formData = new FormData()
+      formData.append('avatar', file)
+      return api.post('/users/me/avatar', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+    },
+    onSuccess: () => {
+      toast.success('Avatar updated')
+      qc.invalidateQueries({ queryKey: ['me'] })
+    },
+    onError: () => toast.error('Avatar upload failed'),
+  })
+
+  // Banner upload mutation
+  const { mutate: uploadBanner, isPending: isUploadingBanner } = useMutation({
+    mutationFn: async (file: File) => {
+      const formData = new FormData()
+      formData.append('banner', file)
+      return api.post('/users/me/banner', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+    },
+    onSuccess: () => {
+      toast.success('Banner updated')
+      qc.invalidateQueries({ queryKey: ['me'] })
+    },
+    onError: () => toast.error('Banner upload failed'),
+  })
+
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      // Validate file type
+      if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+        toast.error('Only JPEG, PNG, and WebP images are allowed')
+        return
+      }
+      // Validate file size (5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error('File size must be less than 5MB')
+        return
+      }
+      uploadAvatar(file)
+    }
+  }
+
+  const handleBannerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      // Validate file type
+      if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+        toast.error('Only JPEG, PNG, and WebP images are allowed')
+        return
+      }
+      // Validate file size (5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error('File size must be less than 5MB')
+        return
+      }
+      uploadBanner(file)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-[#121212] px-4 py-8 max-w-2xl mx-auto">
@@ -70,8 +139,55 @@ export default function SettingsPage() {
               </span>
             </div>
           )}
-          <button className="flex items-center gap-2 bg-[#222] hover:bg-[#333] text-white text-sm px-4 py-2 rounded-lg transition">
-            <Camera size={14} /> Change Photo
+          <input
+            type="file"
+            ref={avatarInputRef}
+            onChange={handleAvatarChange}
+            accept="image/jpeg,image/png,image/webp"
+            className="hidden"
+          />
+          <button
+            type="button"
+            onClick={() => avatarInputRef.current?.click()}
+            disabled={isUploadingAvatar}
+            className="flex items-center gap-2 bg-[#222] hover:bg-[#333] text-white text-sm px-4 py-2 rounded-lg transition disabled:opacity-50"
+          >
+            <Camera size={14} />
+            {isUploadingAvatar ? 'Uploading...' : 'Change Photo'}
+          </button>
+        </div>
+      </div>
+
+      {/* Banner */}
+      <div className="bg-[#161616] rounded-2xl p-6 mb-6 border border-[#222]">
+        <h2 className="text-white font-semibold mb-4">Profile Banner</h2>
+        <div className="space-y-4">
+          {profile?.bannerKey ? (
+            <img
+              src={mediaUrl(profile.bannerKey)!}
+              alt="banner"
+              className="w-full h-32 rounded-lg object-cover"
+            />
+          ) : (
+            <div className="w-full h-32 rounded-lg bg-[#222] flex items-center justify-center">
+              <ImageIcon size={32} className="text-gray-600" />
+            </div>
+          )}
+          <input
+            type="file"
+            ref={bannerInputRef}
+            onChange={handleBannerChange}
+            accept="image/jpeg,image/png,image/webp"
+            className="hidden"
+          />
+          <button
+            type="button"
+            onClick={() => bannerInputRef.current?.click()}
+            disabled={isUploadingBanner}
+            className="flex items-center gap-2 bg-[#222] hover:bg-[#333] text-white text-sm px-4 py-2 rounded-lg transition disabled:opacity-50"
+          >
+            <ImageIcon size={14} />
+            {isUploadingBanner ? 'Uploading...' : 'Change Banner'}
           </button>
         </div>
       </div>

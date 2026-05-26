@@ -2,6 +2,8 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useAuthStore } from '@/store/authStore'
+import { useChatStore } from '@/store/chatStore'
+import { BalanceWidget } from '@/components/BalanceWidget'
 import { Home, Compass, User, Bell, MessageSquare, Coins, Star, Settings, LogOut, Video } from 'lucide-react'
 
 const nav = [
@@ -20,6 +22,8 @@ export default function Sidebar() {
   const pathname = usePathname()
   const router   = useRouter()
   const { user, logout } = useAuthStore()
+  const conversations = useChatStore((s) => s.conversations)
+  const totalUnread = conversations.reduce((sum, c) => sum + (c.unreadCount ?? 0), 0)
 
   function handleLogout() {
     logout()
@@ -41,15 +45,24 @@ export default function Sidebar() {
             if (item.userOnly && user?.role !== 'user') return null
             const active = pathname.startsWith(item.href)
             const Icon = item.icon
+            const isMessages = item.href === '/messages'
             return (
               <Link key={item.href} href={item.href}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition ${active ? 'bg-brand-red text-white' : 'text-brand-text hover:bg-brand-card'}`}>
-                <Icon size={18} />
+                className={`relative flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition ${active ? 'bg-brand-red text-white' : 'text-brand-text hover:bg-brand-card'}`}>
+                <span className="relative flex-shrink-0">
+                  <Icon size={18} />
+                  {isMessages && totalUnread > 0 && (
+                    <span className="absolute -top-1.5 -right-1.5 bg-brand-red text-white text-[10px] font-bold rounded-full min-w-[16px] h-4 px-1 flex items-center justify-center leading-none">
+                      {totalUnread > 99 ? '99+' : totalUnread}
+                    </span>
+                  )}
+                </span>
                 {item.label}
               </Link>
             )
           })}
         </nav>
+        <BalanceWidget />
         <div className="p-3 border-t border-brand-border">
           <button onClick={handleLogout}
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-brand-muted hover:text-white hover:bg-brand-card w-full transition">

@@ -26,7 +26,7 @@ const FALLBACK_BANNER = 'https://images.unsplash.com/photo-1507525428034-b723cf9
 
 async function fetchFeaturedCreators(): Promise<ApiCreator[]> {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api'
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4002/api'
     const res = await fetch(`${apiUrl}/creators/featured`, { cache: 'no-store' })
     if (!res.ok) return []
     const json = await res.json()

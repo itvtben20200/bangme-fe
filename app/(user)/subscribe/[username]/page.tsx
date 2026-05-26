@@ -95,7 +95,7 @@ export default function SubscribePage() {
           {/* Banner */}
           <div className="relative h-32 bg-brand-card">
             {creator?.bannerUrl ? (
-              <Image src={creator.bannerUrl} alt="banner" fill className="object-cover" />
+              <Image src={creator.bannerUrl} alt="banner" fill sizes="100vw" className="object-cover" />
             ) : (
               <div className="absolute inset-0 bg-gradient-to-r from-brand-red/30 to-brand-dark" />
             )}

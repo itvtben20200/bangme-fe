@@ -1,4 +1,5 @@
 'use client'
+import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useForm }      from 'react-hook-form'
 import { zodResolver }  from '@hookform/resolvers/zod'
@@ -6,12 +7,14 @@ import { z }            from 'zod'
 import { toast }        from 'sonner'
 import {
   Camera, Save, Star, Users, DollarSign,
-  TrendingUp, BookMarked, LogOut, ExternalLink,
+  TrendingUp, BookMarked, LogOut, ExternalLink, Plus,
 } from 'lucide-react'
 import api              from '@/lib/api'
 import { mediaUrl }     from '@/lib/utils'
 import { useAuthStore } from '@/store/authStore'
 import Link             from 'next/link'
+import PostCard         from '@/components/PostCard'
+import CreatePostModal  from '@/components/CreatePostModal'
 
 const profileSchema = z.object({
   displayName: z.string().min(1, 'Required').max(50),
@@ -43,6 +46,7 @@ interface MyCreatorProfile {
 export default function CreatorProfilePage() {
   const { user, logout } = useAuthStore()
   const qc = useQueryClient()
+  const [showCreatePost, setShowCreatePost] = useState(false)
 
   const { data, isLoading } = useQuery<{ success: boolean; data: MyCreatorProfile }>({
     queryKey: ['my-creator-profile'],
@@ -50,6 +54,13 @@ export default function CreatorProfilePage() {
   })
 
   const profile = data?.data
+
+  // Fetch creator's posts
+  const { data: postsData, isLoading: postsLoading } = useQuery({
+    queryKey: ['posts', 'user', profile?.id],
+    queryFn: () => api.get(`/posts?userId=${profile?.id}`).then(r => r.data),
+    enabled: !!profile?.id,
+  })
 
   const { register, handleSubmit, formState: { errors, isDirty } } = useForm<ProfileForm>({
     resolver: zodResolver(profileSchema),
@@ -148,7 +159,7 @@ export default function CreatorProfilePage() {
             { icon: <Users size={16} />,      label: 'Followers',   value: profile?._count.followers  ?? 0 },
             { icon: <BookMarked size={16} />, label: 'Subscribers', value: profile?._count.subscribers ?? 0 },
             { icon: <TrendingUp size={16} />, label: 'Posts',       value: profile?._count.posts       ?? 0 },
-            { icon: <DollarSign size={16} />, label: 'Earnings',   value: `$${(cp?.totalEarningsUsd ?? 0).toFixed(2)}` },
+            { icon: <DollarSign size={16} />, label: 'Balance',     value: profile?.wallet?.balance    ?? 0 },
           ].map(stat => (
             <div key={stat.label} className="bg-[#161616] border border-[#222] rounded-xl p-4 text-center">
               <div className="flex justify-center mb-1 text-[#ff4757]">{stat.icon}</div>
@@ -157,6 +168,56 @@ export default function CreatorProfilePage() {
             </div>
           ))}
         </div>
+
+        {/* My Wall / Posts Section */}
+        <div className="mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-white font-bold text-2xl">My Wall</h2>
+            <button
+              onClick={() => setShowCreatePost(true)}
+              className="flex items-center gap-2 bg-[#ff4757] hover:bg-[#ff2f43] text-white font-semibold px-4 py-2 rounded-lg transition-colors"
+            >
+              <Plus size={20} />
+              Create Post
+            </button>
+          </div>
+
+          {postsLoading ? (
+            <div className="flex items-center justify-center py-12">
+              <div className="w-8 h-8 border-2 border-[#ff4757] border-t-transparent rounded-full animate-spin" />
+            </div>
+          ) : postsData?.data && postsData.data.length > 0 ? (
+            <div className="space-y-4">
+              {postsData.data.map((post: any) => (
+                <PostCard
+                  key={post.id}
+                  post={post}
+                  currentUserId={profile?.username}
+                  onDelete={() => qc.invalidateQueries({ queryKey: ['posts'] })}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="bg-[#161616] border border-[#222] rounded-2xl p-12 text-center">
+              <p className="text-gray-400 mb-4">You haven't posted anything yet</p>
+              <button
+                onClick={() => setShowCreatePost(true)}
+                className="inline-flex items-center gap-2 bg-[#ff4757] hover:bg-[#ff2f43] text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+              >
+                <Plus size={20} />
+                Create Your First Post
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Create Post Modal */}
+        <CreatePostModal
+          isOpen={showCreatePost}
+          onClose={() => setShowCreatePost(false)}
+          userAvatar={profile?.avatarKey ? mediaUrl(profile.avatarKey)! : undefined}
+          username={profile?.displayName || profile?.username}
+        />
 
         <div className="grid grid-cols-3 gap-4">
           {/* Edit Profile form */}

@@ -5,6 +5,27 @@ import api              from '@/lib/api'
 import { mediaUrl }     from '@/lib/utils'
 import type { Notification } from '@/types'
 
+function getNotificationText(notification: Notification) {
+  if (notification.body) return notification.body
+
+  switch (notification.type) {
+    case 'NEW_LIKE':
+      return 'liked your post.'
+    case 'NEW_COMMENT':
+      return 'commented on your post.'
+    case 'NEW_FOLLOWER':
+      return 'started following you.'
+    case 'NEW_SUBSCRIBER':
+      return 'subscribed to your content.'
+    case 'NEW_MESSAGE':
+      return 'sent you a message.'
+    case 'NEW_TIP':
+      return 'sent you a tip.'
+    default:
+      return 'sent you a notification.'
+  }
+}
+
 export default function NotificationsPage() {
   const { data, isLoading } = useQuery<{ success: boolean; data: Notification[] }>({
     queryKey: ['notifications'],
@@ -72,7 +93,7 @@ export default function NotificationsPage() {
                   {n.actor && (
                     <span className="font-semibold">@{n.actor.username} </span>
                   )}
-                  {n.body}
+                  {getNotificationText(n)}
                 </p>
                 <p className="text-xs text-gray-500 mt-1">
                   {new Date(n.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}

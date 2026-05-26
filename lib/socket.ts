@@ -16,6 +16,7 @@ export function getSocket(): Socket {
 
 export function connectSocket() {
   const s = getSocket()
+  s.auth = { token: useAuthStore.getState().accessToken }
   if (!s.connected) s.connect()
   return s
 }
