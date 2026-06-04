@@ -72,6 +72,14 @@ function VerifyEmailSentContent() {
           </button>
         )}
 
+        <div className="mt-4 p-3 bg-brand-card border border-brand-border rounded-lg text-left">
+          <p className="text-xs text-brand-muted">
+            <span className="text-white font-medium">Registration is free.</span>{' '}
+            You can add payment details at any time from your{' '}
+            <span className="text-brand-red">Settings → Billing</span> after logging in.
+          </p>
+        </div>
+
         <div className="mt-6 text-sm text-brand-muted">
           Already verified?{' '}
           <Link href="/login" className="text-brand-red hover:underline">

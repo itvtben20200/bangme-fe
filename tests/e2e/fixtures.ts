@@ -3,16 +3,16 @@ import { test as base, expect } from '@playwright/test'
 // Test user credentials
 export const TEST_USERS = {
   creator: {
-    email: 'creator@test.com',
-    username: 'testcreator',
-    password: 'Test123!@#',
-    displayName: 'Test Creator',
+    email: 'aria.kim@bangme.dev',
+    username: 'ariakim',
+    password: 'Creator@1234',
+    displayName: 'Aria Kim',
   },
   fan: {
-    email: 'fan@test.com',
-    username: 'testfan',
-    password: 'Test123!@#',
-    displayName: 'Test Fan',
+    email: 'nicko09',
+    username: 'nicko09',
+    password: 'Test12345678!',
+    displayName: 'Nicko',
   },
   newUser: {
     email: `newuser${Date.now()}@test.com`,
@@ -51,7 +51,7 @@ export const test = base.extend<AuthFixture>({
       await page.fill('input[name="identifier"]', TEST_USERS.fan.email)
       await page.fill('input[name="password"]', TEST_USERS.fan.password)
       await page.click('button[type="submit"]')
-      await page.waitForURL('/home', { timeout: 10000 })
+      await page.waitForURL(/\/(home|creator-center|profile)/, { timeout: 10000 })
     }
     await use(login)
   },

@@ -2,7 +2,7 @@
 import { useState }           from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { useQuery, useMutation } from '@tanstack/react-query'
-import { Video, UserPlus, MessageSquare, Star, X } from 'lucide-react'
+import { Video, UserPlus, MessageSquare, Star, X, Lock } from 'lucide-react'
 import { toast }          from 'sonner'
 import api                from '@/lib/api'
 import { mediaUrl }       from '@/lib/utils'
@@ -24,13 +24,14 @@ export default function CreatorProfilePage() {
 
   const profile = profileData?.data
 
-  const { data: postsData } = useQuery<{ success: boolean; data: Post[] }>({
+  const { data: postsData } = useQuery<{ success: boolean; data: Post[]; isSubscribed?: boolean; isFollowing?: boolean }>({
     queryKey: ['creator-posts', username],
     queryFn:  () => api.get(`/posts?userId=${profile!.id}`).then((r) => r.data),
     enabled:  !!profile?.id,
   })
 
-  const posts   = postsData?.data ?? []
+  const posts      = postsData?.data ?? []
+  const isSubscribed = postsData?.isSubscribed ?? false
 
   const follow  = useMutation({ mutationFn: () => api.post(`/users/${username}/follow`),     onSuccess: () => toast.success('Followed!') })
   const message = useMutation({ 
@@ -119,7 +120,18 @@ export default function CreatorProfilePage() {
           <div className="grid grid-cols-3 gap-1 pb-8">
             {posts.map((post) => (
               <div key={post.id} onClick={() => setSelectedPost(post)} className="aspect-square bg-[#161616] rounded overflow-hidden relative group cursor-pointer">
-                {post.mediaKey && post.mediaType === 'VIDEO' ? (
+                {post.isLocked ? (
+                  /* Locked thumbnail — no media key available for this viewer */
+                  <div className="w-full h-full flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-[#1a1a1a] to-[#111] p-2">
+                    <Lock size={22} className="text-[#ff4757]" />
+                    <span className="text-xs text-gray-400 text-center leading-tight">
+                      {post.visibility === 'FOLLOWERS' ? 'Followers only' : 'Subscribers only'}
+                    </span>
+                    {post.caption && (
+                      <p className="text-gray-500 text-[10px] text-center line-clamp-2 mt-1">{post.caption}</p>
+                    )}
+                  </div>
+                ) : post.mediaKey && post.mediaType === 'VIDEO' ? (
                   <div className="w-full h-full flex items-center justify-center bg-[#1a1a1a]">
                     <Video size={32} className="text-gray-400" />
                     {post.caption && <p className="absolute bottom-2 left-2 right-2 text-xs text-gray-300 line-clamp-2">{post.caption}</p>}
@@ -135,7 +147,7 @@ export default function CreatorProfilePage() {
                     <p className="text-gray-400 text-sm text-center line-clamp-4">{post.caption ?? '📝'}</p>
                   </div>
                 )}
-                {post.isPremium && (
+                {!post.isLocked && post.isPremium && (
                   <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
                     <span className="text-[#ff4757] text-xs font-bold">🔒 Premium</span>
                   </div>

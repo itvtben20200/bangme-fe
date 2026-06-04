@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useAuthStore, type Role } from '@/store/authStore'
 import { useRouter } from 'next/navigation'
-import { Eye, EyeOff, CreditCard, Lock } from 'lucide-react'
+import { Eye, EyeOff } from 'lucide-react'
 
 const registerSchema = z.object({
   username:    z.string().min(3, 'Min 3 characters').max(30).regex(/^[a-zA-Z0-9_]+$/, 'Letters, numbers, and underscores only'),
@@ -92,54 +92,6 @@ export default function RegisterPage() {
               className="w-full bg-brand-card border border-brand-border rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-brand-red"
               placeholder="Repeat password" />
             {errors.confirm && <p className="text-red-400 text-xs mt-1">{errors.confirm.message}</p>}
-          </div>
-
-          {/* ── Payment details (Stripe — coming soon) ───────────────── */}
-          <div className="border border-brand-border rounded-xl p-4 bg-brand-card space-y-3">
-            <div className="flex items-center justify-between mb-1">
-              <div className="flex items-center gap-2 text-sm font-semibold text-white">
-                <CreditCard size={16} className="text-brand-red" />
-                Payment Details
-              </div>
-              <div className="flex items-center gap-1 text-xs text-brand-muted">
-                <Lock size={12} /> Secured by Stripe
-              </div>
-            </div>
-
-            {/* Card number */}
-            <div>
-              <label className="block text-xs text-brand-muted mb-1">Card Number</label>
-              <input
-                type="text" disabled
-                placeholder="4242 4242 4242 4242"
-                className="w-full bg-brand-surface border border-brand-border rounded-lg px-3 py-2.5 text-brand-muted text-sm cursor-not-allowed opacity-60 tracking-widest"
-              />
-            </div>
-
-            {/* Expiry + CVC */}
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block text-xs text-brand-muted mb-1">Expiry</label>
-                <input
-                  type="text" disabled
-                  placeholder="MM / YY"
-                  className="w-full bg-brand-surface border border-brand-border rounded-lg px-3 py-2.5 text-brand-muted text-sm cursor-not-allowed opacity-60"
-                />
-              </div>
-              <div>
-                <label className="block text-xs text-brand-muted mb-1">CVC</label>
-                <input
-                  type="text" disabled
-                  placeholder="•••"
-                  className="w-full bg-brand-surface border border-brand-border rounded-lg px-3 py-2.5 text-brand-muted text-sm cursor-not-allowed opacity-60"
-                />
-              </div>
-            </div>
-
-            <p className="text-xs text-brand-muted flex items-center gap-1 pt-1">
-              <Lock size={11} />
-              Your card is only charged when you subscribe to a creator. Browse for free.
-            </p>
           </div>
 
           <label className="flex items-start gap-2 text-sm text-brand-muted cursor-pointer">

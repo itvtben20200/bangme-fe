@@ -1,7 +1,8 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { Heart, MessageCircle, Share2, MoreVertical, Trash2 } from 'lucide-react'
+import { Heart, MessageCircle, Share2, MoreVertical, Trash2, Lock } from 'lucide-react'
+import Link from 'next/link'
 import { toast } from 'sonner'
 import api from '@/lib/api'
 import { mediaUrl } from '@/lib/utils'
@@ -18,11 +19,15 @@ interface PostCardProps {
     commentsCount: number
     isLiked: boolean
     createdAt: string
+    /** Viewer does not have the required subscription/follow to see the media */
+    isLocked?: boolean
+    visibility?: 'PUBLIC' | 'FOLLOWERS' | 'SUBSCRIBERS'
     creator: {
       username: string
       displayName?: string | null
       avatarKey?: string | null
       isVerified?: boolean
+      creatorProfile?: { monthlySubPrice: number | null } | null
     }
   }
   currentUserId?: string
@@ -225,8 +230,40 @@ export default function PostCard({ post, currentUserId, onDelete }: PostCardProp
         </div>
       )}
 
-      {/* Media */}
-      {post.mediaKey && (
+      {/* Media — locked state */}
+      {post.isLocked && (
+        <div className="relative bg-gradient-to-br from-gray-900 to-[#1a1a1a] border-t border-gray-800">
+          <div className="flex flex-col items-center justify-center gap-3 py-14 px-6 text-center">
+            <div className="w-14 h-14 rounded-full bg-[#ff4757]/15 flex items-center justify-center">
+              <Lock size={28} className="text-[#ff4757]" />
+            </div>
+            <div>
+              <p className="text-white font-bold text-sm">
+                {post.visibility === 'FOLLOWERS' ? 'Followers-only content' : 'Subscriber-only content'}
+              </p>
+              <p className="text-gray-400 text-xs mt-1">
+                {post.visibility === 'FOLLOWERS'
+                  ? 'Follow this creator to see this post'
+                  : 'Subscribe to unlock this post'}
+              </p>
+            </div>
+            {post.visibility === 'SUBSCRIBERS' && (
+              <Link
+                href={`/subscribe/${post.creator.username}`}
+                className="mt-1 px-5 py-2 bg-[#ff4757] hover:bg-[#ff2f43] text-white text-sm font-bold rounded-lg transition"
+              >
+                Subscribe
+                {post.creator.creatorProfile?.monthlySubPrice
+                  ? ` · $${post.creator.creatorProfile.monthlySubPrice}/mo`
+                  : ''}
+              </Link>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Media — unlocked state */}
+      {!post.isLocked && post.mediaKey && (
         <div className="relative bg-black">
           {post.mediaType === 'IMAGE' ? (
             <img

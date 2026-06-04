@@ -33,7 +33,10 @@ export interface CreatorProfile {
 export interface Post {
   id:            string
   creatorId:     string
-  creator:       Pick<User, 'username' | 'displayName' | 'avatarKey'>
+  creator:       Pick<User, 'username' | 'displayName' | 'avatarKey'> & {
+    isVerified?: boolean
+    creatorProfile?: { monthlySubPrice: number | null; isLive: boolean } | null
+  }
   caption:       string | null
   mediaKey:      string | null
   mediaType:     'IMAGE' | 'VIDEO' | 'AUDIO' | null
@@ -43,6 +46,8 @@ export interface Post {
   likesCount:    number
   commentsCount: number
   isLiked:       boolean
+  /** True when the viewer does not have subscription/follow access to this post */
+  isLocked?:     boolean
   createdAt:     string
 }
 
