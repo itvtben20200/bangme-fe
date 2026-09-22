@@ -23,10 +23,17 @@ export default function CreatePostModal({ isOpen, onClose, userAvatar, username 
   const [visibility, setVisibility] = useState<'PUBLIC' | 'FOLLOWERS' | 'SUBSCRIBERS'>('PUBLIC')
   const [isPremium, setIsPremium] = useState(false)
   const [premiumPrice, setPremiumPrice] = useState('')
+  const premiumPriceValue = parseFloat(premiumPrice)
+  const contentPrice = Number.isFinite(premiumPriceValue) && premiumPriceValue > 0 ? premiumPriceValue : 0
+  const platformTax = contentPrice * 0.25
+  const tax = contentPrice * 0.17
+  const creatorRevenue = contentPrice - platformTax - tax
+  const creatorRevenuePercent = contentPrice > 0 ? Math.round((creatorRevenue / contentPrice) * 100) : 0
+  const formatUsd = (amount: number) => `$${amount.toFixed(2)}`
 
   const { mutate: createPost, isPending } = useMutation({
     mutationFn: async (data: { 
-      caption: string
+      caption?: string
       mediaKey?: string
       mediaType?: string
       visibility?: string
@@ -36,14 +43,14 @@ export default function CreatePostModal({ isOpen, onClose, userAvatar, username 
       return api.post('/posts', data)
     },
     onSuccess: () => {
-      toast.success('Post created successfully!')
+      toast.success('Beitrag erfolgreich erstellt!')
       qc.invalidateQueries({ queryKey: ['posts'] })
       qc.invalidateQueries({ queryKey: ['my-profile'] })
       resetForm()
       onClose()
     },
     onError: () => {
-      toast.error('Failed to create post')
+      toast.error('Beitrag konnte nicht erstellt werden')
     },
   })
 
@@ -53,7 +60,7 @@ export default function CreatePostModal({ isOpen, onClose, userAvatar, username 
 
     // Validate file size (max 50MB)
     if (file.size > 50 * 1024 * 1024) {
-      toast.error('File size must be less than 50MB')
+      toast.error('Die Datei muss kleiner als 50 MB sein')
       return
     }
 
@@ -63,7 +70,7 @@ export default function CreatePostModal({ isOpen, onClose, userAvatar, username 
     } else if (file.type.startsWith('video/')) {
       setMediaType('VIDEO')
     } else {
-      toast.error('Please select an image or video file')
+      toast.error('Bitte wähle eine Bild- oder Videodatei aus')
       return
     }
 
@@ -105,7 +112,7 @@ export default function CreatePostModal({ isOpen, onClose, userAvatar, username 
     e.preventDefault()
     
     if (!caption.trim() && !mediaFile) {
-      toast.error('Please add a caption or media')
+      toast.error('Bitte füge eine Bildunterschrift oder Medien hinzu')
       return
     }
 
@@ -113,11 +120,11 @@ export default function CreatePostModal({ isOpen, onClose, userAvatar, username 
     if (isPremium) {
       const price = parseFloat(premiumPrice)
       if (isNaN(price) || price <= 0) {
-        toast.error('Please enter a valid premium price')
+        toast.error('Bitte gib einen gültigen Premium-Preis ein')
         return
       }
       if (price < 1) {
-        toast.error('Premium price must be at least $1')
+        toast.error('Der Premium-Preis muss mindestens $1 betragen')
         return
       }
     }
@@ -144,7 +151,7 @@ export default function CreatePostModal({ isOpen, onClose, userAvatar, username 
       })
     } catch (error) {
       setUploading(false)
-      toast.error('Failed to upload media')
+      toast.error('Medien konnten nicht hochgeladen werden')
     }
   }
 
@@ -163,7 +170,7 @@ export default function CreatePostModal({ isOpen, onClose, userAvatar, username 
       <div className="bg-[#1a1a1a] rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-800">
-          <h2 className="text-xl font-bold text-white">Create Post</h2>
+          <h2 className="text-xl font-bold text-white">Beitrag erstellen</h2>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-white p-2 rounded-full hover:bg-gray-800"
@@ -178,7 +185,7 @@ export default function CreatePostModal({ isOpen, onClose, userAvatar, username 
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-700 flex-shrink-0">
               {userAvatar ? (
-                <img src={userAvatar} alt={username || 'User'} className="w-full h-full object-cover" />
+                <img src={userAvatar} alt={username || 'Nutzer'} className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-white font-bold">
                   {username?.[0]?.toUpperCase() || 'U'}
@@ -192,50 +199,50 @@ export default function CreatePostModal({ isOpen, onClose, userAvatar, username 
           <textarea
             value={caption}
             onChange={(e) => setCaption(e.target.value)}
-            placeholder="What's on your mind?"
+            placeholder="Was möchtest du teilen?"
             className="w-full bg-transparent text-white placeholder-gray-500 focus:outline-none resize-none min-h-[120px] text-lg"
             maxLength={2000}
           />
 
           {/* Visibility Options */}
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-300">Who can see this post?</label>
+            <label className="text-sm font-medium text-gray-300">Wer kann diesen Beitrag sehen?</label>
             <div className="grid grid-cols-3 gap-2">
               <button
                 type="button"
                 onClick={() => setVisibility('PUBLIC')}
                 className={`flex flex-col items-center gap-2 p-3 rounded-lg border-2 transition-colors ${
                   visibility === 'PUBLIC' 
-                    ? 'border-[#ff4757] bg-[#ff4757]/10 text-[#ff4757]' 
+                    ? 'border-[#ff0618] bg-[#ff0618]/10 text-[#ff0618]' 
                     : 'border-gray-700 bg-[#2a2a2a] text-gray-400 hover:border-gray-600'
                 }`}
               >
                 <Globe size={20} />
-                <span className="text-xs font-medium">Public</span>
+                <span className="text-xs font-medium">Öffentlich</span>
               </button>
               <button
                 type="button"
                 onClick={() => setVisibility('FOLLOWERS')}
                 className={`flex flex-col items-center gap-2 p-3 rounded-lg border-2 transition-colors ${
                   visibility === 'FOLLOWERS' 
-                    ? 'border-[#ff4757] bg-[#ff4757]/10 text-[#ff4757]' 
+                    ? 'border-[#ff0618] bg-[#ff0618]/10 text-[#ff0618]' 
                     : 'border-gray-700 bg-[#2a2a2a] text-gray-400 hover:border-gray-600'
                 }`}
               >
                 <Users size={20} />
-                <span className="text-xs font-medium">Followers</span>
+                <span className="text-xs font-medium">Follower</span>
               </button>
               <button
                 type="button"
                 onClick={() => setVisibility('SUBSCRIBERS')}
                 className={`flex flex-col items-center gap-2 p-3 rounded-lg border-2 transition-colors ${
                   visibility === 'SUBSCRIBERS' 
-                    ? 'border-[#ff4757] bg-[#ff4757]/10 text-[#ff4757]' 
+                    ? 'border-[#ff0618] bg-[#ff0618]/10 text-[#ff0618]' 
                     : 'border-gray-700 bg-[#2a2a2a] text-gray-400 hover:border-gray-600'
                 }`}
               >
                 <Lock size={20} />
-                <span className="text-xs font-medium">Subscribers</span>
+                <span className="text-xs font-medium">Abonnenten</span>
               </button>
             </div>
           </div>
@@ -247,29 +254,60 @@ export default function CreatePostModal({ isOpen, onClose, userAvatar, username 
                 type="checkbox"
                 checked={isPremium}
                 onChange={(e) => setIsPremium(e.target.checked)}
-                className="w-5 h-5 rounded border-gray-600 bg-[#2a2a2a] text-[#ff4757] focus:ring-[#ff4757] focus:ring-offset-0"
+                className="w-5 h-5 rounded border-gray-600 bg-[#2a2a2a] text-[#ff0618] focus:ring-[#ff0618] focus:ring-offset-0"
               />
               <div className="flex items-center gap-2">
                 <DollarSign size={18} className="text-yellow-500" />
-                <span className="text-white font-medium">Make this a premium post</span>
+                <span className="text-white font-medium">Als Premium-Beitrag markieren</span>
               </div>
             </label>
             
             {isPremium && (
-              <div className="ml-8 space-y-2">
-                <p className="text-sm text-gray-400">Only paid subscribers can view this content</p>
-                <div className="flex items-center gap-2">
-                  <span className="text-gray-300">$</span>
+              <div className="ml-8 space-y-3">
+                <p className="text-sm text-gray-400">Nur zahlende Abonnenten können diesen Inhalt sehen</p>
+                <div className="space-y-2">
+                  <label className="block text-sm font-semibold text-gray-300" htmlFor="premium-price">
+                    Preis (BangCoins)
+                  </label>
                   <input
+                    id="premium-price"
                     type="number"
                     value={premiumPrice}
                     onChange={(e) => setPremiumPrice(e.target.value)}
-                    placeholder="5.00"
-                    step="0.01"
+                    placeholder="25"
+                    step="1"
                     min="1"
-                    className="w-32 bg-[#2a2a2a] text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#ff4757]"
+                    inputMode="numeric"
+                    className="w-full bg-[#161616] text-white rounded-lg border border-gray-700 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#ff0618] focus:border-[#ff0618]"
                   />
-                  <span className="text-sm text-gray-400">one-time unlock fee</span>
+                  <p className="text-sm italic text-gray-400">1 BangCoin = $1</p>
+                </div>
+
+                <div className="rounded-lg bg-gray-100 p-4 text-gray-700 space-y-3">
+                  <h3 className="font-bold text-gray-800">Umsatzaufteilung</h3>
+                  <div className="space-y-2 text-sm sm:text-base">
+                    <div className="flex items-center justify-between gap-4">
+                      <span>Inhaltspreis:</span>
+                      <span className="font-bold text-gray-800">{formatUsd(contentPrice)}</span>
+                    </div>
+                    <div className="flex items-center justify-between gap-4">
+                      <span>Plattformgebühr (25%):</span>
+                      <span className="font-bold text-red-500">-{formatUsd(platformTax)}</span>
+                    </div>
+                    <div className="flex items-center justify-between gap-4">
+                      <span>Steuer (17%):</span>
+                      <span className="font-bold text-red-500">-{formatUsd(tax)}</span>
+                    </div>
+                  </div>
+                  <div className="border-t border-gray-300 pt-3">
+                    <div className="flex items-center justify-between gap-4 text-base font-bold">
+                      <span>Du erhältst:</span>
+                      <span className="text-green-600">{formatUsd(creatorRevenue)}</span>
+                    </div>
+                  </div>
+                  <div className="border-t border-gray-300 pt-3 text-center text-sm text-gray-600">
+                    <span className="font-bold text-green-600">{creatorRevenuePercent}%</span> des Originalpreises
+                  </div>
                 </div>
               </div>
             )}
@@ -340,7 +378,7 @@ export default function CreatePostModal({ isOpen, onClose, userAvatar, username 
             <button
               type="submit"
               disabled={(!caption.trim() && !mediaFile) || uploading || isPending}
-              className="px-6 py-2 bg-[#ff4757] text-white rounded-lg hover:bg-[#ff2f43] disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-semibold flex items-center gap-2"
+              className="px-6 py-2 bg-[#ff0618] text-white rounded-lg hover:bg-[#ff0618] disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-semibold flex items-center gap-2"
             >
               {uploading || isPending ? (
                 <>

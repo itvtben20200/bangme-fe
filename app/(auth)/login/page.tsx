@@ -5,12 +5,13 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useAuthStore } from '@/store/authStore'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { Eye, EyeOff } from 'lucide-react'
+import { BrandLogo } from '@/components/BrandLogo'
 
 const loginSchema = z.object({
-  identifier: z.string().min(1, 'Email or username is required'),
-  password: z.string().min(1, 'Password is required'),
+  identifier: z.string().min(1, 'E-Mail oder Benutzername ist erforderlich'),
+  password: z.string().min(1, 'Passwort ist erforderlich'),
   remember: z.boolean().optional(),
 })
 type LoginInput = z.infer<typeof loginSchema>
@@ -18,6 +19,8 @@ type LoginInput = z.infer<typeof loginSchema>
 export default function LoginPage() {
   const { login, user } = useAuthStore()
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const redirectTo = searchParams.get('redirect')
   const [serverError, setServerError] = useState('')
   const [showPassword, setShowPassword] = useState(false)
 
@@ -33,11 +36,11 @@ export default function LoginPage() {
       if (role === 'admin') {
         // Admin accounts must use the admin portal
         useAuthStore.getState().logout()
-        setServerError('Admin accounts must sign in at /admin/login')
+        setServerError('Admin-Konten müssen sich über /admin/login anmelden')
         return
       }
-      if (role === 'creator') router.push('/creator-center')
-      else                    router.push('/home')
+      if (role === 'creator') router.push(redirectTo ?? '/creator-center')
+      else                    router.push(redirectTo ?? '/home')
     } catch (err: any) {
       const apiMsg: string = err?.response?.data?.message ?? err?.message ?? ''
       const isUnverified = apiMsg.toLowerCase().includes('verify your email')
@@ -50,7 +53,7 @@ export default function LoginPage() {
         router.push(`/verify-email-sent?${params.toString()}`)
         return
       }
-      setServerError(apiMsg || 'Login failed. Please try again.')
+      setServerError(apiMsg || 'Die Anmeldung ist fehlgeschlagen. Bitte versuche es erneut.')
     }
   }
 
@@ -58,27 +61,25 @@ export default function LoginPage() {
     <div className="min-h-screen bg-brand-dark flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-brand-surface border border-brand-border rounded-2xl p-8">
         <div className="text-center mb-6">
-          <div className="text-2xl font-black mb-1">
-            <span className="text-white">BANG</span><span className="text-brand-red">ME</span>
-          </div>
-          <p className="text-brand-muted text-sm">Welcome back</p>
+          <BrandLogo href="/" className="justify-center mb-2" imageClassName="h-7 w-auto max-w-[130px]" priority />
+          <p className="text-brand-muted text-sm">Willkommen zurück</p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <label className="block text-sm text-brand-muted mb-1">Email or Username</label>
+            <label className="block text-sm text-brand-muted mb-1">E-Mail oder Benutzername</label>
             <input
               {...register('identifier')}
               type="text"
               autoComplete="username"
               className="w-full bg-brand-card border border-brand-border rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-brand-red"
-              placeholder="you@example.com or @username"
+              placeholder="du@example.com oder @benutzername"
             />
             {errors.identifier && <p className="text-red-400 text-xs mt-1">{errors.identifier.message}</p>}
           </div>
 
           <div>
-            <label className="block text-sm text-brand-muted mb-1">Password</label>
+            <label className="block text-sm text-brand-muted mb-1">Passwort</label>
             <div className="relative">
               <input
                 {...register('password')}
@@ -98,10 +99,10 @@ export default function LoginPage() {
           <div className="flex items-center justify-between">
             <label className="flex items-center gap-2 text-sm text-brand-muted cursor-pointer">
               <input {...register('remember')} type="checkbox" className="rounded" />
-              Remember me
+              Angemeldet bleiben
             </label>
             <Link href="/forgot-password" className="text-sm text-brand-red hover:underline">
-              Forgot Password?
+              Passwort vergessen?
             </Link>
           </div>
 
@@ -116,17 +117,17 @@ export default function LoginPage() {
             disabled={isSubmitting}
             className="w-full bg-brand-red text-white font-bold py-3 rounded-lg hover:bg-red-600 transition disabled:opacity-50"
           >
-            {isSubmitting ? 'Logging in…' : 'Log In'}
+            {isSubmitting ? 'Wird angemeldet...' : 'Einloggen'}
           </button>
         </form>
 
         <p className="text-brand-muted text-sm text-center mt-6">
-          Don't have an account?{' '}
-          <Link href="/register" className="text-brand-red hover:underline">Register now</Link>
+          Noch keinen Account?{' '}
+          <Link href="/register" className="text-brand-red hover:underline">Jetzt registrieren</Link>
         </p>
         <p className="text-gray-600 text-xs text-center mt-3">
-          Platform admin?{' '}
-          <Link href="/admin/login" className="text-gray-500 hover:text-white transition">Admin portal →</Link>
+          Plattform-Admin?{' '}
+          <Link href="/admin/login" className="text-gray-500 hover:text-white transition">Admin-Portal {'->'}</Link>
         </p>
       </div>
     </div>

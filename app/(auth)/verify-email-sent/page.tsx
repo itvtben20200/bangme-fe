@@ -34,17 +34,17 @@ function VerifyEmailSentContent() {
           </div>
         </div>
 
-        <h1 className="text-xl font-bold text-white mb-2">Check your email</h1>
+        <h1 className="text-xl font-bold text-white mb-2">Prüfe deine E-Mail</h1>
         <p className="text-brand-muted text-sm mb-6">
-          We sent a verification link to{' '}
+          Wir haben einen Bestätigungslink an{' '}
           {email && <span className="text-white font-medium">{email}</span>}.
-          {' '}Click the link to activate your account.
+          {' '}gesendet. Klicke auf den Link, um deinen Account zu aktivieren.
         </p>
 
         {/* DEV ONLY: show the verification link inline */}
         {devVerifyUrl && (
           <div className="mb-6 p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-lg text-left">
-            <p className="text-yellow-400 text-xs font-semibold mb-1">⚡ DEV — Verification link:</p>
+            <p className="text-yellow-400 text-xs font-semibold mb-1">DEV - Bestätigungslink:</p>
             <a
               href={devVerifyUrl}
               className="text-yellow-300 text-xs break-all hover:underline"
@@ -55,35 +55,35 @@ function VerifyEmailSentContent() {
         )}
 
         <p className="text-brand-muted text-xs mb-4">
-          Didn&apos;t receive it? Check your spam folder or resend below.
+          Nichts erhalten? Prüfe deinen Spam-Ordner oder sende den Link erneut.
         </p>
 
         {status === 'sent' ? (
-          <p className="text-green-400 text-sm font-medium">A new link has been sent!</p>
+          <p className="text-green-400 text-sm font-medium">Ein neuer Link wurde gesendet!</p>
         ) : status === 'error' ? (
-          <p className="text-brand-red text-sm">Something went wrong. Please try again.</p>
+          <p className="text-brand-red text-sm">Etwas ist schiefgelaufen. Bitte versuche es erneut.</p>
         ) : (
           <button
             onClick={handleResend}
             disabled={status === 'sending' || !email}
             className="w-full bg-brand-red hover:bg-red-600 disabled:opacity-50 text-white font-semibold py-2.5 rounded-lg transition text-sm"
           >
-            {status === 'sending' ? 'Sending…' : 'Resend verification email'}
+            {status === 'sending' ? 'Wird gesendet...' : 'Bestätigungs-E-Mail erneut senden'}
           </button>
         )}
 
         <div className="mt-4 p-3 bg-brand-card border border-brand-border rounded-lg text-left">
           <p className="text-xs text-brand-muted">
-            <span className="text-white font-medium">Registration is free.</span>{' '}
-            You can add payment details at any time from your{' '}
-            <span className="text-brand-red">Settings → Billing</span> after logging in.
+            <span className="text-white font-medium">Die Registrierung ist kostenlos.</span>{' '}
+            Zahlungsdaten kannst du nach dem Login jederzeit unter{' '}
+            <span className="text-brand-red">Einstellungen {'->'} Abrechnung</span> hinzufügen.
           </p>
         </div>
 
         <div className="mt-6 text-sm text-brand-muted">
-          Already verified?{' '}
+          Bereits bestätigt?{' '}
           <Link href="/login" className="text-brand-red hover:underline">
-            Log in
+            Einloggen
           </Link>
         </div>
       </div>

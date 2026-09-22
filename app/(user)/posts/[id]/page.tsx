@@ -22,7 +22,7 @@ export default function PostDetailPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#121212] flex items-center justify-center">
-        <Loader2 size={32} className="text-[#ff4757] animate-spin" />
+        <Loader2 size={32} className="text-[#ff0618] animate-spin" />
       </div>
     )
   }
@@ -34,7 +34,7 @@ export default function PostDetailPage() {
           <p className="text-gray-400 text-lg">Post not found</p>
           <button
             onClick={() => router.back()}
-            className="px-6 py-2 bg-[#ff4757] text-white rounded-lg hover:bg-[#ff2f43] transition-colors"
+            className="px-6 py-2 bg-[#ff0618] text-white rounded-lg hover:bg-[#ff0618] transition-colors"
           >
             Go Back
           </button>

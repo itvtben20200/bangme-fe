@@ -1,6 +1,7 @@
 import { create }        from 'zustand'
 import type { Message, Conversation } from '@/types'
 import { getSocket }      from '@/lib/socket'
+import { useWalletStore } from '@/store/walletStore'
 
 interface ChatState {
   conversations:       Conversation[]
@@ -105,9 +106,16 @@ export const useChatStore = create<ChatState>((set, get) => ({
         credentials: 'include',
         body: JSON.stringify({ body, mediaKey }),
       })
-      if (!response.ok) throw new Error('Failed to send message')
       const data = await response.json()
+      if (!response.ok) {
+        const err: any = new Error(data?.message ?? 'Failed to send message')
+        err.data = data
+        throw err
+      }
       if (data.success && data.data) {
+        if (typeof data.walletBalance === 'number') {
+          useWalletStore.getState().setBalance(data.walletBalance)
+        }
         // Optimistically add message; appendMessage deduplicates if socket fires first
         get().appendMessage(conversationId, { ...data.data, conversationId })
         set((s) => ({
@@ -142,6 +150,16 @@ export const useChatStore = create<ChatState>((set, get) => ({
     const socket = getSocket()
     if (!socket) return
 
+    // Remove any existing listeners before re-adding to prevent duplicates
+    socket.off('connect')
+    socket.off('disconnect')
+    socket.off('chat:message')
+    socket.off('chat:typing')
+    socket.off('chat:stop_typing')
+    socket.off('chat:read')
+    socket.off('user:online')
+    socket.off('user:offline')
+
     socket.on('connect', () => {
       set({ isConnected: true })
       console.log('Chat socket connected')
@@ -155,11 +173,18 @@ export const useChatStore = create<ChatState>((set, get) => ({
     socket.on('chat:message', (msg: Message & { conversationId: string }) => {
       get().appendMessage(msg.conversationId, msg)
       
-      // Update last message in conversations list
+      // Update last message and increment unread count for non-active conversations
       set((s) => ({
         conversations: s.conversations.map(c =>
           c.id === msg.conversationId
-            ? { ...c, lastMessage: msg.body, lastMessageAt: msg.createdAt }
+            ? {
+                ...c,
+                lastMessage: msg.body,
+                lastMessageAt: msg.createdAt,
+                unreadCount: s.activeConversationId !== msg.conversationId
+                  ? (c.unreadCount ?? 0) + 1
+                  : c.unreadCount,
+              }
             : c
         ),
       }))
@@ -175,7 +200,7 @@ export const useChatStore = create<ChatState>((set, get) => ({
     })
 
     socket.on('chat:read', ({ userId, conversationId }: { userId: string; conversationId: string }) => {
-      // Handle read receipts - could mark messages as read
+      // Handle read receipts
       console.log('Messages read by:', userId, 'in', conversationId)
     })
 

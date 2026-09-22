@@ -49,7 +49,10 @@ export default function SubscribeSuccessPage() {
             </div>
 
             <p className="text-brand-muted text-xs mt-6">
-              Receipt confirmation ID: <span className="font-mono text-brand-text">{sessionId?.slice(0, 20)}…</span>
+              {sessionId
+                ? <>Receipt confirmation ID: <span className="font-mono text-brand-text">{sessionId.slice(0, 20)}…</span></>
+                : <>Paid with BangCoins · Expires in 30 days</>
+              }
             </p>
           </div>
         )}

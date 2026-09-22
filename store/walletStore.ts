@@ -6,6 +6,7 @@ interface WalletState {
   isLoading:  boolean
   error:      string | null
   fetchBalance:  () => Promise<void>
+  setBalance:    (balance: number) => void
   deductCoins:   (amount: number) => void
   addCoins:      (amount: number) => void
   hasEnoughBalance: (amount: number) => boolean
@@ -28,6 +29,7 @@ export const useWalletStore = create<WalletState>((set, get) => ({
     }
   },
 
+  setBalance: (balance) => set({ balance, error: null }),
   deductCoins: (amount) => set(s => ({ balance: Math.max(0, s.balance - amount) })),
   addCoins:    (amount) => set(s => ({ balance: s.balance + amount })),
   hasEnoughBalance: (amount) => get().balance >= amount,

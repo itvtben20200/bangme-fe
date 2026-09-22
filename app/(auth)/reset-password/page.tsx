@@ -7,12 +7,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import api from '@/lib/api'
 import { Eye, EyeOff } from 'lucide-react'
+import { BrandLogo } from '@/components/BrandLogo'
 
 const schema = z.object({
-  password: z.string().min(8, 'Password must be at least 8 characters'),
-  confirm:  z.string().min(1, 'Please confirm your password'),
+  password: z.string().min(8, 'Das Passwort muss mindestens 8 Zeichen lang sein'),
+  confirm:  z.string().min(1, 'Bitte bestätige dein Passwort'),
 }).refine((d) => d.password === d.confirm, {
-  message: 'Passwords do not match',
+  message: 'Die Passwörter stimmen nicht überein',
   path:    ['confirm'],
 })
 type FormInput = z.infer<typeof schema>
@@ -37,7 +38,7 @@ function ResetPasswordForm() {
       setDone(true)
       setTimeout(() => router.push('/login'), 2500)
     } catch (err: any) {
-      const msg = err?.response?.data?.message ?? err?.message ?? 'Something went wrong. Please try again.'
+      const msg = err?.response?.data?.message ?? err?.message ?? 'Etwas ist schiefgelaufen. Bitte versuche es erneut.'
       setServerError(msg)
     }
   }
@@ -45,10 +46,10 @@ function ResetPasswordForm() {
   if (!token) {
     return (
       <div className="bg-red-500/10 border border-red-500/30 rounded-lg px-4 py-4 text-center">
-        <p className="text-red-400 font-semibold mb-1">Invalid link</p>
+        <p className="text-red-400 font-semibold mb-1">Ungültiger Link</p>
         <p className="text-brand-muted text-sm">
-          This reset link is missing a token.{' '}
-          <Link href="/forgot-password" className="text-brand-red hover:underline">Request a new one</Link>.
+          Diesem Link zum Zurücksetzen fehlt ein Token.{' '}
+          <Link href="/forgot-password" className="text-brand-red hover:underline">Fordere einen neuen Link an</Link>.
         </p>
       </div>
     )
@@ -56,13 +57,13 @@ function ResetPasswordForm() {
 
   return done ? (
     <div className="bg-green-500/10 border border-green-500/30 rounded-lg px-4 py-4 text-center">
-      <p className="text-green-400 font-semibold mb-1">Password updated!</p>
-      <p className="text-brand-muted text-sm">Redirecting you to login…</p>
+      <p className="text-green-400 font-semibold mb-1">Passwort aktualisiert!</p>
+      <p className="text-brand-muted text-sm">Du wirst zum Login weitergeleitet...</p>
     </div>
   ) : (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div>
-        <label className="block text-sm text-brand-muted mb-1">New Password</label>
+        <label className="block text-sm text-brand-muted mb-1">Neues Passwort</label>
         <div className="relative">
           <input
             {...register('password')}
@@ -80,7 +81,7 @@ function ResetPasswordForm() {
       </div>
 
       <div>
-        <label className="block text-sm text-brand-muted mb-1">Confirm Password</label>
+        <label className="block text-sm text-brand-muted mb-1">Passwort bestätigen</label>
         <input
           {...register('confirm')}
           type="password"
@@ -102,7 +103,7 @@ function ResetPasswordForm() {
         disabled={isSubmitting}
         className="w-full bg-brand-red text-white font-bold py-3 rounded-lg hover:bg-red-600 transition disabled:opacity-50"
       >
-        {isSubmitting ? 'Updating…' : 'Set New Password'}
+        {isSubmitting ? 'Wird aktualisiert...' : 'Neues Passwort setzen'}
       </button>
     </form>
   )
@@ -113,19 +114,17 @@ export default function ResetPasswordPage() {
     <div className="min-h-screen bg-brand-dark flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-brand-surface border border-brand-border rounded-2xl p-8">
         <div className="text-center mb-6">
-          <div className="text-2xl font-black mb-1">
-            <span className="text-white">BANG</span><span className="text-brand-red">ME</span>
-          </div>
-          <p className="text-brand-muted text-sm">Choose a new password</p>
+          <BrandLogo href="/" className="justify-center mb-2" imageClassName="h-7 w-auto max-w-[130px]" priority />
+          <p className="text-brand-muted text-sm">Wähle ein neues Passwort</p>
         </div>
 
-        <Suspense fallback={<p className="text-brand-muted text-sm text-center">Loading…</p>}>
+        <Suspense fallback={<p className="text-brand-muted text-sm text-center">Wird geladen...</p>}>
           <ResetPasswordForm />
         </Suspense>
 
         <p className="text-brand-muted text-xs text-center mt-6">
-          Remember your password?{' '}
-          <Link href="/login" className="text-brand-red hover:underline">Log in</Link>
+          Erinnerst du dich an dein Passwort?{' '}
+          <Link href="/login" className="text-brand-red hover:underline">Einloggen</Link>
         </p>
       </div>
     </div>

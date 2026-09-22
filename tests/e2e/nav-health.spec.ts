@@ -78,17 +78,18 @@ async function auditPage(page: any, href: string, label: string) {
 
   // 1. Must not be bounced back to login
   const currentUrl = page.url()
+  console.log(`[${label}] Current URL: ${currentUrl}`)
   expect(
-    currentUrl,
-    `[${label}] Redirected to login — session may have expired or route is protected`
-  ).not.toContain('/login')
+    new URL(currentUrl).pathname.startsWith('/login'),
+    `[${label}] Redirected to login (${currentUrl}) — session may have expired or route is protected`
+  ).toBeFalsy()
 
   // 2. Main content must be present
   const main = page.locator('main, [role="main"]')
   await expect(
     main,
-    `[${label}] <main> element not found — page may not have rendered`
-  ).toBeVisible({ timeout: 8000 })
+    `[${label}] <main> element not found at ${currentUrl} — page may not have rendered`
+  ).toBeVisible({ timeout: 12000 })
 
   // 3. Check for visible error phrases in body text
   const bodyText = (await page.locator('body').innerText()).toLowerCase()

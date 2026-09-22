@@ -19,7 +19,7 @@ interface AuthState {
   accessToken:     string | null
   isAuthenticated: boolean
   login:           (identifier: string, password: string) => Promise<void>
-  register:        (username: string, email: string, password: string, role?: Role, adminSecret?: string) => Promise<{ message: string; devVerifyUrl?: string }>
+  register:        (username: string, email: string, password: string, role?: Role, adminSecret?: string, dateOfBirth?: string) => Promise<{ message: string; devVerifyUrl?: string }>
   logout:          () => void
   refreshSession:  () => Promise<void>
   restoreSession:  () => Promise<void>
@@ -38,10 +38,11 @@ export const useAuthStore = create<AuthState>()(
         set({ user: data.data.user, accessToken: data.data.accessToken, isAuthenticated: true })
       },
 
-      register: async (username, email, password, role = 'user', adminSecret) => {
+      register: async (username, email, password, role = 'user', adminSecret, dateOfBirth) => {
         const { data } = await api.post('/auth/register', {
           username, email, password, role,
           ...(adminSecret ? { adminSecret } : {}),
+          ...(dateOfBirth ? { dateOfBirth } : {}),
         })
         // Registration does not log in — user must verify email first
         return data.data as { message: string; devVerifyUrl?: string }

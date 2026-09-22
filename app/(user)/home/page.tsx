@@ -5,11 +5,16 @@ import Image from 'next/image'
 import Link  from 'next/link'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import { Flame, Clock } from 'lucide-react'
 import api         from '@/lib/api'
 import { mediaUrl } from '@/lib/utils'
 import { useAuthStore } from '@/store/authStore'
 import { useWalletStore } from '@/store/walletStore'
 import PostCard from '@/components/PostCard'
+import PostDetailModal from '@/components/PostDetailModal'
+import StoryViewerModal from '@/components/StoryViewerModal'
+import AddStoryModal from '@/components/AddStoryModal'
+import type { Post, StoryGroup } from '@/types'
 
 dayjs.extend(relativeTime)
 
@@ -25,26 +30,6 @@ interface Creator {
   isVerified: boolean
   creatorProfile: { monthlySubPrice: number | null; isLive: boolean } | null
   _count: { followers: number; subscribers: number; posts: number }
-}
-
-interface Post {
-  id: string
-  caption: string | null
-  mediaKey: string | null
-  mediaType: string | null
-  isPremium: boolean
-  likesCount: number
-  commentsCount: number
-  viewsCount: number
-  isLiked: boolean
-  createdAt: string
-  creator: {
-    username: string
-    displayName: string | null
-    avatarKey: string | null
-    isVerified: boolean
-    creatorProfile: { monthlySubPrice: number | null; isLive: boolean } | null
-  }
 }
 
 /* ─── Skeleton ──────────────────────────────────────────────────────────── */
@@ -77,6 +62,104 @@ function CreatorSkeleton() {
         </div>
       </div>
       <div className="w-16 h-7 rounded-lg bg-brand-card" />
+    </div>
+  )
+}
+
+/* ─── Stories Strip ─────────────────────────────────────────────────────── */
+
+function StoriesStrip({
+  groups,
+  currentUser,
+  onOpenStory,
+  onAddStory,
+}: {
+  groups: StoryGroup[]
+  currentUser: { id?: string; username: string; displayName?: string | null; avatarKey?: string | null } | null
+  onOpenStory: (groupIndex: number) => void
+  onAddStory: () => void
+}) {
+  const [avatarErrors, setAvatarErrors] = useState<Record<string, boolean>>({})
+  const [page, setPage] = useState(0)
+  const PAGE_SIZE   = 6
+  const totalPages  = Math.ceil(groups.length / PAGE_SIZE)
+  const visible     = groups.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE)
+  const pageOffset  = page * PAGE_SIZE
+
+  return (
+    <div className="bg-brand-surface border border-brand-border rounded-2xl p-4">
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="text-white font-bold text-sm">Stories</h3>
+        {groups.length > 0 && (
+          <span className="text-brand-muted text-xs">{groups.length} active</span>
+        )}
+      </div>
+      <div className="flex items-center gap-2">
+        {/* Prev */}
+        <button
+          onClick={() => setPage(p => p - 1)}
+          disabled={page === 0}
+          className="shrink-0 w-8 h-8 rounded-full bg-brand-card border border-brand-border flex items-center justify-center text-white hover:bg-brand-red hover:border-brand-red transition disabled:opacity-0 disabled:pointer-events-none"
+          aria-label="Previous stories"
+        >
+          ‹
+        </button>
+
+        <div className="flex-1 flex gap-4 items-start">
+          {/* Add Story pinned on page 0 */}
+          {currentUser && page === 0 && (
+            <button
+              onClick={onAddStory}
+              className="flex flex-col items-center gap-1.5 cursor-pointer group shrink-0 focus:outline-none"
+            >
+              <div className="w-16 h-16 rounded-full border-2 border-dashed border-brand-red flex items-center justify-center bg-brand-card">
+                <span className="text-2xl font-bold text-brand-red">+</span>
+              </div>
+              <span className="text-brand-muted text-xs text-center w-16 truncate">Your Story</span>
+            </button>
+          )}
+
+          {/* Story group bubbles */}
+          {visible.map((g, i) => {
+            const globalIdx = pageOffset + i
+            const avatar    = mediaUrl(g.user.avatarKey)
+            const initials  = (g.user.displayName ?? g.user.username)[0].toUpperCase()
+            const allViewed = g.stories.every(s => s.hasViewed)
+            const ringClass = allViewed
+              ? 'bg-brand-muted/40'
+              : 'bg-gradient-to-tr from-brand-red via-pink-500 to-yellow-400'
+
+            return (
+              <button
+                key={g.user.id}
+                onClick={() => onOpenStory(globalIdx)}
+                className="flex flex-col items-center gap-1.5 shrink-0 group focus:outline-none"
+              >
+                <div className={`w-16 h-16 rounded-full p-0.5 ${ringClass}`}>
+                  <div className="w-full h-full rounded-full border-2 border-brand-surface overflow-hidden">
+                    {avatar && !avatarErrors[g.user.id]
+                      ? <Image src={avatar} alt={g.user.displayName ?? g.user.username} width={64} height={64} className="object-cover w-full h-full" onError={() => setAvatarErrors(p => ({ ...p, [g.user.id]: true }))} />
+                      : <div className="w-full h-full bg-brand-card flex items-center justify-center text-base font-bold text-white">{initials}</div>}
+                  </div>
+                </div>
+                <span className="text-white text-xs text-center w-16 truncate group-hover:text-brand-red transition">
+                  {g.user.displayName ?? g.user.username}
+                </span>
+              </button>
+            )
+          })}
+        </div>
+
+        {/* Next */}
+        <button
+          onClick={() => setPage(p => p + 1)}
+          disabled={page >= totalPages - 1}
+          className="shrink-0 w-8 h-8 rounded-full bg-brand-card border border-brand-border flex items-center justify-center text-white hover:bg-brand-red hover:border-brand-red transition disabled:opacity-0 disabled:pointer-events-none"
+          aria-label="Next stories"
+        >
+          ›
+        </button>
+      </div>
     </div>
   )
 }
@@ -210,19 +293,26 @@ function BangCoinsBalance() {
 
 export default function HomePage() {
   const { user } = useAuthStore()
-  const [posts,    setPosts]    = useState<Post[]>([])
-  const [creators, setCreators] = useState<Creator[]>([])
-  const [loading,  setLoading]  = useState(true)
+  const [posts,           setPosts]           = useState<Post[]>([])
+  const [creators,        setCreators]        = useState<Creator[]>([])
+  const [storyGroups,     setStoryGroups]     = useState<StoryGroup[]>([])
+  const [loading,         setLoading]         = useState(true)
+  const [selectedPost,    setSelectedPost]    = useState<Post | null>(null)
+  const [feedTab,         setFeedTab]         = useState<'latest' | 'popular'>('latest')
+  const [viewerGroupIdx,  setViewerGroupIdx]  = useState<number | null>(null)
+  const [showAddStory,    setShowAddStory]    = useState(false)
 
   useEffect(() => {
     async function load() {
       try {
-        const [postsRes, creatorsRes] = await Promise.all([
+        const [postsRes, creatorsRes, storiesRes] = await Promise.all([
           api.get<{ data: Post[] }>('/posts?perPage=20'),
           api.get<{ data: Creator[] }>('/creators'),
+          api.get<{ data: StoryGroup[] }>('/stories/feed').catch(() => ({ data: { data: [] } })),
         ])
         setPosts(postsRes.data.data ?? [])
         setCreators(creatorsRes.data.data ?? [])
+        setStoryGroups(storiesRes.data.data ?? [])
       } catch {
         // silently degrade
       } finally {
@@ -232,20 +322,84 @@ export default function HomePage() {
     load()
   }, [])
 
+  const handleStoryDeleted = (storyId: string) => {
+    setStoryGroups(prev => prev
+      .map(g => ({ ...g, stories: g.stories.filter(s => s.id !== storyId) }))
+      .filter(g => g.stories.length > 0)
+    )
+  }
+
+  const handleStoryCreated = (newGroup: StoryGroup) => {
+    setStoryGroups(prev => {
+      // If user already has a group, prepend the new story to it
+      const existing = prev.find(g => g.user.id === newGroup.user.id)
+      if (existing) {
+        return [
+          { ...existing, stories: [...newGroup.stories, ...existing.stories] },
+          ...prev.filter(g => g.user.id !== newGroup.user.id),
+        ]
+      }
+      return [newGroup, ...prev]
+    })
+  }
+
   const sidebarCreators = creators.slice(0, 5)
 
+  const visiblePosts = feedTab === 'popular'
+    ? [...posts].sort((a, b) => b.likesCount - a.likesCount)
+    : posts
+
   return (
+    <>
     <div className="flex gap-6 p-4 md:p-6 max-w-6xl mx-auto">
 
       {/* ── Main Feed ───────────────────────────────────────────────── */}
       <section className="flex-1 min-w-0 space-y-5">
         <div className="flex items-center justify-between">
           <h1 className="text-white font-black text-2xl">
-            {user ? `Hey, ${user.displayName ?? user.username} 👋` : 'Discover Creators'}
+            Discover Creators
           </h1>
           <Link href="/explore" className="text-brand-red text-sm font-semibold hover:underline">
             Explore all →
           </Link>
+        </div>
+
+        {/* ── Stories ──────────────────────────────────────────────── */}
+        {!loading && (
+          <StoriesStrip
+            groups={storyGroups}
+            currentUser={user}
+            onOpenStory={idx => setViewerGroupIdx(idx)}
+            onAddStory={() => setShowAddStory(true)}
+          />
+        )}
+        {loading && (
+          <div className="bg-brand-surface border border-brand-border rounded-2xl p-4 animate-pulse">
+            <div className="flex gap-4">
+              {[1,2,3,4,5].map(i => (
+                <div key={i} className="flex flex-col items-center gap-1.5 shrink-0">
+                  <div className="w-16 h-16 rounded-full bg-brand-card" />
+                  <div className="w-14 h-2.5 bg-brand-card rounded" />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── Feed tabs ────────────────────────────────────────────── */}
+        <div className="flex items-center gap-1 bg-brand-surface border border-brand-border rounded-xl p-1 w-fit">
+          <button
+            onClick={() => setFeedTab('latest')}
+            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-semibold transition ${feedTab === 'latest' ? 'bg-brand-red text-white' : 'text-brand-muted hover:text-white'}`}
+          >
+            <Clock className="w-3.5 h-3.5" /> Latest
+          </button>
+          <button
+            onClick={() => setFeedTab('popular')}
+            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-semibold transition ${feedTab === 'popular' ? 'bg-brand-red text-white' : 'text-brand-muted hover:text-white'}`}
+          >
+            <Flame className="w-3.5 h-3.5" /> Popular
+          </button>
         </div>
 
         {/* ── Loading skeletons ─────────────────────────────────────── */}
@@ -256,66 +410,21 @@ export default function HomePage() {
         )}
 
         {/* ── Real posts ───────────────────────────────────────────── */}
-        {!loading && posts.length > 0 && posts.map(p => (
+        {!loading && posts.length > 0 && visiblePosts.map(p => (
           <PostCard 
             key={p.id} 
             post={p}
             currentUserId={user?.username}
+            onPostClick={(post) => setSelectedPost(post as Post)}
           />
         ))}
 
-        {/* ── Suggested creator activity (when no posts yet) ────────── */}
-        {!loading && (
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="flex-1 h-px bg-brand-border" />
-              <p className="text-brand-muted text-xs font-semibold uppercase tracking-widest whitespace-nowrap">
-                {posts.length > 0 ? '✨ Suggested Creators' : '✨ Creators to Follow'}
-              </p>
-              <div className="flex-1 h-px bg-brand-border" />
-            </div>
 
-            {creators.length === 0 ? (
-              <div className="text-center py-16 text-brand-muted">
-                <p className="text-5xl mb-4">🌟</p>
-                <p className="font-bold text-white mb-1">No creators yet</p>
-                <p className="text-sm">Check back soon — new creators are joining every day.</p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {creators.map((c, i) => (
-                  <CreatorActivityCard key={c.id} creator={c} priority={i === 0} />
-                ))}
-              </div>
-            )}
-          </div>
-        )}
       </section>
 
       {/* ── Right Sidebar ────────────────────────────────────────────── */}
       <aside className="w-72 shrink-0 hidden lg:flex flex-col gap-4">
 
-        {/* Suggested Creators */}
-        <div className="bg-brand-surface border border-brand-border rounded-2xl p-4">
-          <h3 className="text-white font-bold mb-1 text-sm">Suggested Creators</h3>
-          <p className="text-brand-muted text-xs mb-4">Subscribe to unlock their exclusive content</p>
-
-          {loading ? (
-            <div className="space-y-1">{[1,2,3].map(i => <CreatorSkeleton key={i} />)}</div>
-          ) : sidebarCreators.length === 0 ? (
-            <p className="text-brand-muted text-xs py-4 text-center">No creators found</p>
-          ) : (
-            <div className="divide-y divide-brand-border">
-              {sidebarCreators.map(c => (
-                <SidebarCreatorRow key={c.id} c={c} />
-              ))}
-            </div>
-          )}
-
-          <Link href="/explore" className="block mt-3 text-center text-brand-red text-xs font-semibold hover:underline">
-            See all creators →
-          </Link>
-        </div>
 
         {/* BangCoins */}
         <div className="bg-brand-surface border border-brand-border rounded-2xl p-4">
@@ -326,6 +435,25 @@ export default function HomePage() {
           </Link>
         </div>
 
+        {/* Profile Activity */}
+        {user && (
+          <div className="bg-brand-surface border border-brand-border rounded-2xl p-4">
+            <h3 className="text-white font-bold text-sm mb-3">Profile Activity</h3>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-brand-muted text-xs">Following</span>
+                <Link href="/profile" className="text-white text-sm font-bold hover:text-brand-red transition">View</Link>
+              </div>
+              <div className="h-px bg-brand-border" />
+              <p className="text-brand-muted text-xs leading-relaxed">
+                The perfect time for{' '}
+                <Link href="/for-creators" className="text-brand-red hover:underline">updating your profile</Link>
+                {' '}and growing your audience.
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Footer links */}
         <p className="text-brand-muted text-xs text-center leading-relaxed px-2">
           <Link href="/for-creators" className="text-brand-red hover:underline">Become a Creator</Link>
@@ -334,6 +462,32 @@ export default function HomePage() {
         </p>
       </aside>
     </div>
+
+    {selectedPost && (
+      <PostDetailModal
+        post={selectedPost}
+        onClose={() => setSelectedPost(null)}
+        currentUserId={user?.username}
+      />
+    )}
+
+    {viewerGroupIdx !== null && (
+      <StoryViewerModal
+        groups={storyGroups}
+        initialGroupIndex={viewerGroupIdx}
+        currentUserId={user?.id}
+        onClose={() => setViewerGroupIdx(null)}
+        onDeleted={handleStoryDeleted}
+      />
+    )}
+
+    {showAddStory && (
+      <AddStoryModal
+        onClose={() => setShowAddStory(false)}
+        onCreated={handleStoryCreated}
+      />
+    )}
+    </>
   )
 }
 

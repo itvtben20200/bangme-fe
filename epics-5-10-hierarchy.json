@@ -1,0 +1,1516 @@
+{
+  "generatedAt": "2026-09-09T13:54:02.199Z",
+  "organization": "ITVT",
+  "project": "ITVT Sound Fans",
+  "team": "ITVT Sound Fans Team",
+  "ordinalRange": [
+    5,
+    10
+  ],
+  "orderSource": "team backlog API",
+  "orderField": "Azure Boards team backlog order (Microsoft.EpicCategory)",
+  "fullOrderedEpicIds": [
+    44217,
+    44224,
+    44225,
+    44227,
+    44228,
+    44229,
+    44230,
+    44231,
+    44232,
+    44233,
+    44234,
+    44235,
+    44236,
+    44237,
+    44265,
+    67007
+  ],
+  "selectedEpicIds": [
+    44228,
+    44229,
+    44230,
+    44231,
+    44232,
+    44233
+  ],
+  "epics": [
+    {
+      "ordinal": 5,
+      "id": 44228,
+      "rev": 1,
+      "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44228",
+      "workItemType": "Epic",
+      "title": "Register",
+      "state": "New",
+      "assignedTo": null,
+      "areaPath": "ITVT Sound Fans",
+      "iterationPath": "ITVT Sound Fans",
+      "stackRank": null,
+      "backlogPriority": null,
+      "priority": 2,
+      "descriptionSnippet": "",
+      "acceptanceCriteriaSnippet": "",
+      "relations": [],
+      "duplicateAlreadyProcessed": false,
+      "children": [],
+      "childCount": 0,
+      "totalDescendantCount": 0
+    },
+    {
+      "ordinal": 6,
+      "id": 44229,
+      "rev": 1,
+      "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44229",
+      "workItemType": "Epic",
+      "title": "Upload Media",
+      "state": "New",
+      "assignedTo": null,
+      "areaPath": "ITVT Sound Fans",
+      "iterationPath": "ITVT Sound Fans",
+      "stackRank": null,
+      "backlogPriority": null,
+      "priority": 2,
+      "descriptionSnippet": "",
+      "acceptanceCriteriaSnippet": "",
+      "relations": [],
+      "duplicateAlreadyProcessed": false,
+      "children": [],
+      "childCount": 0,
+      "totalDescendantCount": 0
+    },
+    {
+      "ordinal": 7,
+      "id": 44230,
+      "rev": 3,
+      "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44230",
+      "workItemType": "Epic",
+      "title": "Discover & Booking",
+      "state": "New",
+      "assignedTo": null,
+      "areaPath": "ITVT Sound Fans",
+      "iterationPath": "ITVT Sound Fans",
+      "stackRank": null,
+      "backlogPriority": null,
+      "priority": 3,
+      "descriptionSnippet": "",
+      "acceptanceCriteriaSnippet": "",
+      "relations": [
+        {
+          "rel": "System.LinkTypes.Hierarchy-Forward",
+          "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44192",
+          "id": 44192,
+          "attributes": {
+            "isLocked": false,
+            "name": "Child"
+          }
+        }
+      ],
+      "duplicateAlreadyProcessed": false,
+      "children": [
+        {
+          "id": 44192,
+          "rev": 11,
+          "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44192",
+          "workItemType": "Feature",
+          "title": "#45 Artist Booking ",
+          "state": "New",
+          "assignedTo": null,
+          "areaPath": "ITVT Sound Fans",
+          "iterationPath": "ITVT Sound Fans",
+          "stackRank": null,
+          "backlogPriority": null,
+          "priority": 2,
+          "descriptionSnippet": "(To activate this function, the artist must take out a weekly subscription). ​ (Without this platform fee, this function is not available to any artist ). ​ The artist is displayed on a radar with the fans. ​ Here, customers/fans can find an artist in the vicinity and possibly book them (weddings, concerts and the like). ​ In this way, both small and large artists can generate additional income through events or fan meetings. ​ Music artists can hide their location at any time (invisible ) ​ Def",
+          "acceptanceCriteriaSnippet": "Radius of detection? How often is the location updated? Everytime the user open feature (not the app) Creators should have the option to go invisible. creator can also pin his location, so people can find him without gps open. How much Movement from a user is needed for an update? (50 meters) What level of accuracy is required for geolocation data (e.g., street level, city level)? To be able to tell how far away a creator is from user. Many apps use techniques such as location masking, where the",
+          "relations": [
+            {
+              "rel": "System.LinkTypes.Hierarchy-Forward",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44196",
+              "id": 44196,
+              "attributes": {
+                "isLocked": false,
+                "name": "Child"
+              }
+            },
+            {
+              "rel": "System.LinkTypes.Hierarchy-Forward",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44195",
+              "id": 44195,
+              "attributes": {
+                "isLocked": false,
+                "name": "Child"
+              }
+            },
+            {
+              "rel": "System.LinkTypes.Hierarchy-Reverse",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44230",
+              "id": 44230,
+              "attributes": {
+                "isLocked": false,
+                "name": "Parent"
+              }
+            }
+          ],
+          "duplicateAlreadyProcessed": false,
+          "children": [
+            {
+              "id": 44196,
+              "rev": 2,
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44196",
+              "workItemType": "Product Backlog Item",
+              "title": "#45Artist Booking - user activation",
+              "state": "New",
+              "assignedTo": null,
+              "areaPath": "ITVT Sound Fans",
+              "iterationPath": "ITVT Sound Fans",
+              "stackRank": null,
+              "backlogPriority": null,
+              "priority": 3,
+              "descriptionSnippet": "(To activate this function, the artist must take out a weekly subscription).​ (Without this platform fee, this function is not available to any artist).​ The artist is displayed on a radar with the fans.​ Here, customers/fans can find an artist in the vicinity and possibly book them (weddings, concerts and the like).​ In this way, both small and large artists can generate additional income through events or fan meetings.​",
+              "acceptanceCriteriaSnippet": "",
+              "relations": [
+                {
+                  "rel": "System.LinkTypes.Hierarchy-Reverse",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44192",
+                  "id": 44192,
+                  "attributes": {
+                    "isLocked": false,
+                    "name": "Parent"
+                  }
+                }
+              ],
+              "duplicateAlreadyProcessed": false,
+              "children": [],
+              "childCount": 0,
+              "totalDescendantCount": 0
+            },
+            {
+              "id": 44195,
+              "rev": 2,
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44195",
+              "workItemType": "Product Backlog Item",
+              "title": "#45Artist Booking  - location",
+              "state": "New",
+              "assignedTo": null,
+              "areaPath": "ITVT Sound Fans",
+              "iterationPath": "ITVT Sound Fans",
+              "stackRank": null,
+              "backlogPriority": null,
+              "priority": 3,
+              "descriptionSnippet": "Capable of locating and identifying users in a given radius​ Standort kann ein- und ausgeschaltet werden User can set the maximum distance via filter",
+              "acceptanceCriteriaSnippet": "",
+              "relations": [
+                {
+                  "rel": "System.LinkTypes.Hierarchy-Reverse",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44192",
+                  "id": 44192,
+                  "attributes": {
+                    "isLocked": false,
+                    "name": "Parent"
+                  }
+                }
+              ],
+              "duplicateAlreadyProcessed": false,
+              "children": [],
+              "childCount": 0,
+              "totalDescendantCount": 0
+            }
+          ],
+          "childCount": 2,
+          "totalDescendantCount": 2
+        }
+      ],
+      "childCount": 1,
+      "totalDescendantCount": 3
+    },
+    {
+      "ordinal": 8,
+      "id": 44231,
+      "rev": 1,
+      "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44231",
+      "workItemType": "Epic",
+      "title": "Musikcoin Wallet",
+      "state": "New",
+      "assignedTo": null,
+      "areaPath": "ITVT Sound Fans",
+      "iterationPath": "ITVT Sound Fans",
+      "stackRank": null,
+      "backlogPriority": null,
+      "priority": 2,
+      "descriptionSnippet": "",
+      "acceptanceCriteriaSnippet": "",
+      "relations": [
+        {
+          "rel": "System.LinkTypes.Hierarchy-Forward",
+          "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44180",
+          "id": 44180,
+          "attributes": {
+            "isLocked": false,
+            "name": "Child"
+          }
+        }
+      ],
+      "duplicateAlreadyProcessed": false,
+      "children": [
+        {
+          "id": 44180,
+          "rev": 7,
+          "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44180",
+          "workItemType": "Feature",
+          "title": "#19Credits / Payment - ",
+          "state": "New",
+          "assignedTo": null,
+          "areaPath": "ITVT Sound Fans",
+          "iterationPath": "ITVT Sound Fans\\Iteration 1",
+          "stackRank": null,
+          "backlogPriority": null,
+          "priority": 1,
+          "descriptionSnippet": "Credits (Musikcoins) can be topped up using all modern standard payment functions. Credit card Paypal Bank transfer Apple/Google pay ect. These can then be used for all functions that require payment. Definition of Done Tested to have a successful purchase through and Apply/Google play or Paypal account Musikoins should be updated immediately after purchase. Musikoins purchased via payment entry for customization instead of fixed packages. Musikoins amount available in profile CTA available to t",
+          "acceptanceCriteriaSnippet": "",
+          "relations": [
+            {
+              "rel": "System.LinkTypes.Hierarchy-Forward",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44185",
+              "id": 44185,
+              "attributes": {
+                "isLocked": false,
+                "name": "Child"
+              }
+            },
+            {
+              "rel": "System.LinkTypes.Hierarchy-Forward",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44083",
+              "id": 44083,
+              "attributes": {
+                "isLocked": false,
+                "name": "Child"
+              }
+            },
+            {
+              "rel": "System.LinkTypes.Hierarchy-Reverse",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44231",
+              "id": 44231,
+              "attributes": {
+                "isLocked": false,
+                "name": "Parent"
+              }
+            },
+            {
+              "rel": "System.LinkTypes.Hierarchy-Forward",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44182",
+              "id": 44182,
+              "attributes": {
+                "isLocked": false,
+                "name": "Child"
+              }
+            },
+            {
+              "rel": "System.LinkTypes.Hierarchy-Forward",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44181",
+              "id": 44181,
+              "attributes": {
+                "isLocked": false,
+                "name": "Child"
+              }
+            },
+            {
+              "rel": "System.LinkTypes.Hierarchy-Forward",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44183",
+              "id": 44183,
+              "attributes": {
+                "isLocked": false,
+                "name": "Child"
+              }
+            }
+          ],
+          "duplicateAlreadyProcessed": false,
+          "children": [
+            {
+              "id": 44185,
+              "rev": 3,
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44185",
+              "workItemType": "Product Backlog Item",
+              "title": "#19Credits / Payment - coin charging function",
+              "state": "New",
+              "assignedTo": null,
+              "areaPath": "ITVT Sound Fans",
+              "iterationPath": "ITVT Sound Fans",
+              "stackRank": null,
+              "backlogPriority": null,
+              "priority": 1,
+              "descriptionSnippet": "there are ready-made packages that can be purchased you also have a field in which you can enter a desired amount (no comma amounts)",
+              "acceptanceCriteriaSnippet": "packages with full function Book Koins convert personalized total",
+              "relations": [
+                {
+                  "rel": "System.LinkTypes.Hierarchy-Reverse",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44180",
+                  "id": 44180,
+                  "attributes": {
+                    "isLocked": false,
+                    "name": "Parent"
+                  }
+                }
+              ],
+              "duplicateAlreadyProcessed": false,
+              "children": [],
+              "childCount": 0,
+              "totalDescendantCount": 0
+            },
+            {
+              "id": 44083,
+              "rev": 4,
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44083",
+              "workItemType": "Product Backlog Item",
+              "title": "#19 Credits / Payment",
+              "state": "New",
+              "assignedTo": null,
+              "areaPath": "ITVT Sound Fans",
+              "iterationPath": "ITVT Sound Fans",
+              "stackRank": null,
+              "backlogPriority": null,
+              "priority": 1,
+              "descriptionSnippet": "Credits (Musikcoins) can be topped up with all modern standard payment functions. Credit card Paypal Bank transfer Apple/Google pay ect. These can then be used to use all functions that require payment.",
+              "acceptanceCriteriaSnippet": "Tested to have a successful purchase by and Apply/Google play or Paypal Account Musikoins should immediately be updated upon purchase. Musikoins purchased via number input for customization instead of fixed packages. Musikoins amount available at Profile Top Up CTA available beside Musikoins Amount Indicate Minimum Credits/Musikoins - minimum 10 musikoins Currency USD only",
+              "relations": [
+                {
+                  "rel": "System.LinkTypes.Hierarchy-Reverse",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44180",
+                  "id": 44180,
+                  "attributes": {
+                    "isLocked": false,
+                    "name": "Parent"
+                  }
+                }
+              ],
+              "duplicateAlreadyProcessed": false,
+              "children": [],
+              "childCount": 0,
+              "totalDescendantCount": 0
+            },
+            {
+              "id": 44182,
+              "rev": 2,
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44182",
+              "workItemType": "Product Backlog Item",
+              "title": "#19Credits / Payment - update",
+              "state": "New",
+              "assignedTo": null,
+              "areaPath": "ITVT Sound Fans",
+              "iterationPath": "ITVT Sound Fans",
+              "stackRank": null,
+              "backlogPriority": null,
+              "priority": 1,
+              "descriptionSnippet": "Musikoins should be updated immediately after purchase. also when the coins are issued (real time)",
+              "acceptanceCriteriaSnippet": "",
+              "relations": [
+                {
+                  "rel": "System.LinkTypes.Hierarchy-Reverse",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44180",
+                  "id": 44180,
+                  "attributes": {
+                    "isLocked": false,
+                    "name": "Parent"
+                  }
+                }
+              ],
+              "duplicateAlreadyProcessed": false,
+              "children": [],
+              "childCount": 0,
+              "totalDescendantCount": 0
+            },
+            {
+              "id": 44181,
+              "rev": 3,
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44181",
+              "workItemType": "Product Backlog Item",
+              "title": "#19Credits / Payment - Charge",
+              "state": "New",
+              "assignedTo": null,
+              "areaPath": "ITVT Sound Fans",
+              "iterationPath": "ITVT Sound Fans",
+              "stackRank": null,
+              "backlogPriority": null,
+              "priority": 1,
+              "descriptionSnippet": "Credits (Musikcoins) can be topped up with all modern standard payment functions.​ Credit card Paypal Bank transfer credit card Apple/Google pay ect.​ These can then be used to use all functions that require payment.​",
+              "acceptanceCriteriaSnippet": "Getestet, um einen erfolgreichen Kauf durch und Apply/Google play oder Paypal Konto zu haben Specify minimum balance/Musikoins - at least 10 Musikoins 1 Coin = 1 Dollar Currency USD only",
+              "relations": [
+                {
+                  "rel": "System.LinkTypes.Hierarchy-Reverse",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44180",
+                  "id": 44180,
+                  "attributes": {
+                    "isLocked": false,
+                    "name": "Parent"
+                  }
+                }
+              ],
+              "duplicateAlreadyProcessed": false,
+              "children": [],
+              "childCount": 0,
+              "totalDescendantCount": 0
+            },
+            {
+              "id": 44183,
+              "rev": 2,
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44183",
+              "workItemType": "Product Backlog Item",
+              "title": "#19Credits / Payment - user wallet display",
+              "state": "New",
+              "assignedTo": null,
+              "areaPath": "ITVT Sound Fans",
+              "iterationPath": "ITVT Sound Fans",
+              "stackRank": null,
+              "backlogPriority": null,
+              "priority": 1,
+              "descriptionSnippet": "for users, the available coins (wallet credit) are displayed in the profile in the upper area so that they always know how much credit they still have available",
+              "acceptanceCriteriaSnippet": "Musikoins amount available in profile",
+              "relations": [
+                {
+                  "rel": "System.LinkTypes.Hierarchy-Reverse",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44180",
+                  "id": 44180,
+                  "attributes": {
+                    "isLocked": false,
+                    "name": "Parent"
+                  }
+                }
+              ],
+              "duplicateAlreadyProcessed": false,
+              "children": [],
+              "childCount": 0,
+              "totalDescendantCount": 0
+            }
+          ],
+          "childCount": 5,
+          "totalDescendantCount": 5
+        }
+      ],
+      "childCount": 1,
+      "totalDescendantCount": 6
+    },
+    {
+      "ordinal": 9,
+      "id": 44232,
+      "rev": 1,
+      "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44232",
+      "workItemType": "Epic",
+      "title": "Settings",
+      "state": "New",
+      "assignedTo": null,
+      "areaPath": "ITVT Sound Fans",
+      "iterationPath": "ITVT Sound Fans",
+      "stackRank": null,
+      "backlogPriority": null,
+      "priority": 2,
+      "descriptionSnippet": "",
+      "acceptanceCriteriaSnippet": "",
+      "relations": [
+        {
+          "rel": "System.LinkTypes.Hierarchy-Forward",
+          "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44163",
+          "id": 44163,
+          "attributes": {
+            "isLocked": false,
+            "name": "Child"
+          }
+        },
+        {
+          "rel": "System.LinkTypes.Hierarchy-Forward",
+          "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44155",
+          "id": 44155,
+          "attributes": {
+            "isLocked": false,
+            "name": "Child"
+          }
+        },
+        {
+          "rel": "System.LinkTypes.Hierarchy-Forward",
+          "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44187",
+          "id": 44187,
+          "attributes": {
+            "isLocked": false,
+            "name": "Child"
+          }
+        },
+        {
+          "rel": "System.LinkTypes.Hierarchy-Forward",
+          "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44151",
+          "id": 44151,
+          "attributes": {
+            "isLocked": false,
+            "name": "Child"
+          }
+        },
+        {
+          "rel": "System.LinkTypes.Hierarchy-Forward",
+          "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44197",
+          "id": 44197,
+          "attributes": {
+            "isLocked": false,
+            "name": "Child"
+          }
+        }
+      ],
+      "duplicateAlreadyProcessed": false,
+      "children": [
+        {
+          "id": 44163,
+          "rev": 5,
+          "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44163",
+          "workItemType": "Feature",
+          "title": "#31 coupons settings​",
+          "state": "New",
+          "assignedTo": null,
+          "areaPath": "ITVT Sound Fans",
+          "iterationPath": "ITVT Sound Fans",
+          "stackRank": null,
+          "backlogPriority": null,
+          "priority": 2,
+          "descriptionSnippet": "Vouchers can be created here to encourage new or already acquired Flower to make a purchase or take out a subscription. ​ Definition of Done ​ Introduce in navigation a coupons section. ​ Displays what the coupon is used for (Discount content or subscription ) ​ Has an option for creators to : Create a post for my coupon & Mass Message (followers) about my coupon ​ Notes: ​ Add coupon discount value (Percent or hard amount) ​ Add coupon usage in the interface for buying content/subscription ​ Ad",
+          "acceptanceCriteriaSnippet": "",
+          "relations": [
+            {
+              "rel": "System.LinkTypes.Hierarchy-Reverse",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44232",
+              "id": 44232,
+              "attributes": {
+                "isLocked": false,
+                "name": "Parent"
+              }
+            },
+            {
+              "rel": "System.LinkTypes.Hierarchy-Forward",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44168",
+              "id": 44168,
+              "attributes": {
+                "isLocked": false,
+                "name": "Child"
+              }
+            },
+            {
+              "rel": "System.LinkTypes.Hierarchy-Forward",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44164",
+              "id": 44164,
+              "attributes": {
+                "isLocked": false,
+                "name": "Child"
+              }
+            },
+            {
+              "rel": "System.LinkTypes.Hierarchy-Forward",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44170",
+              "id": 44170,
+              "attributes": {
+                "isLocked": false,
+                "name": "Child"
+              }
+            },
+            {
+              "rel": "System.LinkTypes.Hierarchy-Forward",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44169",
+              "id": 44169,
+              "attributes": {
+                "isLocked": false,
+                "name": "Child"
+              }
+            }
+          ],
+          "duplicateAlreadyProcessed": false,
+          "children": [
+            {
+              "id": 44168,
+              "rev": 1,
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44168",
+              "workItemType": "Product Backlog Item",
+              "title": "#31 coupons settings​ - discount variant",
+              "state": "New",
+              "assignedTo": null,
+              "areaPath": "ITVT Sound Fans",
+              "iterationPath": "ITVT Sound Fans",
+              "stackRank": null,
+              "backlogPriority": null,
+              "priority": 2,
+              "descriptionSnippet": "here you can choose whether you want to give a fixed amount as a discount on the selected content 5euro voucher for example or a discount 20% off content or sub a discount code is generated here",
+              "acceptanceCriteriaSnippet": "Gutschein-Rabattwert hinzufügen (Prozent oder fester Betrag)",
+              "relations": [
+                {
+                  "rel": "System.LinkTypes.Hierarchy-Reverse",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44163",
+                  "id": 44163,
+                  "attributes": {
+                    "isLocked": false,
+                    "name": "Parent"
+                  }
+                }
+              ],
+              "duplicateAlreadyProcessed": false,
+              "children": [],
+              "childCount": 0,
+              "totalDescendantCount": 0
+            },
+            {
+              "id": 44164,
+              "rev": 1,
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44164",
+              "workItemType": "Product Backlog Item",
+              "title": "#31 coupons settings - area of application",
+              "state": "New",
+              "assignedTo": null,
+              "areaPath": "ITVT Sound Fans",
+              "iterationPath": "ITVT Sound Fans",
+              "stackRank": null,
+              "backlogPriority": null,
+              "priority": 2,
+              "descriptionSnippet": "Indicates what the voucher is used for (discount content or subscription) Here you can select whether it is for content on the profile (individual purchases) Images/videos or For a reduction in the subscription price",
+              "acceptanceCriteriaSnippet": "",
+              "relations": [
+                {
+                  "rel": "System.LinkTypes.Hierarchy-Reverse",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44163",
+                  "id": 44163,
+                  "attributes": {
+                    "isLocked": false,
+                    "name": "Parent"
+                  }
+                }
+              ],
+              "duplicateAlreadyProcessed": false,
+              "children": [],
+              "childCount": 0,
+              "totalDescendantCount": 0
+            },
+            {
+              "id": 44170,
+              "rev": 1,
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44170",
+              "workItemType": "Product Backlog Item",
+              "title": "#31 coupons settings​ - spread",
+              "state": "New",
+              "assignedTo": null,
+              "areaPath": "ITVT Sound Fans",
+              "iterationPath": "ITVT Sound Fans",
+              "stackRank": null,
+              "backlogPriority": null,
+              "priority": 2,
+              "descriptionSnippet": "the voucher is generated and you have the opportunity to distribute it directly here this function includes Mass messages within the app - to followers bulk email - to followers",
+              "acceptanceCriteriaSnippet": "depending on the selection, this is executed immediately mass message - forwarding - design yourself email - template by company",
+              "relations": [
+                {
+                  "rel": "System.LinkTypes.Hierarchy-Reverse",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44163",
+                  "id": 44163,
+                  "attributes": {
+                    "isLocked": false,
+                    "name": "Parent"
+                  }
+                }
+              ],
+              "duplicateAlreadyProcessed": false,
+              "children": [],
+              "childCount": 0,
+              "totalDescendantCount": 0
+            },
+            {
+              "id": 44169,
+              "rev": 1,
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44169",
+              "workItemType": "Product Backlog Item",
+              "title": "#31 coupons settings​ - term discount",
+              "state": "New",
+              "assignedTo": null,
+              "areaPath": "ITVT Sound Fans",
+              "iterationPath": "ITVT Sound Fans",
+              "stackRank": null,
+              "backlogPriority": null,
+              "priority": 2,
+              "descriptionSnippet": "2 display fields are shown here start end here you can determine the duration of the discount code",
+              "acceptanceCriteriaSnippet": "automatic start and end based on the data entered",
+              "relations": [
+                {
+                  "rel": "System.LinkTypes.Hierarchy-Reverse",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44163",
+                  "id": 44163,
+                  "attributes": {
+                    "isLocked": false,
+                    "name": "Parent"
+                  }
+                }
+              ],
+              "duplicateAlreadyProcessed": false,
+              "children": [],
+              "childCount": 0,
+              "totalDescendantCount": 0
+            }
+          ],
+          "childCount": 4,
+          "totalDescendantCount": 4
+        },
+        {
+          "id": 44155,
+          "rev": 4,
+          "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44155",
+          "workItemType": "Feature",
+          "title": "#29 message settings – just for creator",
+          "state": "New",
+          "assignedTo": null,
+          "areaPath": "ITVT Sound Fans",
+          "iterationPath": "ITVT Sound Fans\\Iteration 1",
+          "stackRank": null,
+          "backlogPriority": null,
+          "priority": 1,
+          "descriptionSnippet": "Chat : here you can set several chat functions ​ Activate chat - here the \"customer\" pays a one-off amount to be able to chat ​ Message price - here the \"customer\" pays per message sent by him ​ Call - here the \"customer\" pays per minute or part thereof ​ Video call - here the \"customer\" pays per minute or part thereof ​ Message to new follower (also possible with picture attachment) ​ As soon as someone follows you, this message is automatically sent as a greeting and can be freely customized. ",
+          "acceptanceCriteriaSnippet": "",
+          "relations": [
+            {
+              "rel": "System.LinkTypes.Hierarchy-Forward",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44160",
+              "id": 44160,
+              "attributes": {
+                "isLocked": false,
+                "name": "Child"
+              }
+            },
+            {
+              "rel": "System.LinkTypes.Hierarchy-Reverse",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44232",
+              "id": 44232,
+              "attributes": {
+                "isLocked": false,
+                "name": "Parent"
+              }
+            },
+            {
+              "rel": "System.LinkTypes.Hierarchy-Forward",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44157",
+              "id": 44157,
+              "attributes": {
+                "isLocked": false,
+                "name": "Child"
+              }
+            },
+            {
+              "rel": "System.LinkTypes.Hierarchy-Forward",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44158",
+              "id": 44158,
+              "attributes": {
+                "isLocked": false,
+                "name": "Child"
+              }
+            },
+            {
+              "rel": "System.LinkTypes.Hierarchy-Forward",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44156",
+              "id": 44156,
+              "attributes": {
+                "isLocked": false,
+                "name": "Child"
+              }
+            }
+          ],
+          "duplicateAlreadyProcessed": false,
+          "children": [
+            {
+              "id": 44160,
+              "rev": 2,
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44160",
+              "workItemType": "Product Backlog Item",
+              "title": "#29 message settings – new Sub",
+              "state": "New",
+              "assignedTo": null,
+              "areaPath": "ITVT Sound Fans",
+              "iterationPath": "ITVT Sound Fans",
+              "stackRank": null,
+              "backlogPriority": null,
+              "priority": 1,
+              "descriptionSnippet": "Nachricht an Ihren neuen Abonnenten (auch mit Bildanhang möglich) video 15sek Sobald jemand bei Ihnen ein Abonnement abgeschlossen hat, können Sie hier eine Dankesnachricht einstellen, die automatisch an den Nutzer verschickt wird, sobald er Ihr Monatsabonnement abgeschlossen hat",
+              "acceptanceCriteriaSnippet": "immediate dispatch on subscription changeable at any time",
+              "relations": [
+                {
+                  "rel": "System.LinkTypes.Hierarchy-Reverse",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44155",
+                  "id": 44155,
+                  "attributes": {
+                    "isLocked": false,
+                    "name": "Parent"
+                  }
+                }
+              ],
+              "duplicateAlreadyProcessed": false,
+              "children": [],
+              "childCount": 0,
+              "totalDescendantCount": 0
+            },
+            {
+              "id": 44157,
+              "rev": 1,
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44157",
+              "workItemType": "Product Backlog Item",
+              "title": "#29 message settings - video und voice calls",
+              "state": "New",
+              "assignedTo": null,
+              "areaPath": "ITVT Sound Fans",
+              "iterationPath": "ITVT Sound Fans",
+              "stackRank": null,
+              "backlogPriority": null,
+              "priority": 2,
+              "descriptionSnippet": "Call - here the \"customer\" pays per minute or part thereof​ Video call - here the \"customer\" pays per minute when a call is started - billing per minute or part thereof prices can be adjusted at any time call and video separate price column if the user's wallet is empty or the amount is insufficient, the call is not started or ended accordingly a call can only be started by one creator",
+              "acceptanceCriteriaSnippet": "calls start and end adjusted with the user's wallet unless the call is set to free billing per minute",
+              "relations": [
+                {
+                  "rel": "System.LinkTypes.Hierarchy-Reverse",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44155",
+                  "id": 44155,
+                  "attributes": {
+                    "isLocked": false,
+                    "name": "Parent"
+                  }
+                }
+              ],
+              "duplicateAlreadyProcessed": false,
+              "children": [],
+              "childCount": 0,
+              "totalDescendantCount": 0
+            },
+            {
+              "id": 44158,
+              "rev": 2,
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44158",
+              "workItemType": "Product Backlog Item",
+              "title": "#29 message settings – new Follower",
+              "state": "New",
+              "assignedTo": null,
+              "areaPath": "ITVT Sound Fans",
+              "iterationPath": "ITVT Sound Fans",
+              "stackRank": null,
+              "backlogPriority": null,
+              "priority": 1,
+              "descriptionSnippet": "Nachricht an neuen Follower (auch mit Bildanhang möglich) Sobald Ihnen jemand folgt, wird diese Nachricht automatisch als Begrüßung verschickt und kann frei angepasst werden. Textfeld und und eine funktion ein Bild oder ein kurzes video anzuhängen (15 sek.)",
+              "acceptanceCriteriaSnippet": "Immediate automatic dispatch with follow changeable at any time only for creator",
+              "relations": [
+                {
+                  "rel": "System.LinkTypes.Hierarchy-Reverse",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44155",
+                  "id": 44155,
+                  "attributes": {
+                    "isLocked": false,
+                    "name": "Parent"
+                  }
+                }
+              ],
+              "duplicateAlreadyProcessed": false,
+              "children": [],
+              "childCount": 0,
+              "totalDescendantCount": 0
+            },
+            {
+              "id": 44156,
+              "rev": 2,
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44156",
+              "workItemType": "Product Backlog Item",
+              "title": "#29 message settings - massage costs",
+              "state": "New",
+              "assignedTo": null,
+              "areaPath": "ITVT Sound Fans",
+              "iterationPath": "ITVT Sound Fans",
+              "stackRank": null,
+              "backlogPriority": null,
+              "priority": 1,
+              "descriptionSnippet": "Chat : here you can set several chat functions​ Activate chat - here the \"customer\" pays a one-off amount to be able to chat​ Message price - here the \"customer\" pays per message sent by him​",
+              "acceptanceCriteriaSnippet": "#44154 #44153",
+              "relations": [
+                {
+                  "rel": "System.LinkTypes.Hierarchy-Reverse",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44155",
+                  "id": 44155,
+                  "attributes": {
+                    "isLocked": false,
+                    "name": "Parent"
+                  }
+                },
+                {
+                  "rel": "System.LinkTypes.Related",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44153",
+                  "id": 44153,
+                  "attributes": {
+                    "isLocked": false,
+                    "comment": "Sven mentioned work item #44153 in #0",
+                    "name": "Related"
+                  }
+                },
+                {
+                  "rel": "System.LinkTypes.Related",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44154",
+                  "id": 44154,
+                  "attributes": {
+                    "isLocked": false,
+                    "comment": "Sven mentioned work item #44154 in #0",
+                    "name": "Related"
+                  }
+                }
+              ],
+              "duplicateAlreadyProcessed": false,
+              "children": [],
+              "childCount": 0,
+              "totalDescendantCount": 0
+            }
+          ],
+          "childCount": 4,
+          "totalDescendantCount": 4
+        },
+        {
+          "id": 44187,
+          "rev": 6,
+          "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44187",
+          "workItemType": "Feature",
+          "title": "#26 general settings ",
+          "state": "New",
+          "assignedTo": null,
+          "areaPath": "ITVT Sound Fans",
+          "iterationPath": "ITVT Sound Fans\\Iteration 1",
+          "stackRank": null,
+          "backlogPriority": null,
+          "priority": 1,
+          "descriptionSnippet": "General- ​ Account : here you can see your email and the status if it is confirmed / change password function ​ Platform : here you can set the desired language / Dark Mode on or off ​ Notifications : here you can set the push notifications ​ Definitio n of Done ​ Database is updated upon changes in password, email confirmation status ​ Language switcher works ​ ‘Dark Mode switcher is applied to all pages ​ Notifications per email/ push notification are functional and can be turned off for each ",
+          "acceptanceCriteriaSnippet": "",
+          "relations": [
+            {
+              "rel": "System.LinkTypes.Hierarchy-Reverse",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44232",
+              "id": 44232,
+              "attributes": {
+                "isLocked": false,
+                "name": "Parent"
+              }
+            },
+            {
+              "rel": "System.LinkTypes.Hierarchy-Forward",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44190",
+              "id": 44190,
+              "attributes": {
+                "isLocked": false,
+                "name": "Child"
+              }
+            },
+            {
+              "rel": "System.LinkTypes.Hierarchy-Forward",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44188",
+              "id": 44188,
+              "attributes": {
+                "isLocked": false,
+                "name": "Child"
+              }
+            },
+            {
+              "rel": "System.LinkTypes.Hierarchy-Forward",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44189",
+              "id": 44189,
+              "attributes": {
+                "isLocked": false,
+                "name": "Child"
+              }
+            }
+          ],
+          "duplicateAlreadyProcessed": false,
+          "children": [
+            {
+              "id": 44190,
+              "rev": 2,
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44190",
+              "workItemType": "Product Backlog Item",
+              "title": "#26 general settings - Notifications ",
+              "state": "New",
+              "assignedTo": null,
+              "areaPath": "ITVT Sound Fans",
+              "iterationPath": "ITVT Sound Fans",
+              "stackRank": null,
+              "backlogPriority": null,
+              "priority": 2,
+              "descriptionSnippet": "Notifications per email/ push notification are functional and can be turned off for each type of interaction​ Verify with developer if push notification is viable - ok​ Talk to sven:​ Email Frequency 1:1 email every notification",
+              "acceptanceCriteriaSnippet": "",
+              "relations": [
+                {
+                  "rel": "System.LinkTypes.Hierarchy-Reverse",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44187",
+                  "id": 44187,
+                  "attributes": {
+                    "isLocked": false,
+                    "name": "Parent"
+                  }
+                }
+              ],
+              "duplicateAlreadyProcessed": false,
+              "children": [],
+              "childCount": 0,
+              "totalDescendantCount": 0
+            },
+            {
+              "id": 44188,
+              "rev": 3,
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44188",
+              "workItemType": "Product Backlog Item",
+              "title": "#26 general settings - account",
+              "state": "New",
+              "assignedTo": null,
+              "areaPath": "ITVT Sound Fans",
+              "iterationPath": "ITVT Sound Fans",
+              "stackRank": null,
+              "backlogPriority": null,
+              "priority": 1,
+              "descriptionSnippet": "Account : here you can see your email and the status if it is confirmed / change password function​",
+              "acceptanceCriteriaSnippet": "Die Datenbank wird bei Änderungen des Passworts und des E-Mail-Bestätigungsstatus aktualisiert",
+              "relations": [
+                {
+                  "rel": "System.LinkTypes.Hierarchy-Reverse",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44187",
+                  "id": 44187,
+                  "attributes": {
+                    "isLocked": false,
+                    "name": "Parent"
+                  }
+                }
+              ],
+              "duplicateAlreadyProcessed": false,
+              "children": [],
+              "childCount": 0,
+              "totalDescendantCount": 0
+            },
+            {
+              "id": 44189,
+              "rev": 3,
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44189",
+              "workItemType": "Product Backlog Item",
+              "title": "#26 general settings - platform",
+              "state": "New",
+              "assignedTo": null,
+              "areaPath": "ITVT Sound Fans",
+              "iterationPath": "ITVT Sound Fans",
+              "stackRank": null,
+              "backlogPriority": null,
+              "priority": 1,
+              "descriptionSnippet": "Platform : here you can set the desired language and here you can set the push notifications​",
+              "acceptanceCriteriaSnippet": "Der Schalter für den dunklen Modus wird auf alle Seiten angewendet Language switcher works​",
+              "relations": [
+                {
+                  "rel": "System.LinkTypes.Hierarchy-Reverse",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44187",
+                  "id": 44187,
+                  "attributes": {
+                    "isLocked": false,
+                    "name": "Parent"
+                  }
+                }
+              ],
+              "duplicateAlreadyProcessed": false,
+              "children": [],
+              "childCount": 0,
+              "totalDescendantCount": 0
+            }
+          ],
+          "childCount": 3,
+          "totalDescendantCount": 3
+        },
+        {
+          "id": 44151,
+          "rev": 3,
+          "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44151",
+          "workItemType": "Feature",
+          "title": "#43 individual message price -Settings/Creator Settings/Message Settings",
+          "state": "New",
+          "assignedTo": null,
+          "areaPath": "ITVT Sound Fans",
+          "iterationPath": "ITVT Sound Fans",
+          "stackRank": null,
+          "backlogPriority": null,
+          "priority": 2,
+          "descriptionSnippet": "In the chat of one of our users there should be an icon which you can click on and then set an individual message price. The chat price that is generally set is still current for everyone, only in this chat in which you have entered the special price individually.​ Definition of done​ Creator can set a activation fee for chat so that followers can access chating with creator​ Creator can set a per message price for chatting with followers who has access to chat option​ Per message price can be s",
+          "acceptanceCriteriaSnippet": "",
+          "relations": [
+            {
+              "rel": "System.LinkTypes.Hierarchy-Reverse",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44232",
+              "id": 44232,
+              "attributes": {
+                "isLocked": false,
+                "name": "Parent"
+              }
+            },
+            {
+              "rel": "System.LinkTypes.Related",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44136",
+              "id": 44136,
+              "attributes": {
+                "isLocked": false,
+                "name": "Related"
+              }
+            },
+            {
+              "rel": "System.LinkTypes.Hierarchy-Forward",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44152",
+              "id": 44152,
+              "attributes": {
+                "isLocked": false,
+                "name": "Child"
+              }
+            },
+            {
+              "rel": "System.LinkTypes.Hierarchy-Forward",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44153",
+              "id": 44153,
+              "attributes": {
+                "isLocked": false,
+                "name": "Child"
+              }
+            },
+            {
+              "rel": "System.LinkTypes.Hierarchy-Forward",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44154",
+              "id": 44154,
+              "attributes": {
+                "isLocked": false,
+                "name": "Child"
+              }
+            }
+          ],
+          "duplicateAlreadyProcessed": false,
+          "children": [
+            {
+              "id": 44152,
+              "rev": 2,
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44152",
+              "workItemType": "Product Backlog Item",
+              "title": "#43 individual massage price",
+              "state": "New",
+              "assignedTo": null,
+              "areaPath": "ITVT Sound Fans",
+              "iterationPath": "ITVT Sound Fans",
+              "stackRank": null,
+              "backlogPriority": null,
+              "priority": 1,
+              "descriptionSnippet": "In the chat of one of our users there should be an icon which you can click on and then set an individual message price. The chat price that is generally set is still current for everyone, only in this chat in which you have entered the special price individually.​",
+              "acceptanceCriteriaSnippet": "price will be adjusted livetime (only in this chat) where you have changed it chat price is displayed small next to the text field for creator and user",
+              "relations": [
+                {
+                  "rel": "System.LinkTypes.Hierarchy-Reverse",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44151",
+                  "id": 44151,
+                  "attributes": {
+                    "isLocked": false,
+                    "name": "Parent"
+                  }
+                }
+              ],
+              "duplicateAlreadyProcessed": false,
+              "children": [],
+              "childCount": 0,
+              "totalDescendantCount": 0
+            },
+            {
+              "id": 44153,
+              "rev": 2,
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44153",
+              "workItemType": "Product Backlog Item",
+              "title": "#43 Unlocking for chat",
+              "state": "New",
+              "assignedTo": null,
+              "areaPath": "ITVT Sound Fans",
+              "iterationPath": "ITVT Sound Fans",
+              "stackRank": null,
+              "backlogPriority": null,
+              "priority": 2,
+              "descriptionSnippet": "Creator can set a activation fee for chat so that followers can access chating with creator​ Here the chat is only activated after the activation fee has been received this function can be switched on and off at any time and the price can also be changed at any time",
+              "acceptanceCriteriaSnippet": "Chat will be activated after payment livetime with all functions Price changes and activations livetime",
+              "relations": [
+                {
+                  "rel": "System.LinkTypes.Related",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44156",
+                  "id": 44156,
+                  "attributes": {
+                    "isLocked": false,
+                    "comment": "Sven mentioned work item #44153 in #0",
+                    "name": "Related"
+                  }
+                },
+                {
+                  "rel": "System.LinkTypes.Hierarchy-Reverse",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44151",
+                  "id": 44151,
+                  "attributes": {
+                    "isLocked": false,
+                    "name": "Parent"
+                  }
+                }
+              ],
+              "duplicateAlreadyProcessed": false,
+              "children": [],
+              "childCount": 0,
+              "totalDescendantCount": 0
+            },
+            {
+              "id": 44154,
+              "rev": 2,
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44154",
+              "workItemType": "Product Backlog Item",
+              "title": "#43 price per message",
+              "state": "New",
+              "assignedTo": null,
+              "areaPath": "ITVT Sound Fans",
+              "iterationPath": "ITVT Sound Fans",
+              "stackRank": null,
+              "backlogPriority": null,
+              "priority": 1,
+              "descriptionSnippet": "The creator can set a price per message for chatting with followers who have access to the chat option non-followers can also chat at this price if the creator's profile is not set to private.",
+              "acceptanceCriteriaSnippet": "news price always livetime up to date billing per message if the user has no more coins he cannot write any more messages until he has topped up his credit",
+              "relations": [
+                {
+                  "rel": "System.LinkTypes.Related",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44156",
+                  "id": 44156,
+                  "attributes": {
+                    "isLocked": false,
+                    "comment": "Sven mentioned work item #44154 in #0",
+                    "name": "Related"
+                  }
+                },
+                {
+                  "rel": "System.LinkTypes.Hierarchy-Reverse",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44151",
+                  "id": 44151,
+                  "attributes": {
+                    "isLocked": false,
+                    "name": "Parent"
+                  }
+                }
+              ],
+              "duplicateAlreadyProcessed": false,
+              "children": [],
+              "childCount": 0,
+              "totalDescendantCount": 0
+            }
+          ],
+          "childCount": 3,
+          "totalDescendantCount": 3
+        },
+        {
+          "id": 44197,
+          "rev": 7,
+          "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44197",
+          "workItemType": "Feature",
+          "title": "#30 Settings subscribers",
+          "state": "New",
+          "assignedTo": null,
+          "areaPath": "ITVT Sound Fans",
+          "iterationPath": "ITVT Sound Fans\\Iteration 1",
+          "stackRank": null,
+          "backlogPriority": null,
+          "priority": 1,
+          "descriptionSnippet": "Here you can set how much your monthly subscription costs which unlocks all your paid files on the profile. ​ Only on the profile, not in the chat. ​ Below the settings your current subscribers are listed with name and picture. ​ The duration is 1 month.However , there is a selection function in which you can specify a minimum term that can be activated up to 3 months ​",
+          "acceptanceCriteriaSnippet": "The creator can set the price and packages for the subscription and set the month. Creators can see the breakdown of fees Followers can pay with Musikoins If there are not enough Musikoins, a prompt to top up/add Musikoins should appear List of current subscribers is updated upon payment After payment, the subscriber should be able to unlock all paid and free content on their profile",
+          "relations": [
+            {
+              "rel": "System.LinkTypes.Hierarchy-Forward",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44200",
+              "id": 44200,
+              "attributes": {
+                "isLocked": false,
+                "name": "Child"
+              }
+            },
+            {
+              "rel": "System.LinkTypes.Hierarchy-Forward",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44198",
+              "id": 44198,
+              "attributes": {
+                "isLocked": false,
+                "name": "Child"
+              }
+            },
+            {
+              "rel": "System.LinkTypes.Hierarchy-Forward",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44199",
+              "id": 44199,
+              "attributes": {
+                "isLocked": false,
+                "name": "Child"
+              }
+            },
+            {
+              "rel": "System.LinkTypes.Hierarchy-Reverse",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44232",
+              "id": 44232,
+              "attributes": {
+                "isLocked": false,
+                "name": "Parent"
+              }
+            }
+          ],
+          "duplicateAlreadyProcessed": false,
+          "children": [
+            {
+              "id": 44200,
+              "rev": 2,
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44200",
+              "workItemType": "Product Backlog Item",
+              "title": "#30 Settings subscribers - advertisement subscribers",
+              "state": "New",
+              "assignedTo": null,
+              "areaPath": "ITVT Sound Fans",
+              "iterationPath": "ITVT Sound Fans",
+              "stackRank": null,
+              "backlogPriority": null,
+              "priority": 1,
+              "descriptionSnippet": "List of current subscribers is updated upon payment Subscribers are displayed with name and picture",
+              "acceptanceCriteriaSnippet": "List of current subscribers is updated upon payment",
+              "relations": [
+                {
+                  "rel": "System.LinkTypes.Hierarchy-Reverse",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44197",
+                  "id": 44197,
+                  "attributes": {
+                    "isLocked": false,
+                    "name": "Parent"
+                  }
+                }
+              ],
+              "duplicateAlreadyProcessed": false,
+              "children": [],
+              "childCount": 0,
+              "totalDescendantCount": 0
+            },
+            {
+              "id": 44198,
+              "rev": 3,
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44198",
+              "workItemType": "Product Backlog Item",
+              "title": "#30 Settings subscribers - Maturity",
+              "state": "New",
+              "assignedTo": null,
+              "areaPath": "ITVT Sound Fans",
+              "iterationPath": "ITVT Sound Fans",
+              "stackRank": null,
+              "backlogPriority": null,
+              "priority": 2,
+              "descriptionSnippet": "The duration is 1 month.However, there is a selection function in which you can specify a minimum term that can be activated up to 3 months​",
+              "acceptanceCriteriaSnippet": "starts and ends automatically With a 3-month subscription, the entire summer is collected directly so that the term is financially secured If not enough Musikoins, should lead to a prompt for TopUp/Adding Musikoins​ IDEA another subscription function(4) (until canceled) credit card only subscription runs until it is deactivated",
+              "relations": [
+                {
+                  "rel": "System.LinkTypes.Hierarchy-Reverse",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44197",
+                  "id": 44197,
+                  "attributes": {
+                    "isLocked": false,
+                    "name": "Parent"
+                  }
+                }
+              ],
+              "duplicateAlreadyProcessed": false,
+              "children": [],
+              "childCount": 0,
+              "totalDescendantCount": 0
+            },
+            {
+              "id": 44199,
+              "rev": 5,
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44199",
+              "workItemType": "Product Backlog Item",
+              "title": "#30 Settings subscribers - function",
+              "state": "New",
+              "assignedTo": null,
+              "areaPath": "ITVT Sound Fans",
+              "iterationPath": "ITVT Sound Fans",
+              "stackRank": null,
+              "backlogPriority": null,
+              "priority": 1,
+              "descriptionSnippet": "Upon payment, subscriber should be able to unlock all paid and free content on the profile bezogen auf die länge des abos",
+              "acceptanceCriteriaSnippet": "",
+              "relations": [
+                {
+                  "rel": "System.LinkTypes.Hierarchy-Reverse",
+                  "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44197",
+                  "id": 44197,
+                  "attributes": {
+                    "isLocked": false,
+                    "name": "Parent"
+                  }
+                }
+              ],
+              "duplicateAlreadyProcessed": false,
+              "children": [],
+              "childCount": 0,
+              "totalDescendantCount": 0
+            }
+          ],
+          "childCount": 3,
+          "totalDescendantCount": 3
+        }
+      ],
+      "childCount": 5,
+      "totalDescendantCount": 22
+    },
+    {
+      "ordinal": 10,
+      "id": 44233,
+      "rev": 1,
+      "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44233",
+      "workItemType": "Epic",
+      "title": "Calendar (only Creator)",
+      "state": "New",
+      "assignedTo": null,
+      "areaPath": "ITVT Sound Fans",
+      "iterationPath": "ITVT Sound Fans",
+      "stackRank": null,
+      "backlogPriority": null,
+      "priority": 2,
+      "descriptionSnippet": "",
+      "acceptanceCriteriaSnippet": "",
+      "relations": [
+        {
+          "rel": "System.LinkTypes.Hierarchy-Forward",
+          "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44191",
+          "id": 44191,
+          "attributes": {
+            "isLocked": false,
+            "name": "Child"
+          }
+        }
+      ],
+      "duplicateAlreadyProcessed": false,
+      "children": [
+        {
+          "id": 44191,
+          "rev": 6,
+          "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44191",
+          "workItemType": "Feature",
+          "title": "#39 Plan contribution",
+          "state": "New",
+          "assignedTo": null,
+          "areaPath": "ITVT Sound Fans",
+          "iterationPath": "ITVT Sound Fans",
+          "stackRank": null,
+          "backlogPriority": null,
+          "priority": 2,
+          "descriptionSnippet": "Here posts can be scheduled. As with a normal post, only a date and time is specified and then automatically posted. under the heading \"Schedule post\" you can view the planned posts again, edit and change. ​ Definition of Done ​ Scheduled as posted sa define by date and time ​ Calendar view can see which posts are scheduled that date ​ Rescheduling of Posts is available Only available for Creators",
+          "acceptanceCriteriaSnippet": "Posts are automatically posted at the scheduled time and date Calendar view can see which posts are scheduled that date​ Rescheduling of Posts is available",
+          "relations": [
+            {
+              "rel": "System.LinkTypes.Hierarchy-Reverse",
+              "url": "https://dev.azure.com/ITVT/96446f5f-e57e-4144-9fde-f025f7d082b6/_apis/wit/workItems/44233",
+              "id": 44233,
+              "attributes": {
+                "isLocked": false,
+                "name": "Parent"
+              }
+            }
+          ],
+          "duplicateAlreadyProcessed": false,
+          "children": [],
+          "childCount": 0,
+          "totalDescendantCount": 0
+        }
+      ],
+      "childCount": 1,
+      "totalDescendantCount": 1
+    }
+  ]
+}

@@ -31,7 +31,7 @@ interface UsersResponse {
 
 const ROLE_BADGE: Record<Role, string> = {
   user:    'bg-blue-500/20 text-blue-400',
-  creator: 'bg-[#ff4757]/20 text-[#ff4757]',
+  creator: 'bg-[#ff0618]/20 text-[#ff0618]',
   admin:   'bg-purple-500/20 text-purple-400',
 }
 
@@ -77,7 +77,7 @@ export default function AdminDashboardPage() {
 
   const kpis = [
     { label: 'Total Users',      value: stats?.totalUsers     ?? '–', icon: <Users size={20} />,        color: 'text-blue-400' },
-    { label: 'Active Creators',  value: stats?.activeCreators ?? '–', icon: <Star size={20} />,         color: 'text-[#ff4757]' },
+    { label: 'Active Creators',  value: stats?.activeCreators ?? '–', icon: <Star size={20} />,         color: 'text-[#ff0618]' },
     { label: 'Revenue (30d)',    value: stats ? `$${stats.revenue30d.toFixed(2)}` : '–', icon: <DollarSign size={20} />, color: 'text-green-400' },
     { label: 'Chargebacks',      value: stats?.chargebacks    ?? '–', icon: <AlertTriangle size={20} />, color: 'text-yellow-400' },
   ]

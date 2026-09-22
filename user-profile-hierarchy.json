@@ -1,0 +1,252 @@
+{
+  "id": 44217,
+  "url": "https://dev.azure.com/ITVT/ITVT%20Sound%20Fans/_workitems/edit/44217",
+  "type": "Epic",
+  "title": "User Profile",
+  "state": "New",
+  "assignedTo": null,
+  "effort": null,
+  "description": "web based profile preview",
+  "acceptanceCriteria": null,
+  "parent": null,
+  "children": [
+    {
+      "id": 44214,
+      "url": "https://dev.azure.com/ITVT/ITVT%20Sound%20Fans/_workitems/edit/44214",
+      "type": "Feature",
+      "title": "#21b Profile user",
+      "state": "New",
+      "assignedTo": null,
+      "effort": 3,
+      "description": "has a slimmed-down version of the creator profile\n\nNOT AVAILABLE (compared from creator profile)\n\nstories\nPaid contributions\nVoice message in profile\nSubscriber button",
+      "acceptanceCriteria": null,
+      "parent": 44217,
+      "children": []
+    },
+    {
+      "id": 44085,
+      "url": "https://dev.azure.com/ITVT/ITVT%20Sound%20Fans/_workitems/edit/44085",
+      "type": "Feature",
+      "title": "#21a Profile Creator",
+      "state": "New",
+      "assignedTo": null,
+      "effort": 95,
+      "description": "716652Description​\n\nPersona Creator​The profile shows the number of media, likes, followers and how many you have flown back. Instagram design.​\n\nBelow that is the \"Edit profile\" button where you can change the profile picture as well as the user name and the bio description in which you can tell something about yourself. Which instrument or which style of music you produce. (jazz, rock, ballads etc.)​Here a link should be placed to spread your profile, which is copied with one click.​\n\nThere you can also choose whether the profile is immediately visible or the media are only displayed when you follow (private/public).​You can use icons to decide whether you want to see all media or only pictures/videos​Paid content is displayed with the price in the image/video.​​",
+      "acceptanceCriteria": "Profile can show relevant statistics and information​\n\nProfile can be editable​\n\nProfile page has options which items are private (blurred) and public​\n\nPrice can be set, seen or hidden​\n\nProfile has 30 secs maximum voice recording (for creators only) editable (Separate User Story 42)\n\nFunctionalities:",
+      "parent": 44217,
+      "children": [
+        {
+          "id": 44094,
+          "url": "https://dev.azure.com/ITVT/ITVT%20Sound%20Fans/_workitems/edit/44094",
+          "type": "Product Backlog Item",
+          "title": "#24 description in profile ",
+          "state": "New",
+          "assignedTo": null,
+          "effort": null,
+          "description": "beschreibung im profil #24\nfür alle user verfügbar",
+          "acceptanceCriteria": "here every user can tell something about himself the field is displayed in small and activated by typing into it\nsmilys should be available and can also be displayed\n\nif the text is too long, it is expanded by clicking on \"show more",
+          "parent": 44085,
+          "children": []
+        },
+        {
+          "id": 44095,
+          "url": "https://dev.azure.com/ITVT/ITVT%20Sound%20Fans/_workitems/edit/44095",
+          "type": "Product Backlog Item",
+          "title": "#9icons media category",
+          "state": "New",
+          "assignedTo": null,
+          "effort": null,
+          "description": "#24\nthese 3 different signs are used to sort the media on the visited profile by category\n\npicture\n\nvideos\n\nboth\n\nin addition, 3 media can be fixed regardless of whether video or image these are always displayed first at the top of the profile",
+          "acceptanceCriteria": "je nach auswahl werden gewisse medien ausgeblendet oder angezeigt dies passiert in echtzeit die aktivierten \"filter\" symbole werden farbig makiert",
+          "parent": 44085,
+          "children": []
+        },
+        {
+          "id": 44086,
+          "url": "https://dev.azure.com/ITVT/ITVT%20Sound%20Fans/_workitems/edit/44086",
+          "type": "Product Backlog Item",
+          "title": "#33a Profile function (profile picture) Livestream ",
+          "state": "New",
+          "assignedTo": null,
+          "effort": null,
+          "description": "This is only for Creators.\n\nIf you are on your profile and click on the profile picture, you have two functions.\n\ncreate a story (picture or video) which is then visible for 24 hours.",
+          "acceptanceCriteria": "Creator can upload a 24 hours story available for followers\nCreator can set privacy of who can see stories. (Private – only for followers, Public for every user)",
+          "parent": 44085,
+          "children": []
+        },
+        {
+          "id": 44092,
+          "url": "https://dev.azure.com/ITVT/ITVT%20Sound%20Fans/_workitems/edit/44092",
+          "type": "Product Backlog Item",
+          "title": "#21 informations under the Profilpicture",
+          "state": "New",
+          "assignedTo": null,
+          "effort": null,
+          "description": "under the profile picture you have several displays\nand how many you follow back\n\nNumber of media viewed\n\nLikes received\n\nFollowers",
+          "acceptanceCriteria": "This data should be updated in real time and be immediately visible to users and creators.\nIf you click on the Follower button, you will see the people who follow the profile\n\nIf you click on the (Followed back) button, access will be blocked.",
+          "parent": 44085,
+          "children": []
+        },
+        {
+          "id": 44088,
+          "url": "https://dev.azure.com/ITVT/ITVT%20Sound%20Fans/_workitems/edit/44088",
+          "type": "Product Backlog Item",
+          "title": "#42 Profile function - Deposit voice message",
+          "state": "New",
+          "assignedTo": null,
+          "effort": null,
+          "description": "Hier haben Sie die Möglichkeit, eine Sprachnachricht zu hinterlassen, um sich vorzustellen und dem anderen Nutzer Ihre Stimme zu präsentieren – diese ist auf 30 Sekunden begrenzt.Diese Funktion soll nur einen kurzen Einblick in die Stimmfarbe oder das Können des Künstlers auf dem Instrument geben.",
+          "acceptanceCriteria": "Die Funktionen sind nur für Ersteller\n\nBegrenzt auf 30 Sekunden\nDiese sollte für Fans sofort verfügbar sein und du solltest sie auch ändern oder löschen können.",
+          "parent": 44085,
+          "children": []
+        },
+        {
+          "id": 44087,
+          "url": "https://dev.azure.com/ITVT/ITVT%20Sound%20Fans/_workitems/edit/44087",
+          "type": "Product Backlog Item",
+          "title": "#33b Profile function (profile picture) Story",
+          "state": "New",
+          "assignedTo": null,
+          "effort": null,
+          "description": "This is only for Creators.\nIf you are on your profile and click on the profile picture, you have two functions.go live - here you can start a live broadcast and everyone can join the stream and communicate with the person there and you can also send gifts (paid gifts). These are credited to the person who started the livestream, minus the platform fees.\n\nGifts will be tokens. Disguised as packages (instruments for 10 musikoins, Cup of coffee 100 musikoins, etc.)\n\nNo limit for livestream, but also no record.",
+          "acceptanceCriteria": "Functions will be for creators only\nCreators can broadcast live without limit",
+          "parent": 44085,
+          "children": []
+        },
+        {
+          "id": 44091,
+          "url": "https://dev.azure.com/ITVT/ITVT%20Sound%20Fans/_workitems/edit/44091",
+          "type": "Product Backlog Item",
+          "title": "#21 Profile function Follow",
+          "state": "New",
+          "assignedTo": null,
+          "effort": null,
+          "description": "if you activate following by clicking on the button, several functions are triggered.",
+          "acceptanceCriteria": "Button changes to \"unfollow\"\nProfile censorship for private profiles is removed\nVoice message becomes visible\nPremium subscription button becomes visible\nFollower count is adjusted\nAll upcoming posts are now displayed on the user's start page",
+          "parent": 44085,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": 44109,
+      "url": "https://dev.azure.com/ITVT/ITVT%20Sound%20Fans/_workitems/edit/44109",
+      "type": "Feature",
+      "title": "#27 upload pictures and videos – Content Creator Page",
+      "state": "New",
+      "assignedTo": null,
+      "effort": 13,
+      "description": "If you upload a picture, you can do this from the gallery or through the camera function, then you have to add a description and then enter the price for paid media.​\nFor free posts, simply leave out the price.​\n\nAnother function is that you can click only for subscribers this post is then only displayed uncensored if you have a subscription.​\n\nAn important function is \"schedule\" where you can prepare posts that will automatically go online at the selected time.​\n\nAn Instagram function is also added here - you can fix up to 3 posts on the profile so that they are always displayed first All posts are then displayed normally consecutively under these fixed posts. Images and videos can also be pinned.​\n\nDefinition of Done​\n\nCreators can upload media​\n\nCreators can pin media​\n\nCreators can schedule posting​\n\nCreators can manage schedule​\n\nList of scheduled posts should be available​\n\nUploaded media (including future ones) should have price set.​\n\nPrice can be changed any time​\n\n*Upload finished content. No editing in the Web App​\n\nFor follow up​\n\nDeletion of previously upload and/or paid content – can delete​\n\nDownloadability of content (including save as workaround) – disabled, pause when tab is not active",
+      "acceptanceCriteria": "Ersteller können Medien hochladen\n\nErsteller können Medien anheften\n\nErsteller können Beiträge planen\n\nErsteller können den Zeitplan verwalten\n\nListe der geplanten Beiträge sollte verfügbar sein\n\nFür hochgeladene Medien (einschließlich zukünftiger) sollte ein Preis festgelegt werden.\n\nDer Preis kann jederzeit geändert werden.\n\n*Hochladen fertiger Inhalte. Keine Bearbeitung in der Web App\n\nZur Nachverfolgung\n\nLöschung von zuvor hochgeladenen und/oder bezahlten Inhalten - kann gelöscht werden\n\nHerunterladen von Inhalten (einschließlich Speichern als Workaround) - deaktiviert, Pause, wenn der Tab nicht aktiv ist",
+      "parent": 44217,
+      "children": [
+        {
+          "id": 44110,
+          "url": "https://dev.azure.com/ITVT/ITVT%20Sound%20Fans/_workitems/edit/44110",
+          "type": "Product Backlog Item",
+          "title": "#27 upload pictures and videos ",
+          "state": "New",
+          "assignedTo": null,
+          "effort": null,
+          "description": "Creators can upload media​ free of charge or with costs",
+          "acceptanceCriteria": "If you upload a picture, you can do this from the gallery or through the camera function, then you have to add a description and then enter the price for paid media.​\n\nFor free posts, simply leave out the price.​\n\nCreators can upload media​ / picture & video",
+          "parent": 44109,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": 44142,
+      "url": "https://dev.azure.com/ITVT/ITVT%20Sound%20Fans/_workitems/edit/44142",
+      "type": "Feature",
+      "title": "#36 discover ",
+      "state": "New",
+      "assignedTo": null,
+      "effort": 10,
+      "description": "​\nHere is a feed in which a mixture of all contributions appears to find new artists.​Both large and small profiles should be visible here in order to generate growth.​\n\nThe artists should be supported by the platform to gain new customers/fans and not be forced to bring their own fan base.​At the top is a bar where you can select your desired country or all countries to search specifically for regions or artists​If you only want to be recommended musicians from Germany, activate this filter and only German creators will be recommended.​There should be another filter in which you first decide whether you want to see \"Kreator\"​You can also choose whether you only want to see recommendations for female or male artists.​",
+      "acceptanceCriteria": "​\n\nNew Artists are displayed with filters available​\n\nCountry – Radio button​\n\nSex – Radio button​\n\nGenre - Filter",
+      "parent": 44217,
+      "children": [
+        {
+          "id": 44144,
+          "url": "https://dev.azure.com/ITVT/ITVT%20Sound%20Fans/_workitems/edit/44144",
+          "type": "Product Backlog Item",
+          "title": "#36 Discover - gender filter",
+          "state": "New",
+          "assignedTo": null,
+          "effort": null,
+          "description": "here there should be a filter that filters between M/F/D",
+          "acceptanceCriteria": "Selection is implemented in live time and only the desired content is displayed",
+          "parent": 44142,
+          "children": []
+        },
+        {
+          "id": 44143,
+          "url": "https://dev.azure.com/ITVT/ITVT%20Sound%20Fans/_workitems/edit/44143",
+          "type": "Product Backlog Item",
+          "title": "#36 Discover locations",
+          "state": "New",
+          "assignedTo": null,
+          "effort": null,
+          "description": "At the top is a bar where you can select your desired country or all countries to search specifically for regions or artists​\nIf you only want to be recommended musicians from Germany, activate germany",
+          "acceptanceCriteria": "The contributions should be immediately adapted to the country selection in livetime",
+          "parent": 44142,
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": 44115,
+      "url": "https://dev.azure.com/ITVT/ITVT%20Sound%20Fans/_workitems/edit/44115",
+      "type": "Feature",
+      "title": "#28 Status of User - Symbol",
+      "state": "New",
+      "assignedTo": null,
+      "effort": 3,
+      "description": "On the profile of the respective user, a symbol is positioned behind the user's name which provides certain information about the user​\n-Verified​\n\n-Verified and already spent money (paying customer)​\n\n-Subscriber​\n\nThe subscriber sign is only visible to the person who has subscribed.​\n\nUsers without a sign after their name have not yet verified themselves.​\n\nThey can view everything and support Kreator with comments and links as well as write messages, but cannot use any paid functions.​\n\nOn the profile you can click on the name to store information from the chat there​\n\n(artist name, dates, other information) to collect information about your \"fan\" so that you don't have to search through the whole chat. This makes it easier to remember conversations.​\n\nDefinition of Done​\n\nSymbols for – Verified, Customer (spent money on some content), Subscriber (all content available)​\n\nSubscription at least 3 months​\n\nSubscription will show everything in previous​\n\nUser story for Chat = Chat options should include Notes and Pinned messages",
+      "acceptanceCriteria": null,
+      "parent": 44217,
+      "children": [
+        {
+          "id": 44118,
+          "url": "https://dev.azure.com/ITVT/ITVT%20Sound%20Fans/_workitems/edit/44118",
+          "type": "Product Backlog Item",
+          "title": "#28 Status of User - Subscriber symbol",
+          "state": "New",
+          "assignedTo": null,
+          "effort": null,
+          "description": "-Subscriber​\nThe subscriber sign is only visible to the person who has subscribed.​​only the subscriber sees this symbol for the user who has subscribed",
+          "acceptanceCriteria": "symbol wird angezeigt sobald aboniert wurde\nerklärung bei anwählen",
+          "parent": 44115,
+          "children": []
+        },
+        {
+          "id": 44116,
+          "url": "https://dev.azure.com/ITVT/ITVT%20Sound%20Fans/_workitems/edit/44116",
+          "type": "Product Backlog Item",
+          "title": "#28 Status of User - Verifi status",
+          "state": "New",
+          "assignedTo": null,
+          "effort": null,
+          "description": "-Verified\nAs soon as a user has completed verification, an icon will appear behind the user name (also in the chat) indicating that the person is trustworthy.\n\nIf you click on this symbol, you will also receive information about what it means.",
+          "acceptanceCriteria": "symbol appears immediately after verification. visible to all.\nexplanation when dialing",
+          "parent": 44115,
+          "children": []
+        },
+        {
+          "id": 44117,
+          "url": "https://dev.azure.com/ITVT/ITVT%20Sound%20Fans/_workitems/edit/44117",
+          "type": "Product Backlog Item",
+          "title": "#28 Status of User - paying customer",
+          "state": "New",
+          "assignedTo": null,
+          "effort": null,
+          "description": "-Verified and already spent money (paying customer)\nAfter the first payment, a symbol (e.g. $) is displayed so that creater knows whether a profile is ready to spend money.",
+          "acceptanceCriteria": "small symbol appears as soon as a first payment has been made\nvisible to all\n\nSymbol explanation when selecting",
+          "parent": 44115,
+          "children": []
+        }
+      ]
+    }
+  ]
+}

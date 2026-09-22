@@ -9,7 +9,7 @@
   --border:       #222222;
   --text-primary: #ffffff;
   --text-muted:   #aaaaaa;
-  --accent:       #ff4757;
+  --accent:       #ff0618;
   --success:      #51cf66;
   --warning:      #ffb84d;
 }
@@ -35,3 +35,37 @@ a {
 ::-webkit-scrollbar-track { background: #1a1a1a; }
 ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #444; }
+
+/* Dual range slider */
+.range-thumb {
+  height: 24px;
+}
+
+.range-thumb::-webkit-slider-runnable-track {
+  background: transparent;
+  height: 4px;
+}
+.range-thumb::-moz-range-track {
+  background: transparent;
+  height: 4px;
+}
+.range-thumb::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-top: -6px;
+  border-radius: 50%;
+  background: #ff0618;
+  border: 2px solid #fff;
+  cursor: pointer;
+  pointer-events: all;
+}
+.range-thumb::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ff0618;
+  border: 2px solid #fff;
+  cursor: pointer;
+  pointer-events: all;
+}

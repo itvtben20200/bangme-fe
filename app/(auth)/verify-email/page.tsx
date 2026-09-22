@@ -14,7 +14,7 @@ function VerifyEmailContent() {
 
   useEffect(() => {
     if (!token) {
-      setErrorMsg('No verification token found.')
+      setErrorMsg('Kein Bestätigungstoken gefunden.')
       setStatus('error')
       return
     }
@@ -28,7 +28,7 @@ function VerifyEmailContent() {
         setTimeout(() => router.replace(dest), 2000)
       })
       .catch((err) => {
-        const msg = err?.response?.data?.message ?? 'Verification failed. The link may have expired.'
+        const msg = err?.response?.data?.message ?? 'Die Bestätigung ist fehlgeschlagen. Der Link ist möglicherweise abgelaufen.'
         setErrorMsg(msg)
         setStatus('error')
       })
@@ -41,29 +41,29 @@ function VerifyEmailContent() {
         {status === 'verifying' && (
           <>
             <Loader2 size={48} className="text-brand-red animate-spin mx-auto mb-4" />
-            <h1 className="text-xl font-bold text-white mb-2">Verifying your email…</h1>
-            <p className="text-brand-muted text-sm">Please wait a moment.</p>
+            <h1 className="text-xl font-bold text-white mb-2">Deine E-Mail wird bestätigt...</h1>
+            <p className="text-brand-muted text-sm">Bitte warte einen Moment.</p>
           </>
         )}
 
         {status === 'success' && (
           <>
             <CheckCircle size={48} className="text-green-400 mx-auto mb-4" />
-            <h1 className="text-xl font-bold text-white mb-2">Email verified!</h1>
-            <p className="text-brand-muted text-sm">Your account is active. Redirecting you now…</p>
+            <h1 className="text-xl font-bold text-white mb-2">E-Mail bestätigt!</h1>
+            <p className="text-brand-muted text-sm">Dein Account ist aktiv. Du wirst weitergeleitet...</p>
           </>
         )}
 
         {status === 'error' && (
           <>
             <XCircle size={48} className="text-brand-red mx-auto mb-4" />
-            <h1 className="text-xl font-bold text-white mb-2">Verification failed</h1>
+            <h1 className="text-xl font-bold text-white mb-2">Bestätigung fehlgeschlagen</h1>
             <p className="text-brand-muted text-sm mb-6">{errorMsg}</p>
             <a
               href="/verify-email-sent"
               className="inline-block bg-brand-red hover:bg-red-600 text-white font-semibold py-2.5 px-6 rounded-lg transition text-sm"
             >
-              Request a new link
+              Neuen Link anfordern
             </a>
           </>
         )}

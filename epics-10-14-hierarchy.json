@@ -1,0 +1,198 @@
+{
+  "generatedAt": "2026-09-09T14:24:37.224Z",
+  "sourceBase": "https://dev.azure.com/ITVT/ITVT%20Sound%20Fans",
+  "teamUsed": "ITVT Sound Fans Team",
+  "backlogUrlUsed": "https://dev.azure.com/ITVT/ITVT%20Sound%20Fans/ITVT%20Sound%20Fans%20Team/_apis/work/backlogs/Microsoft.EpicCategory/workItems?api-version=7.1-preview.1",
+  "selectedOrdinals": [
+    10,
+    11,
+    12,
+    13,
+    14
+  ],
+  "selectedEpicIds": [
+    44235,
+    44236,
+    44237,
+    44265,
+    67007
+  ],
+  "visibleEpicList": [
+    {
+      "ordinal": 1,
+      "id": 44217,
+      "title": "User Profile",
+      "state": "In Progress"
+    },
+    {
+      "ordinal": 2,
+      "id": 44224,
+      "title": "Home Feed",
+      "state": "In Progress"
+    },
+    {
+      "ordinal": 3,
+      "id": 44225,
+      "title": "Messages",
+      "state": "In Progress"
+    },
+    {
+      "ordinal": 4,
+      "id": 44227,
+      "title": "Log in",
+      "state": "In Progress"
+    },
+    {
+      "ordinal": 5,
+      "id": 44230,
+      "title": "Discover & Booking",
+      "state": "In Progress"
+    },
+    {
+      "ordinal": 6,
+      "id": 44231,
+      "title": "Musikcoin Wallet",
+      "state": "In Progress"
+    },
+    {
+      "ordinal": 7,
+      "id": 44232,
+      "title": "Settings",
+      "state": "In Progress"
+    },
+    {
+      "ordinal": 8,
+      "id": 44233,
+      "title": "Calendar (only Creator)",
+      "state": "In Progress"
+    },
+    {
+      "ordinal": 9,
+      "id": 44234,
+      "title": "Earnings (only Creators)",
+      "state": "New"
+    },
+    {
+      "ordinal": 10,
+      "id": 44235,
+      "title": "Support(?)",
+      "state": "New"
+    },
+    {
+      "ordinal": 11,
+      "id": 44236,
+      "title": "Verification",
+      "state": "New"
+    },
+    {
+      "ordinal": 12,
+      "id": 44237,
+      "title": "Log out",
+      "state": "New"
+    },
+    {
+      "ordinal": 13,
+      "id": 44265,
+      "title": "DB Design",
+      "state": "New"
+    },
+    {
+      "ordinal": 14,
+      "id": 67007,
+      "title": "Sample Epic",
+      "state": "New"
+    }
+  ],
+  "hierarchy": [
+    {
+      "id": 44235,
+      "title": "Support(?)",
+      "workItemType": "Epic",
+      "state": "New",
+      "assignedTo": "",
+      "description": "",
+      "acceptanceCriteria": "",
+      "parentId": null,
+      "childIds": [],
+      "children": []
+    },
+    {
+      "id": 44236,
+      "title": "Verification",
+      "workItemType": "Epic",
+      "state": "New",
+      "assignedTo": "",
+      "description": "",
+      "acceptanceCriteria": "",
+      "parentId": null,
+      "childIds": [],
+      "children": []
+    },
+    {
+      "id": 44237,
+      "title": "Log out",
+      "workItemType": "Epic",
+      "state": "New",
+      "assignedTo": "",
+      "description": "",
+      "acceptanceCriteria": "<div>Safe log out and end session </div>",
+      "parentId": null,
+      "childIds": [],
+      "children": []
+    },
+    {
+      "id": 44265,
+      "title": "DB Design",
+      "workItemType": "Epic",
+      "state": "New",
+      "assignedTo": "",
+      "description": "<div>Database description for the project&nbsp; </div>",
+      "acceptanceCriteria": "<div>Discussion point for Database and API designs </div>",
+      "parentId": 44266,
+      "childIds": [],
+      "children": []
+    },
+    {
+      "id": 67007,
+      "title": "Sample Epic",
+      "workItemType": "Epic",
+      "state": "New",
+      "assignedTo": "",
+      "description": "",
+      "acceptanceCriteria": "",
+      "parentId": null,
+      "childIds": [
+        67008
+      ],
+      "children": [
+        {
+          "id": 67008,
+          "title": "Sample Feature",
+          "workItemType": "Feature",
+          "state": "New",
+          "assignedTo": "",
+          "description": "",
+          "acceptanceCriteria": "",
+          "parentId": 67007,
+          "childIds": [
+            67009
+          ],
+          "children": [
+            {
+              "id": 67009,
+              "title": "Sample User Story",
+              "workItemType": "Product Backlog Item",
+              "state": "New",
+              "assignedTo": "",
+              "description": "",
+              "acceptanceCriteria": "",
+              "parentId": 67008,
+              "childIds": [],
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

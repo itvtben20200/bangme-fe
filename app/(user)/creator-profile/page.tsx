@@ -15,6 +15,7 @@ import { useAuthStore } from '@/store/authStore'
 import Link             from 'next/link'
 import PostCard         from '@/components/PostCard'
 import CreatePostModal  from '@/components/CreatePostModal'
+import FollowersModal   from '@/components/FollowersModal'
 
 const profileSchema = z.object({
   displayName: z.string().min(1, 'Required').max(50),
@@ -47,6 +48,7 @@ export default function CreatorProfilePage() {
   const { user, logout } = useAuthStore()
   const qc = useQueryClient()
   const [showCreatePost, setShowCreatePost] = useState(false)
+  const [listModal, setListModal] = useState<'followers' | 'subscribers' | null>(null)
 
   const { data, isLoading } = useQuery<{ success: boolean; data: MyCreatorProfile }>({
     queryKey: ['my-creator-profile'],
@@ -94,7 +96,7 @@ export default function CreatorProfilePage() {
   return (
     <div className="min-h-screen bg-[#121212]">
       {/* Banner */}
-      <div className="h-44 relative bg-gradient-to-r from-[#ff4757]/20 to-[#ff6b6b]/10">
+      <div className="h-44 relative bg-gradient-to-r from-[#ff0618]/20 to-[#ff0618]/10">
         {profile?.bannerKey && (
           <img src={mediaUrl(profile.bannerKey)!} alt="banner"
             className="w-full h-full object-cover" />
@@ -113,24 +115,24 @@ export default function CreatorProfilePage() {
                 <img src={mediaUrl(profile.avatarKey)!} alt="avatar"
                   className="w-28 h-28 rounded-full object-cover border-4 border-[#121212]" />
               ) : (
-                <div className="w-28 h-28 rounded-full bg-[#ff4757]/20 border-4 border-[#121212] flex items-center justify-center">
-                  <span className="text-3xl font-bold text-[#ff4757]">
+                <div className="w-28 h-28 rounded-full bg-[#ff0618]/20 border-4 border-[#121212] flex items-center justify-center">
+                  <span className="text-3xl font-bold text-[#ff0618]">
                     {profile?.username?.[0]?.toUpperCase()}
                   </span>
                 </div>
               )}
-              <button className="absolute bottom-1 right-1 w-7 h-7 bg-[#ff4757] rounded-full flex items-center justify-center hover:bg-red-500 transition">
+              <button className="absolute bottom-1 right-1 w-7 h-7 bg-[#ff0618] rounded-full flex items-center justify-center hover:bg-red-500 transition">
                 <Camera size={13} className="text-white" />
               </button>
             </div>
             <div className="pb-2">
               <h1 className="text-2xl font-bold text-white flex items-center gap-2">
                 {profile?.displayName ?? profile?.username}
-                {profile?.isVerified && <Star size={16} className="text-[#ff4757] fill-[#ff4757]" />}
+                {profile?.isVerified && <Star size={16} className="text-[#ff0618] fill-[#ff0618]" />}
               </h1>
               <p className="text-gray-400">@{profile?.username}</p>
               <div className="flex items-center gap-2 mt-1">
-                <span className="text-xs px-2 py-0.5 rounded-full bg-[#ff4757]/20 text-[#ff4757] font-semibold">
+                <span className="text-xs px-2 py-0.5 rounded-full bg-[#ff0618]/20 text-[#ff0618] font-semibold">
                   Creator
                 </span>
                 {cp?.isLive && (
@@ -156,13 +158,19 @@ export default function CreatorProfilePage() {
         {/* Stats row */}
         <div className="grid grid-cols-4 gap-3 mb-6">
           {[
-            { icon: <Users size={16} />,      label: 'Followers',   value: profile?._count.followers  ?? 0 },
-            { icon: <BookMarked size={16} />, label: 'Subscribers', value: profile?._count.subscribers ?? 0 },
-            { icon: <TrendingUp size={16} />, label: 'Posts',       value: profile?._count.posts       ?? 0 },
-            { icon: <DollarSign size={16} />, label: 'Balance',     value: profile?.wallet?.balance    ?? 0 },
+            { icon: <Users size={16} />,      label: 'Followers',   value: profile?._count.followers  ?? 0, key: 'followers' as const },
+            { icon: <BookMarked size={16} />, label: 'Subscribers', value: profile?._count.subscribers ?? 0, key: 'subscribers' as const },
+            { icon: <TrendingUp size={16} />, label: 'Posts',       value: profile?._count.posts       ?? 0, key: null },
+            { icon: <DollarSign size={16} />, label: 'Balance',     value: profile?.wallet?.balance    ?? 0, key: null },
           ].map(stat => (
-            <div key={stat.label} className="bg-[#161616] border border-[#222] rounded-xl p-4 text-center">
-              <div className="flex justify-center mb-1 text-[#ff4757]">{stat.icon}</div>
+            <div
+              key={stat.label}
+              onClick={() => stat.key && setListModal(stat.key)}
+              className={`bg-[#161616] border border-[#222] rounded-xl p-4 text-center ${
+                stat.key ? 'cursor-pointer hover:border-[#ff0618]/40 hover:bg-[#1a1a1a] transition' : ''
+              }`}
+            >
+              <div className="flex justify-center mb-1 text-[#ff0618]">{stat.icon}</div>
               <p className="text-white font-black text-xl">{stat.value}</p>
               <p className="text-gray-500 text-xs">{stat.label}</p>
             </div>
@@ -175,7 +183,7 @@ export default function CreatorProfilePage() {
             <h2 className="text-white font-bold text-2xl">My Wall</h2>
             <button
               onClick={() => setShowCreatePost(true)}
-              className="flex items-center gap-2 bg-[#ff4757] hover:bg-[#ff2f43] text-white font-semibold px-4 py-2 rounded-lg transition-colors"
+              className="flex items-center gap-2 bg-[#ff0618] hover:bg-[#ff0618] text-white font-semibold px-4 py-2 rounded-lg transition-colors"
             >
               <Plus size={20} />
               Create Post
@@ -184,7 +192,7 @@ export default function CreatorProfilePage() {
 
           {postsLoading ? (
             <div className="flex items-center justify-center py-12">
-              <div className="w-8 h-8 border-2 border-[#ff4757] border-t-transparent rounded-full animate-spin" />
+              <div className="w-8 h-8 border-2 border-[#ff0618] border-t-transparent rounded-full animate-spin" />
             </div>
           ) : postsData?.data && postsData.data.length > 0 ? (
             <div className="space-y-4">
@@ -202,7 +210,7 @@ export default function CreatorProfilePage() {
               <p className="text-gray-400 mb-4">You haven't posted anything yet</p>
               <button
                 onClick={() => setShowCreatePost(true)}
-                className="inline-flex items-center gap-2 bg-[#ff4757] hover:bg-[#ff2f43] text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+                className="inline-flex items-center gap-2 bg-[#ff0618] hover:bg-[#ff0618] text-white font-semibold px-6 py-3 rounded-lg transition-colors"
               >
                 <Plus size={20} />
                 Create Your First Post
@@ -219,6 +227,13 @@ export default function CreatorProfilePage() {
           username={profile?.displayName || profile?.username}
         />
 
+        {/* Followers / Subscribers modal */}
+        <FollowersModal
+          mode={listModal ?? 'followers'}
+          isOpen={listModal !== null}
+          onClose={() => setListModal(null)}
+        />
+
         <div className="grid grid-cols-3 gap-4">
           {/* Edit Profile form */}
           <div className="col-span-2 bg-[#161616] border border-[#222] rounded-2xl p-6">
@@ -227,7 +242,7 @@ export default function CreatorProfilePage() {
               <div>
                 <label className="block text-sm text-gray-400 mb-1">Display Name</label>
                 <input {...register('displayName')}
-                  className="w-full bg-[#0e0e0e] border border-[#333] rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-[#ff4757]"
+                  className="w-full bg-[#0e0e0e] border border-[#333] rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-[#ff0618]"
                   placeholder="Your display name" />
                 {errors.displayName && <p className="text-red-400 text-xs mt-1">{errors.displayName.message}</p>}
               </div>
@@ -235,7 +250,7 @@ export default function CreatorProfilePage() {
               <div>
                 <label className="block text-sm text-gray-400 mb-1">Bio</label>
                 <textarea {...register('bio')} rows={4}
-                  className="w-full bg-[#0e0e0e] border border-[#333] rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-[#ff4757] resize-none"
+                  className="w-full bg-[#0e0e0e] border border-[#333] rounded-lg px-3 py-2.5 text-white focus:outline-none focus:border-[#ff0618] resize-none"
                   placeholder="Tell your fans about yourself…" />
               </div>
 
@@ -246,7 +261,7 @@ export default function CreatorProfilePage() {
               </div>
 
               <button type="submit" disabled={isPending || !isDirty}
-                className="flex items-center gap-2 bg-[#ff4757] hover:bg-red-500 text-white font-bold px-5 py-2.5 rounded-lg transition disabled:opacity-40">
+                className="flex items-center gap-2 bg-[#ff0618] hover:bg-red-500 text-white font-bold px-5 py-2.5 rounded-lg transition disabled:opacity-40">
                 <Save size={15} />
                 {isPending ? 'Saving…' : 'Save Changes'}
               </button>

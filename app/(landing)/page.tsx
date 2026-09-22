@@ -1,6 +1,9 @@
 import Image from 'next/image'
 import Link  from 'next/link'
 import { mediaUrl } from '@/lib/utils'
+import { BrandLogo } from '@/components/BrandLogo'
+import { LandingHeader } from '@/components/LandingHeader'
+import { LocalizedText } from '@/components/LocalizedText'
 
 /* ─────────────────────────────────────────────────────────────────────────
    FAN-FACING HOMEPAGE  (/):  Entice visitors to sign up and subscribe.
@@ -39,10 +42,10 @@ async function fetchFeaturedCreators(): Promise<ApiCreator[]> {
 /* ─── Data ──────────────────────────────────────────────────────────────── */
 
 const STATS = [
-  { value: '2M+',   label: 'Creators to Discover' },
-  { value: '180M+', label: 'Fans Worldwide' },
-  { value: '4.9★',  label: 'Average Creator Rating' },
-  { value: '190+',  label: 'Countries' },
+  { value: '2M+',   label: { en: 'Creators to Discover', de: 'Creator entdecken' } },
+  { value: '180M+', label: { en: 'Fans Worldwide', de: 'Fans weltweit' } },
+  { value: '4.9★',  label: { en: 'Average Creator Rating', de: 'Durchschnittliche Creator-Bewertung' } },
+  { value: '190+',  label: { en: 'Countries', de: 'Länder' } },
 ]
 
 /* Fallback creators — used if API is unreachable */
@@ -128,24 +131,31 @@ const FALLBACK_CREATORS = [
   },
 ]
 
-const TEASER_LABELS = ['🔒 Exclusive Post', '📸 New Photos', '🎥 Full Video', '🔒 PPV Content', '🎨 Behind the Scenes', '🎵 Live Recording']
+const TEASER_LABELS = [
+  { en: '🔒 Exclusive Post', de: '🔒 Exklusiver Beitrag' },
+  { en: '📸 New Photos', de: '📸 Neue Fotos' },
+  { en: '🎥 Full Video', de: '🎥 Vollständiges Video' },
+  { en: '🔒 PPV Content', de: '🔒 PPV-Inhalt' },
+  { en: '🎨 Behind the Scenes', de: '🎨 Hinter den Kulissen' },
+  { en: '🎵 Live Recording', de: '🎵 Live-Aufnahme' },
+]
 
 const CATEGORIES = [
-  { label: 'Asian',      emoji: '🌸', count: '38K creators', img: 'https://as1.ftcdn.net/v2/jpg/01/80/98/02/1000_F_180980255_hlTERLsznaAMZJx9mGMNAekPHK7lqobO.jpg' },
-  { label: 'Western',    emoji: '⭐', count: '52K creators', img: 'https://as1.ftcdn.net/v2/jpg/02/13/78/28/1000_F_213782882_T6V0EGER5uUBHK53czKmGukS4OzUzB9I.jpg' },
-  { label: 'Latina',     emoji: '🔥', count: '21K creators', img: 'https://as2.ftcdn.net/v2/jpg/01/71/15/23/1000_F_171152370_R6euKSaJk5Wd8fwXfMKQ8FUQmZ53ZRtr.jpg' },
-  { label: 'Ebony',      emoji: '💫', count: '17K creators', img: 'https://as2.ftcdn.net/v2/jpg/06/33/04/71/1000_F_633047160_NXTTJqAmdZcJZ3n7tSSCBxWQ7ckfe8yy.jpg' },
-  { label: 'Fitness',    emoji: '💪', count: '14K creators', img: 'https://as1.ftcdn.net/v2/jpg/01/42/67/88/1000_F_142678821_E2ffJmC0LSUMuz4JUM46u8LCgYOizte4.jpg' },
-  { label: 'Cosplay',    emoji: '🎭', count: '9K creators',  img: 'https://as2.ftcdn.net/v2/jpg/03/77/39/85/1000_F_377398571_r7WYoec13GdgF1kxwwvowAp7sSBJmBOU.jpg' },
-  { label: 'Couples',    emoji: '💑', count: '6K creators',  img: 'https://as2.ftcdn.net/v2/jpg/02/31/34/07/1000_F_231340726_3An9aKi9gJ8D17S88k6fTx0b9KoWlyLe.jpg' },
-  { label: 'Live Only',  emoji: '🔴', count: '4K live now',  img: 'https://as1.ftcdn.net/v2/jpg/04/78/72/50/1000_F_478725074_Gg2zIkfhkBeJJyMStCZFWvGGQemZB3Jj.jpg' },
-  { label: 'New Faces',  emoji: '✨', count: '1.2K new',     img: 'https://as1.ftcdn.net/v2/jpg/01/80/98/02/1000_F_180980255_hlTERLsznaAMZJx9mGMNAekPHK7lqobO.jpg' },
+  { label: 'Asiatisch',  emoji: '🌸', count: '38K Creator', img: 'https://as1.ftcdn.net/v2/jpg/01/80/98/02/1000_F_180980255_hlTERLsznaAMZJx9mGMNAekPHK7lqobO.jpg' },
+  { label: 'Western',    emoji: '⭐', count: '52K Creator', img: 'https://as1.ftcdn.net/v2/jpg/02/13/78/28/1000_F_213782882_T6V0EGER5uUBHK53czKmGukS4OzUzB9I.jpg' },
+  { label: 'Latina',     emoji: '🔥', count: '21K Creator', img: 'https://as2.ftcdn.net/v2/jpg/01/71/15/23/1000_F_171152370_R6euKSaJk5Wd8fwXfMKQ8FUQmZ53ZRtr.jpg' },
+  { label: 'Ebony',      emoji: '💫', count: '17K Creator', img: 'https://as2.ftcdn.net/v2/jpg/06/33/04/71/1000_F_633047160_NXTTJqAmdZcJZ3n7tSSCBxWQ7ckfe8yy.jpg' },
+  { label: 'Fitness',    emoji: '💪', count: '14K Creator', img: 'https://as1.ftcdn.net/v2/jpg/01/42/67/88/1000_F_142678821_E2ffJmC0LSUMuz4JUM46u8LCgYOizte4.jpg' },
+  { label: 'Cosplay',    emoji: '🎭', count: '9K Creator',  img: 'https://as2.ftcdn.net/v2/jpg/03/77/39/85/1000_F_377398571_r7WYoec13GdgF1kxwwvowAp7sSBJmBOU.jpg' },
+  { label: 'Paare',      emoji: '💑', count: '6K Creator',  img: 'https://as2.ftcdn.net/v2/jpg/02/31/34/07/1000_F_231340726_3An9aKi9gJ8D17S88k6fTx0b9KoWlyLe.jpg' },
+  { label: 'Nur Live',   emoji: '🔴', count: '4K jetzt live', img: 'https://as1.ftcdn.net/v2/jpg/04/78/72/50/1000_F_478725074_Gg2zIkfhkBeJJyMStCZFWvGGQemZB3Jj.jpg' },
+  { label: 'Neue Gesichter', emoji: '✨', count: '1.2K neu', img: 'https://as1.ftcdn.net/v2/jpg/01/80/98/02/1000_F_180980255_hlTERLsznaAMZJx9mGMNAekPHK7lqobO.jpg' },
 ]
 
 const FAN_STEPS = [
-  { icon: '✍️', title: 'Create a Free Account',    desc: 'Sign up in under 30 seconds. No credit card needed to browse.' },
-  { icon: '🔍', title: 'Discover Your Favourites', desc: 'Browse 2M+ creators by category, popularity, or price.' },
-  { icon: '🔓', title: 'Subscribe & Unlock',       desc: 'Starting from $4.99/mo — cancel any time. Unlock photos, videos, lives, and DMs.' },
+  { icon: '✍️', title: { en: 'Create a Free Account', de: 'Kostenlosen Account erstellen' }, desc: { en: 'Sign up in under 30 seconds. No credit card needed to browse.', de: 'Registriere dich in unter 30 Sekunden. Zum Stöbern brauchst du keine Kreditkarte.' } },
+  { icon: '🔍', title: { en: 'Discover Your Favourites', de: 'Favoriten entdecken' }, desc: { en: 'Browse creators by category, popularity, or price.', de: 'Durchsuche Creator nach Kategorie, Beliebtheit oder Preis.' } },
+  { icon: '🔓', title: { en: 'Subscribe & Unlock', de: 'Abonnieren & freischalten' }, desc: { en: 'Starting from $4.99/mo, cancel any time. Unlock photos, videos, lives, and DMs.', de: 'Ab $4.99/Monat, jederzeit kündbar. Schalte Fotos, Videos, Lives und DMs frei.' } },
 ]
 
 const FAN_TESTIMONIALS = [
@@ -203,23 +213,7 @@ export default async function LandingPage() {
     <div className="min-h-screen bg-brand-dark text-white overflow-x-hidden">
 
       {/* ── Navbar ─────────────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-50 flex items-center justify-between px-6 md:px-12 py-4 bg-brand-dark/80 backdrop-blur-md border-b border-brand-border">
-        <div className="text-2xl font-black tracking-tight">
-          <span className="text-white">BANG</span>
-          <span className="text-brand-red">ME</span>
-        </div>
-        <nav className="hidden md:flex items-center gap-8 text-sm text-brand-muted">
-          <Link href="/explore"      className="hover:text-white transition">Explore</Link>
-          <a href="#creators"        className="hover:text-white transition">Creators</a>
-          <a href="#categories"      className="hover:text-white transition">Categories</a>
-          <a href="#how-it-works"    className="hover:text-white transition">How It Works</a>
-          <Link href="/for-creators" className="text-brand-red hover:text-red-400 transition font-semibold">For Creators ↗</Link>
-        </nav>
-        <div className="flex gap-3">
-          <Link href="/login"    className="px-5 py-2 rounded-lg border border-brand-border text-brand-text text-sm hover:bg-brand-surface transition">Log In</Link>
-          <Link href="/register" className="px-5 py-2 rounded-lg bg-brand-red text-white font-bold text-sm hover:bg-red-600 transition">Subscribe Now</Link>
-        </div>
-      </header>
+      <LandingHeader />
 
       {/* ── Hero ───────────────────────────────────────────────────────── */}
       <section className="relative min-h-[92vh] flex items-center overflow-hidden">
@@ -233,25 +227,25 @@ export default async function LandingPage() {
 
         <div className="relative z-10 px-6 md:px-20 max-w-3xl">
           <span className="inline-block px-3 py-1 rounded-full bg-brand-red/20 border border-brand-red/40 text-brand-red text-xs font-semibold tracking-widest uppercase mb-6">
-            🔒 Exclusive Content. No Free Passes.
+            <LocalizedText en="🔒 Exclusive Content. No Free Passes." de="🔒 Exklusiver Content. Keine kostenlosen Pässe." />
           </span>
           <h1 className="text-5xl md:text-7xl font-black leading-tight mb-6">
-            The content<br />
-            you <span className="text-brand-red">can&apos;t</span><br />
-            find anywhere else.
+            <LocalizedText en="The content" de="Content," /><br />
+            <LocalizedText en="you" de="den du" /> <span className="text-brand-red"><LocalizedText en="can't" de="nirgendwo" /></span><br />
+            <LocalizedText en="find anywhere else." de="sonst findest." />
           </h1>
           <p className="text-lg md:text-xl text-brand-text mb-10 leading-relaxed max-w-xl">
-            Subscribe to your favourite creators and unlock exclusive photos, videos, live streams, and direct messages. Premium access starts from $7.99/mo.
+            <LocalizedText en="Subscribe to your favourite creators and unlock exclusive photos, videos, live streams, and direct messages. Premium access starts from $7.99/mo." de="Abonniere deine Lieblings-Creator und schalte exklusive Fotos, Videos, Livestreams und Direktnachrichten frei. Premium-Zugang startet ab $7.99/Monat." />
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <Link href="/register" className="px-10 py-4 bg-brand-red text-white font-black text-lg rounded-xl hover:bg-red-600 transition text-center">
-              Create Account &amp; Subscribe
+              <LocalizedText en="Create Account & Subscribe" de="Account erstellen & abonnieren" />
             </Link>
             <Link href="/explore"  className="px-10 py-4 bg-white/10 border border-white/20 text-white font-bold text-lg rounded-xl hover:bg-white/20 transition backdrop-blur-sm text-center">
-              Browse Creators →
+              <LocalizedText en="Browse Creators →" de="Creator ansehen →" />
             </Link>
           </div>
-          <p className="text-brand-muted text-sm mt-4">Starting from <span className="text-white font-semibold">$7.99/mo</span> · Cancel any time · Powered by Stripe</p>
+          <p className="text-brand-muted text-sm mt-4"><LocalizedText en="Starting from" de="Ab" /> <span className="text-white font-semibold"><LocalizedText en="$7.99/mo" de="$7.99/Monat" /></span> · <LocalizedText en="Cancel any time" de="jederzeit kündbar" /> · powered by Stripe</p>
         </div>
 
         {/* Floating creator pills — decorative */}
@@ -261,9 +255,9 @@ export default async function LandingPage() {
               <Image src={c.img} alt={c.name} width={36} height={36} className="rounded-full object-cover w-9 h-9" />
               <div>
                 <p className="text-sm font-bold leading-none">{c.name}</p>
-                <p className="text-brand-muted text-xs">{c.price}/mo</p>
+                <p className="text-brand-muted text-xs">{c.price}/<LocalizedText en="mo" de="Monat" /></p>
               </div>
-              <span className="ml-1 text-xs bg-brand-red text-white rounded-full px-2 py-0.5 font-bold">Subscribe</span>
+              <span className="ml-1 text-xs bg-brand-red text-white rounded-full px-2 py-0.5 font-bold"><LocalizedText en="Subscribe" de="Abonnieren" /></span>
             </div>
           ))}
         </div>
@@ -273,9 +267,9 @@ export default async function LandingPage() {
       <section className="bg-brand-surface border-y border-brand-border py-12">
         <div className="max-w-6xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {STATS.map(s => (
-            <div key={s.label}>
+            <div key={s.label.en}>
               <p className="text-4xl font-black text-brand-red mb-1">{s.value}</p>
-              <p className="text-brand-muted text-sm">{s.label}</p>
+              <p className="text-brand-muted text-sm"><LocalizedText {...s.label} /></p>
             </div>
           ))}
         </div>
@@ -284,10 +278,10 @@ export default async function LandingPage() {
       {/* ── Locked Content Teaser Grid ─────────────────────────────────── */}
       <section className="py-20 px-6 max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <p className="text-brand-red text-sm font-semibold tracking-widest uppercase mb-2">What&apos;s Inside</p>
-          <h2 className="text-4xl font-black">Exclusive Content Waiting for You</h2>
+          <p className="text-brand-red text-sm font-semibold tracking-widest uppercase mb-2"><LocalizedText en="What's Inside" de="Was dich erwartet" /></p>
+          <h2 className="text-4xl font-black"><LocalizedText en="Exclusive Content Waiting for You" de="Exklusiver Content wartet auf dich" /></h2>
           <p className="text-brand-muted mt-3 max-w-md mx-auto text-sm">
-            Join free to see full previews. Subscribe to unlock everything.
+            <LocalizedText en="Join free to see full previews. Subscribe to unlock everything." de="Kostenlos beitreten und Vorschauen ansehen. Abonnieren, um alles freizuschalten." />
           </p>
         </div>
 
@@ -301,15 +295,15 @@ export default async function LandingPage() {
               <Image src={t.img} alt={`${t.creator} teaser`} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/10 to-transparent" />
               <div className="absolute top-3 right-3 bg-brand-red/90 rounded-lg px-2 py-1 text-xs font-bold">
-                🔒 Subscribers Only
+                <LocalizedText en="🔒 Subscribers Only" de="🔒 Nur für Abonnenten" />
               </div>
               <div className="absolute bottom-4 left-4 right-4">
                 <p className="text-xs text-brand-muted mb-1">{t.creator}</p>
-                <p className="font-bold text-sm">{t.label}</p>
+                <p className="font-bold text-sm"><LocalizedText {...t.label} /></p>
               </div>
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
                 <span className="bg-brand-red text-white font-black px-6 py-2.5 rounded-xl text-sm shadow-xl">
-                  Subscribe to Unlock
+                  <LocalizedText en="Subscribe to Unlock" de="Zum Freischalten abonnieren" />
                 </span>
               </div>
             </Link>
@@ -318,7 +312,7 @@ export default async function LandingPage() {
 
         <div className="text-center mt-10">
           <Link href="/register" className="inline-block px-10 py-4 bg-brand-red text-white font-black rounded-xl hover:bg-red-600 transition text-lg">
-            Join Free to See More →
+            <LocalizedText en="Join Free to See More →" de="Kostenlos beitreten und mehr sehen →" />
           </Link>
         </div>
       </section>
@@ -328,11 +322,11 @@ export default async function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-end justify-between mb-12">
             <div>
-              <p className="text-brand-red text-sm font-semibold tracking-widest uppercase mb-2">Who&apos;s Hot Right Now</p>
-              <h2 className="text-4xl font-black">Featured Creators</h2>
+              <p className="text-brand-red text-sm font-semibold tracking-widest uppercase mb-2"><LocalizedText en="Who's Hot Right Now" de="Wer gerade angesagt ist" /></p>
+              <h2 className="text-4xl font-black"><LocalizedText en="Featured Creators" de="Empfohlene Creator" /></h2>
             </div>
             <Link href="/explore" className="text-brand-red text-sm font-semibold hover:underline hidden md:block">
-              See All 2M+ Creators →
+              <LocalizedText en="See All Creators →" de="Alle Creator ansehen →" />
             </Link>
           </div>
 
@@ -358,13 +352,13 @@ export default async function LandingPage() {
                   </div>
                   <p className="text-brand-muted text-sm mb-1">@{c.handle} · {c.category}</p>
                   <p className="text-brand-muted text-xs mb-4">
-                    {c.posts} posts · <span className="text-yellow-400">★ {c.rating}</span> · <span className="text-white font-semibold">{c.fans}</span> fans
+                    {c.posts} <LocalizedText en="posts" de="Beiträge" /> · <span className="text-yellow-400">★ {c.rating}</span> · <span className="text-white font-semibold">{c.fans}</span> <LocalizedText en="fans" de="Fans" />
                   </p>
                   <Link
                     href={`/subscribe/${c.handle}`}
                     className="block w-full text-center bg-brand-red text-white font-bold py-2.5 rounded-xl text-sm hover:bg-red-600 transition"
                   >
-                    💳 Subscribe {c.price}/mo
+                    💳 <LocalizedText en="Subscribe" de="Abonnieren" /> {c.price}/<LocalizedText en="mo" de="Monat" />
                   </Link>
                 </div>
               </div>
@@ -377,21 +371,21 @@ export default async function LandingPage() {
       <section id="how-it-works" className="py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <p className="text-brand-red text-sm font-semibold tracking-widest uppercase mb-2">Super Easy</p>
-            <h2 className="text-4xl font-black">How It Works for Fans</h2>
+            <p className="text-brand-red text-sm font-semibold tracking-widest uppercase mb-2"><LocalizedText en="Super Easy" de="Ganz einfach" /></p>
+            <h2 className="text-4xl font-black"><LocalizedText en="How It Works for Fans" de="So funktioniert es für Fans" /></h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             {FAN_STEPS.map((step, i) => (
               <div key={i} className="bg-brand-card border border-brand-border rounded-2xl p-8 text-center hover:border-brand-red/40 transition">
                 <div className="text-5xl mb-5">{step.icon}</div>
-                <h3 className="text-xl font-bold mb-3">{step.title}</h3>
-                <p className="text-brand-muted text-sm leading-relaxed">{step.desc}</p>
+                <h3 className="text-xl font-bold mb-3"><LocalizedText {...step.title} /></h3>
+                <p className="text-brand-muted text-sm leading-relaxed"><LocalizedText {...step.desc} /></p>
               </div>
             ))}
           </div>
           <div className="text-center mt-12">
             <Link href="/register" className="inline-block px-10 py-4 bg-brand-red text-white font-black text-lg rounded-xl hover:bg-red-600 transition">
-              Create Account &amp; Subscribe →
+              <LocalizedText en="Create Account & Subscribe →" de="Account erstellen & abonnieren →" />
             </Link>
           </div>
         </div>
@@ -401,25 +395,25 @@ export default async function LandingPage() {
       <section className="bg-brand-surface border-y border-brand-border py-24 px-6">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
           <div>
-            <p className="text-brand-red text-sm font-semibold tracking-widest uppercase mb-3">Why Fans Love BANGME</p>
+            <p className="text-brand-red text-sm font-semibold tracking-widest uppercase mb-3"><LocalizedText en="Why Fans Love BANGME" de="Warum Fans BANGME lieben" /></p>
             <h2 className="text-4xl font-black leading-tight mb-8">
-              More than a feed.<br />
-              A real<br />
-              <span className="text-brand-red">connection.</span>
+              <LocalizedText en="More than a feed." de="Mehr als ein Feed." /><br />
+              <LocalizedText en="A real" de="Eine echte" /><br />
+              <span className="text-brand-red"><LocalizedText en="connection." de="Verbindung." /></span>
             </h2>
             <ul className="space-y-5">
               {[
-                { icon: '🔓', title: 'Truly Exclusive Content',  desc: "Content you can't find on Instagram or TikTok — only for subscribers." },
-                { icon: '💬', title: 'Direct Message Creators',  desc: 'Chat 1-on-1 with your favourite creators. Real replies, real connection.' },
-                { icon: '🔴', title: 'Private Live Streams',     desc: 'Watch subscriber-only lives in intimate sessions. Send virtual gifts live.' },
-                { icon: '📸', title: 'Pay-Per-View Posts',       desc: 'Unlock individual premium posts when you want — no full sub required.' },
-                { icon: '🛡️', title: 'Cancel Any Time',          desc: 'No long-term commitment. Subscribe and cancel with one click.' },
+                { icon: '🔓', title: { en: 'Truly Exclusive Content', de: 'Wirklich exklusiver Content' }, desc: { en: "Content you can't find on Instagram or TikTok, only for subscribers.", de: 'Content, den du nicht auf Instagram oder TikTok findest, nur für Abonnenten.' } },
+                { icon: '💬', title: { en: 'Direct Message Creators', de: 'Direkt mit Creatorn schreiben' }, desc: { en: 'Chat 1-on-1 with your favourite creators. Real replies, real connection.', de: 'Chatte 1:1 mit deinen Lieblings-Creatorn. Echte Antworten, echte Verbindung.' } },
+                { icon: '🔴', title: { en: 'Private Live Streams', de: 'Private Livestreams' }, desc: { en: 'Watch subscriber-only lives in intimate sessions. Send virtual gifts live.', de: 'Sieh Lives nur für Abonnenten in intimen Sessions. Sende virtuelle Geschenke live.' } },
+                { icon: '📸', title: { en: 'Pay-Per-View Posts', de: 'Pay-per-View-Beiträge' }, desc: { en: 'Unlock individual premium posts when you want, no full sub required.', de: 'Schalte einzelne Premium-Beiträge frei, wann du möchtest, ohne komplettes Abo.' } },
+                { icon: '🛡️', title: { en: 'Cancel Any Time', de: 'Jederzeit kündbar' }, desc: { en: 'No long-term commitment. Subscribe and cancel with one click.', de: 'Keine lange Bindung. Abonnieren und mit einem Klick kündigen.' } },
               ].map(b => (
-                <li key={b.title} className="flex gap-4 items-start">
+                <li key={b.title.en} className="flex gap-4 items-start">
                   <span className="text-2xl mt-0.5">{b.icon}</span>
                   <div>
-                    <p className="font-bold mb-0.5">{b.title}</p>
-                    <p className="text-brand-muted text-sm leading-relaxed">{b.desc}</p>
+                    <p className="font-bold mb-0.5"><LocalizedText {...b.title} /></p>
+                    <p className="text-brand-muted text-sm leading-relaxed"><LocalizedText {...b.desc} /></p>
                   </div>
                 </li>
               ))}
@@ -430,22 +424,22 @@ export default async function LandingPage() {
           <div className="relative h-[560px] rounded-3xl overflow-hidden">
             <Image
               src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=900&h=1100&fit=crop&q=85"
-              alt="Creator exclusive content — replace with your own"
+              alt="Creator exclusive content"
               fill className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent" />
             <div className="absolute top-5 left-5 bg-brand-dark/80 backdrop-blur border border-brand-border rounded-xl px-4 py-3">
-              <p className="text-xs text-brand-muted">New subscribers today</p>
+              <p className="text-xs text-brand-muted"><LocalizedText en="New subscribers today" de="Neue Abonnenten heute" /></p>
               <p className="text-2xl font-black text-brand-red">+4,821</p>
             </div>
             <div className="absolute bottom-6 left-6 right-6 bg-brand-dark/80 backdrop-blur border border-brand-border rounded-xl p-4 flex items-center gap-4">
               <span className="text-3xl">🔒</span>
               <div className="flex-1">
-                <p className="font-bold text-sm">Subscribe to unlock 382 exclusive posts</p>
-                <p className="text-brand-muted text-xs">From $9.99/mo · Stripe-secured · Cancel any time</p>
+                <p className="font-bold text-sm"><LocalizedText en="Subscribe to unlock 382 exclusive posts" de="Abonniere, um 382 exklusive Beiträge freizuschalten" /></p>
+                <p className="text-brand-muted text-xs"><LocalizedText en="From $9.99/mo · Stripe-secured · Cancel any time" de="Ab $9.99/Monat · Stripe-gesichert · jederzeit kündbar" /></p>
               </div>
               <Link href="/register" className="bg-brand-red text-white font-bold text-xs px-3 py-2 rounded-lg hover:bg-red-600 transition whitespace-nowrap">
-                Subscribe
+                <LocalizedText en="Subscribe" de="Abonnieren" />
               </Link>
             </div>
           </div>
@@ -456,8 +450,8 @@ export default async function LandingPage() {
       <section id="categories" className="py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <p className="text-brand-red text-sm font-semibold tracking-widest uppercase mb-2">Find Your Type</p>
-            <h2 className="text-4xl font-black">Browse by Category</h2>
+            <p className="text-brand-red text-sm font-semibold tracking-widest uppercase mb-2"><LocalizedText en="Find Your Type" de="Finde deinen Typ" /></p>
+            <h2 className="text-4xl font-black"><LocalizedText en="Browse by Category" de="Nach Kategorie stöbern" /></h2>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {CATEGORIES.map(cat => (
@@ -468,7 +462,7 @@ export default async function LandingPage() {
               >
                 <Image src={cat.img} alt={cat.label} fill className="object-cover object-top group-hover:scale-110 transition-transform duration-500" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-                {cat.label === 'Live Only' && (
+                {cat.label === 'Nur Live' && (
                   <div className="absolute top-3 right-3 flex items-center gap-1 bg-brand-red text-white text-xs font-bold px-2 py-0.5 rounded-full">
                     <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse inline-block" />
                     LIVE
@@ -488,8 +482,8 @@ export default async function LandingPage() {
       <section className="bg-brand-surface border-y border-brand-border py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
-            <p className="text-brand-red text-sm font-semibold tracking-widest uppercase mb-2">From Our Community</p>
-            <h2 className="text-4xl font-black">Fans Love BANGME</h2>
+            <p className="text-brand-red text-sm font-semibold tracking-widest uppercase mb-2"><LocalizedText en="From Our Community" de="Aus unserer Community" /></p>
+            <h2 className="text-4xl font-black"><LocalizedText en="Fans Love BANGME" de="Fans lieben BANGME" /></h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {FAN_TESTIMONIALS.map(t => (
@@ -513,29 +507,29 @@ export default async function LandingPage() {
       <section className="relative py-32 px-6 overflow-hidden">
         <Image
           src="https://images.unsplash.com/photo-1520813792240-56fc4a3765a7?w=1800&h=700&fit=crop&q=80"
-          alt="CTA background — replace with your own"
+          alt="CTA background"
           fill className="object-cover object-center"
         />
         <div className="absolute inset-0 bg-brand-dark/88" />
         <div className="relative z-10 max-w-2xl mx-auto text-center">
           <h2 className="text-5xl font-black mb-6">
-            Your favourite creators<br />
-            are waiting for <span className="text-brand-red">you.</span>
+            <LocalizedText en="Your favourite creators" de="Deine Lieblings-Creator" /><br />
+            <LocalizedText en="are waiting for" de="warten auf" /> <span className="text-brand-red"><LocalizedText en="you." de="dich." /></span>
           </h2>
           <p className="text-brand-text text-lg mb-10 leading-relaxed">
-            2M+ creators. Subscriptions from $7.99/mo. Powered by Stripe. Cancel any time.
+            <LocalizedText en="Creator subscriptions from $7.99/mo. Powered by Stripe. Cancel any time." de="Creator-Abos ab $7.99/Monat. Powered by Stripe. Jederzeit kündbar." />
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/register" className="px-12 py-4 bg-brand-red text-white font-black text-lg rounded-xl hover:bg-red-600 transition">
-              💳 Subscribe Now
+              💳 <LocalizedText en="Subscribe Now" de="Jetzt abonnieren" />
             </Link>
             <Link href="/explore"  className="px-12 py-4 bg-white/10 border border-white/20 text-white font-bold text-lg rounded-xl hover:bg-white/20 transition">
-              Explore Creators
+              <LocalizedText en="Explore Creators" de="Creator entdecken" />
             </Link>
           </div>
           <p className="text-brand-muted text-sm mt-6">
-            Are you a creator?{' '}
-            <Link href="/for-creators" className="text-brand-red hover:underline">Start earning here →</Link>
+            <LocalizedText en="Are you a creator?" de="Bist du Creator?" />{' '}
+            <Link href="/for-creators" className="text-brand-red hover:underline"><LocalizedText en="Start earning here →" de="Hier Geld verdienen →" /></Link>
           </p>
         </div>
       </section>
@@ -545,37 +539,34 @@ export default async function LandingPage() {
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-5 gap-10 mb-12">
             <div className="col-span-2">
-              <div className="text-2xl font-black mb-3">
-                <span className="text-white">BANG</span>
-                <span className="text-brand-red">ME</span>
-              </div>
+              <BrandLogo href="/" className="mb-3" imageClassName="h-7 w-auto max-w-[130px]" />
               <p className="text-brand-muted text-sm leading-relaxed max-w-xs">
-                The world&apos;s most exciting creator subscription platform. Exclusive content, real connections.
+                <LocalizedText en="The world's most exciting creator subscription platform. Exclusive content, real connections." de="Die Creator-Abo-Plattform für exklusiven Content und echte Verbindungen." />
               </p>
             </div>
             {[
               {
-                title: 'Discover',
-                links: ['All Creators', 'Fitness', 'Fashion', 'Music'],
+                title: { en: 'Discover', de: 'Entdecken' },
+                links: [{ en: 'All Creators', de: 'Alle Creator' }, { en: 'Fitness', de: 'Fitness' }, { en: 'Fashion', de: 'Fashion' }, { en: 'Music', de: 'Musik' }],
                 hrefs: ['/explore', '/explore?category=fitness', '/explore?category=fashion', '/explore?category=music'],
               },
               {
-                title: 'For Fans',
-                links: ['How It Works', 'Pricing', 'Gift Cards', 'Support'],
+                title: { en: 'For Fans', de: 'Für Fans' },
+                links: [{ en: 'How It Works', de: 'So funktioniert es' }, { en: 'Pricing', de: 'Preise' }, { en: 'Gift Cards', de: 'Geschenkkarten' }, { en: 'Support', de: 'Support' }],
                 hrefs: ['#how-it-works', '#', '#', '#'],
               },
               {
-                title: 'For Creators',
-                links: ['Start Earning', 'Creator Center', 'Payouts', 'Community'],
+                title: { en: 'For Creators', de: 'Für Creator' },
+                links: [{ en: 'Start Earning', de: 'Geld verdienen' }, { en: 'Creator Center', de: 'Creator Center' }, { en: 'Payouts', de: 'Auszahlungen' }, { en: 'Community', de: 'Community' }],
                 hrefs: ['/for-creators', '/creator-center', '/creator-center', '#'],
               },
             ].map(col => (
-              <div key={col.title}>
-                <p className="text-white font-semibold text-sm mb-4">{col.title}</p>
+              <div key={col.title.en}>
+                <p className="text-white font-semibold text-sm mb-4"><LocalizedText {...col.title} /></p>
                 <ul className="space-y-2">
                   {col.links.map((l, i) => (
-                    <li key={l}>
-                      <Link href={col.hrefs[i]} className="text-brand-muted text-sm hover:text-white transition">{l}</Link>
+                    <li key={l.en}>
+                      <Link href={col.hrefs[i]} className="text-brand-muted text-sm hover:text-white transition"><LocalizedText {...l} /></Link>
                     </li>
                   ))}
                 </ul>
@@ -583,10 +574,15 @@ export default async function LandingPage() {
             ))}
           </div>
           <div className="border-t border-brand-border pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-brand-muted text-xs">© 2026 BANGME. All rights reserved.</p>
+            <p className="text-brand-muted text-xs">© 2026 BANGME. <LocalizedText en="All rights reserved." de="Alle Rechte vorbehalten." /></p>
             <div className="flex gap-6">
-              {['Privacy Policy', 'Terms of Service', 'Cookie Policy', '18 U.S.C. 2257'].map(l => (
-                <Link key={l} href="#" className="text-brand-muted text-xs hover:text-white transition">{l}</Link>
+              {[
+                { en: 'Privacy Policy', de: 'Datenschutzerklärung' },
+                { en: 'Terms of Service', de: 'Nutzungsbedingungen' },
+                { en: 'Cookie Policy', de: 'Cookie-Richtlinie' },
+                { en: '18 U.S.C. 2257', de: '18 U.S.C. 2257' },
+              ].map(l => (
+                <Link key={l.en} href="#" className="text-brand-muted text-xs hover:text-white transition"><LocalizedText {...l} /></Link>
               ))}
             </div>
           </div>

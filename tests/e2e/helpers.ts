@@ -45,7 +45,7 @@ export async function isVisible(page: Page, selector: string): Promise<boolean> 
 /**
  * Helper to wait for toast message
  */
-export async function waitForToast(page: Page, message?: string) {
+export async function waitForToast(page: Page, message?: string | RegExp) {
   const toastSelector = '[data-sonner-toast]'
   await page.waitForSelector(toastSelector, { state: 'visible', timeout: 5000 })
   
@@ -103,6 +103,24 @@ export async function testKeyboardNavigation(page: Page, startSelector: string, 
 export function generateTestImagePath(): string {
   // Create a simple test image path
   return 'tests/fixtures/test-avatar.jpg'
+}
+
+/**
+ * Dismiss the age-verification modal if it appears.
+ * Sets the localStorage flag so it won't re-appear on subsequent navigations
+ * within the same browser context.
+ */
+export async function dismissAgeVerification(page: Page) {
+  // Pre-set the flag so the modal is skipped on future page loads in this session
+  await page.evaluate(() => localStorage.setItem('age_verified', String(Date.now())))
+
+  // If the modal is already visible, click the confirm button to close it
+  const confirmBtn = page.locator('button:has-text("I am 18 or older")')
+  const isVisible = await confirmBtn.isVisible().catch(() => false)
+  if (isVisible) {
+    await confirmBtn.click()
+    await page.waitForSelector('button:has-text("I am 18 or older")', { state: 'hidden', timeout: 5000 })
+  }
 }
 
 /**

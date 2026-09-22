@@ -50,6 +50,23 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
 
+    /* Dedicated project for call tests — supplies fake mic/camera to Chrome */
+    {
+      name: 'calls',
+      testMatch: '**/calls.spec.ts',
+      use: {
+        ...devices['Desktop Chrome'],
+        permissions: ['microphone', 'camera'],
+        launchOptions: {
+          args: [
+            '--use-fake-ui-for-media-stream',
+            '--use-fake-device-for-media-stream',
+            '--use-fake-codec-for-peer-connection',
+          ],
+        },
+      },
+    },
+
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] },
