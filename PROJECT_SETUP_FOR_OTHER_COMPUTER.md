@@ -206,6 +206,14 @@ cd soundfan\dev\bengme-be
 npm run db:seed
 ```
 
+Seeded tester login details:
+
+```text
+Fan:        leslie055@bangme.dev / Test12345678!
+Subscriber: benjo07@bangme.dev / Developer123!
+Admin:      admin@bangme.dev / Admin@1234
+```
+
 Seeded creator login details:
 
 ```text
@@ -217,7 +225,23 @@ leila.nour@bangme.dev
 luna.park@bangme.dev
 ```
 
+Additional seeded creator/filter accounts:
+
+```text
+Password: BangMe@Seed1
+dj.mike88@bangme.dev
+tyler.bolt@bangme.dev
+nick.o09@bangme.dev
+marcus.wave@bangme.dev
+skyler.nb@bangme.dev
+alex.bnd@bangme.dev
+```
+
+Run seed on every fresh tester database. It is safe to rerun because it upserts the demo accounts.
+
 If real development data is needed, ask the project owner for a PostgreSQL dump. Real user data should not be committed to Git.
+
+Use seed when the tester only needs demo access and sample profiles. Use a database dump when the tester must see the exact same profiles, posts, messages, uploaded media references, or production-like data from another computer.
 
 Restore a plain SQL dump:
 
