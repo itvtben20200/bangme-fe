@@ -1,9 +1,11 @@
 'use client'
 
-import { useState }    from 'react'
+import { useEffect, useState }    from 'react'
 import { useRouter }  from 'next/navigation'
 import Link from 'next/link'
+import { Check, Copy, ExternalLink, Link2 } from 'lucide-react'
 import api  from '@/lib/api'
+import { useAuthStore } from '@/store/authStore'
 
 /* ─── Visibility config ─────────────────────────────────────────────────── */
 
@@ -166,6 +168,38 @@ function GoLiveModal({ onClose }: { onClose: () => void }) {
 
 export default function CreatorCenterPage() {
   const [showGoLive, setShowGoLive] = useState(false)
+  const [origin, setOrigin] = useState('')
+  const [copiedLink, setCopiedLink] = useState<string | null>(null)
+  const user = useAuthStore((s) => s.user)
+
+  useEffect(() => {
+    setOrigin(window.location.origin)
+  }, [])
+
+  const siteOrigin = origin || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3002'
+  const affiliateCode = encodeURIComponent(user?.username ?? user?.id ?? 'creator')
+  const affiliateLinks = [
+    {
+      id: 'creator-lp',
+      label: 'Creator LP',
+      description: 'Für Creator, die sich für die ersten 100 Plätze anmelden sollen.',
+      href: `/for-creators?ref=${affiliateCode}&audience=creator`,
+      url: `${siteOrigin}/for-creators?ref=${affiliateCode}&audience=creator`,
+    },
+    {
+      id: 'user-lp',
+      label: 'Normal User LP',
+      description: 'Für Fans und normale Nutzer, die zur Haupt-Landingpage sollen.',
+      href: `/?ref=${affiliateCode}&audience=user`,
+      url: `${siteOrigin}/?ref=${affiliateCode}&audience=user`,
+    },
+  ]
+
+  async function copyAffiliateLink(id: string, url: string) {
+    await navigator.clipboard.writeText(url)
+    setCopiedLink(id)
+    window.setTimeout(() => setCopiedLink((current) => current === id ? null : current), 1800)
+  }
 
   return (
     <div className="p-6">
@@ -199,6 +233,60 @@ export default function CreatorCenterPage() {
             <p className={`text-xs font-bold ${kpi.up ? 'text-green-400' : 'text-red-400'}`}>{kpi.trend}</p>
           </div>
         ))}
+      </div>
+
+      {/* Affiliate links */}
+      <div className="bg-brand-surface border border-brand-border rounded-xl p-5 mb-6">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <div className="flex items-center gap-2 text-white">
+              <Link2 className="h-5 w-5 text-brand-red" strokeWidth={1.8} />
+              <h3 className="font-bold">Affiliate Links</h3>
+            </div>
+            <p className="mt-1 text-sm text-brand-muted">Teile die passenden Links fuer Creator oder normale Nutzer.</p>
+          </div>
+          <span className="w-fit rounded-full border border-brand-border bg-brand-card px-3 py-1 text-xs font-bold text-brand-text">
+            Ref: {user?.username ?? user?.id ?? 'creator'}
+          </span>
+        </div>
+        <div className="mt-5 grid gap-3 lg:grid-cols-2">
+          {affiliateLinks.map((link) => {
+            const copied = copiedLink === link.id
+            return (
+              <div key={link.id} className="rounded-lg border border-brand-border bg-brand-card p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="font-bold text-white">{link.label}</p>
+                    <p className="mt-1 text-xs leading-relaxed text-brand-muted">{link.description}</p>
+                  </div>
+                  <Link
+                    href={link.href}
+                    className="shrink-0 rounded-lg border border-brand-border p-2 text-brand-text transition hover:border-brand-red hover:text-white"
+                    aria-label={`${link.label} oeffnen`}
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                  </Link>
+                </div>
+                <div className="mt-4 flex gap-2">
+                  <input
+                    readOnly
+                    value={link.url}
+                    className="min-w-0 flex-1 rounded-lg border border-brand-border bg-black/30 px-3 py-2 text-xs text-brand-text outline-none"
+                    aria-label={`${link.label} Affiliate Link`}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => copyAffiliateLink(link.id, link.url)}
+                    className="inline-flex items-center gap-2 rounded-lg bg-brand-red px-3 py-2 text-xs font-black text-white transition hover:bg-red-600"
+                  >
+                    {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                    {copied ? 'Kopiert' : 'Kopieren'}
+                  </button>
+                </div>
+              </div>
+            )
+          })}
+        </div>
       </div>
 
       {/* Earnings summary */}

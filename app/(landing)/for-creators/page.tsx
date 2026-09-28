@@ -24,7 +24,7 @@ export default function ForCreatorsPage() {
     <main className="min-h-screen overflow-hidden bg-black text-white">
       <section className="relative border-b border-white/10 bg-[radial-gradient(ellipse_at_18%_42%,rgba(255,6,24,0.16),transparent_34%),radial-gradient(circle_at_20%_35%,rgba(255,255,255,0.08),transparent_24%),linear-gradient(180deg,#050505,#000)]">
         <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black to-transparent" />
-        <div className="relative mx-auto max-w-7xl px-5 py-3 sm:px-8 lg:px-10">
+        <div className="relative z-30 mx-auto max-w-7xl px-5 py-3 sm:px-8 lg:px-10">
           <header className="flex items-start justify-between gap-4">
             <BrandLogo href="/" imageClassName="h-8 sm:h-9 w-auto max-w-[150px]" priority />
             <Link href="/for-creators/register" className="rounded-md border border-[#ff0618] px-5 py-2 text-xs font-black uppercase tracking-wider text-white transition hover:bg-[#ff0618]">
