@@ -368,6 +368,17 @@ NEXT_PUBLIC_SOCKET_URL=http://localhost:4002
 
 Restart `npm run dev` after changing `.env.local`.
 
+### Frontend shows repeated Turbopack panic errors
+
+Pull the latest frontend branch first. The local dev script uses Webpack to avoid Turbopack panics in this project.
+
+```powershell
+cd soundfan\dev\bangme-fe
+git pull
+Remove-Item -Recurse -Force .next -ErrorAction SilentlyContinue
+npm run dev
+```
+
 ### Port already in use
 
 Default ports:

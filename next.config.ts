@@ -4,7 +4,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 })
 
 const nextConfig: NextConfig = {
-  turbopack: {},
   images: {
     unoptimized: process.env.NODE_ENV !== 'production',
     remotePatterns: [
